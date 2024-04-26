@@ -64,7 +64,7 @@ function Login() {
         <div className="container-login">
             <div className='title-buttonPassword'>
                 <h1>Ingresá tu e-mail y contraseña</h1>
-                <Link to={"/login-register"}>
+                <Link to={"/forgot-password"}>
                 <button>¿Olvidaste tu contraseña?</button>
                </Link>
             </div>
