@@ -79,7 +79,7 @@ function Login() {
                     <input type="password" id='password' value={password} onChange={event => setPassword(event.target.value)} required />
                     <button className='btn-form-login' type="submit">Iniciar sesión</button>
                     <Link to={"/login-register"}>
-                        <button className='btn-registrarse'>Crear cuenta</button></Link>
+                        <button id='btn-registrarse'>Crear cuenta</button></Link>
                 </form>
             </div>
         </div>

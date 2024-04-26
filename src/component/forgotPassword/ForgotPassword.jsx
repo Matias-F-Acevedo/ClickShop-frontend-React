@@ -1,6 +1,6 @@
 import React from 'react'
 import "./forgotPassword.css"
-import { useState, useContext } from "react"
+import { useState} from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 function ForgotPassword() {
@@ -51,7 +51,7 @@ function ForgotPassword() {
                 setError("Este Email no está registrado");
                 return;
             }
-            setError("Compruebe su correo electrónico y siga los pasos para restablecer su contraseña");
+            setError("");
             setTimeout(() => {
                 navigateTo("/login");
             }, 4000);
@@ -59,23 +59,37 @@ function ForgotPassword() {
             setEmail("")
         }
     }
-
+ 
     return (
-        <div className="container-login">
-            <div className='container-form'>
-                <h2 className="title-login">{
-                    conditionalRender ? "Ingresá tu Email" : "Revisa tu Email"
-                }</h2>
+        <div className="container-forgot-password">
+            <div className='container-h1'>
+                <h1>Necesitamos verificar su identidad.</h1>
+                <p className='menssage-forgot-password'>Recibirá un correo con los pasos a seguir para restablecer su contraseña.</p>
+            </div>
+
+            <div className='line-forgot-password'></div>
+            <div className='container-form-forgot-password'>
+
+            {
+                    conditionalRender ?
+                <h2 className="title-forgot-password">Ingresá tu email</h2>
+                : 
+                <div className='container-title-verification'>
+                    <h3 className="title-verification-forgot-password">Listo, verifique su email y siga los pasos.</h3>
+                </div>
+                
+                }
                 <p className="p-error">{error}</p>
-                <form onSubmit={event => handleSubmit(event)} className="form-login">
+                <form onSubmit={event => handleSubmit(event)} className="form-forgot-password">
                     {
                         conditionalRender ?
                             <>
                                 <label htmlFor="email">Email</label>
                                 <input type="email" id='email' value={email} onChange={event => setEmail(event.target.value)} required />
-                                <button className='btn-form-login' type="submit">Aceptar</button>
+
+                                <button className='btn-form-forgot-password' type="submit">Aceptar</button>
                                 <Link to={"/login"}>
-                                    <button className='btn-registrarse'>Cancelar</button></Link>
+                                    <button id='btn-cancel-forgot-password'>Cancelar</button></Link>
 
                             </>
                             : <></>
