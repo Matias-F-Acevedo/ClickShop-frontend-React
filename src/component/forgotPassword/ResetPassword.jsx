@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import "./resetPassword.css"
 
 function ResetPassword() {
 
@@ -71,8 +71,7 @@ function ResetPassword() {
             }
 
             if (res.status == 404) {
-                setError("Será rederigido al login");
-
+                setError("");
                 setTimeout(() => {
                     navigateTo("/login");
                 }, 3000);
@@ -83,7 +82,7 @@ function ResetPassword() {
             }
 
 
-            setError("La contraseña se cambió con éxito");
+            setError("La contraseña se ha cambiado con éxito");
             setTimeout(() => {
                 navigateTo("/login");
             }, 2000);
@@ -93,14 +92,26 @@ function ResetPassword() {
     }
 
     return (
-        <div className="container-login">
+        <div className="container-reset-password">
+            <div className='container-h1'>
+                <h1>Ingresá tu nueva contraseña.</h1>
+                <p className='menssage-forgot-password'> Utiliza una combinación de letras, números y caracteres especiales para crear contraseñas seguras, evita usar la misma contraseña en múltiples servicios.</p>
+            </div>
+            <div className='line'></div>
 
-            <div className='container-form'>
-                <h2 className="title-login">{
-                    conditionalRender ? "Cambiar Contraseña" : "Solicitud rechazada"
-                }</h2>
+            <div className='container-form-reset-password'>
+
+{
+                    conditionalRender ?
+                <h2 className="title-forgot-password">Restablecer contraseña</h2>
+                : 
+                <div className='container-title-verification'>
+                    <h3 className="title-verification-forgot-password">Lo siento, tu solicitud para cambiar la contraseña ha sido rechazada. Por favor, Intenta nuevamente más tarde! Gracias.</h3>
+                </div>
+                }
+
                 <p className="p-error">{error}</p>
-                <form onSubmit={event => handleSubmit(event)} className="form-login">
+                <form onSubmit={event => handleSubmit(event)} className="form-reset-password">
                     {
                         conditionalRender ?
                             <>
@@ -112,9 +123,9 @@ function ResetPassword() {
                                 <input type="password" id='confirm-password' value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} minLength={7} maxLength={30} required />
 
 
-                                <button className='btn-form-login' type="submit">Enviar</button>
+                                <button className='btn-form-reset-password' type="submit">Enviar</button>
                                 <Link to={"/login"}>
-                                    <button className='btn-registrarse'>Cancelar</button></Link>
+                                    <button id='btn-cancel-reset-password'>Cancelar</button></Link>
                             </>
                             : <></>
                     }
