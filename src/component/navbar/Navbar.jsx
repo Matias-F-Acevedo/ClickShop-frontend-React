@@ -1,12 +1,14 @@
 import "./navbar.css"
 import { Link } from "react-router-dom"
 import { IoMdMenu } from "react-icons/io";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useContext } from "react";
 import { IoMdClose } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa6";
-
+import { UserContext } from '../../context/UserContext';
 
 function Navbar() {
+
+    const { user, handleLogout } = useContext(UserContext);
 
     const menulist = useRef();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -40,13 +42,15 @@ function Navbar() {
                     <li onClick={toggleMenu}><Link to={"/store"}>Tienda</Link></li>
                     <li onClick={toggleMenu}><Link to={"/contact"}>Contacto</Link></li>
                     <li onClick={toggleMenu}><Link to={"/team"}>Nosotros</Link></li>
-                   <li className="login-button">
-                        <Link onClick={toggleMenu} to={"/login"}>Login < FaArrowRight className="arrow-login" /></Link>
+                    <li className="login-button">
+                        {user ?
+
+                            <Link onClick={handleLogout} to={"/login"}>Logout< FaArrowRight className="arrow-login" /></Link>
+                            :
+                            <Link onClick={toggleMenu} to={"/login"}>Login < FaArrowRight className="arrow-login" /></Link>
+                        }
                     </li>
                 </ul>
-                {/* <div className="login-button">
-                   <Link onClick={toggleMenu} to={"/login"}>Login < FaArrowRight  className="arrow-login" /></Link>
-                </div> */}
                 <div className="menu-icon">
 
                     {menuOpen ? (
@@ -57,7 +61,7 @@ function Navbar() {
 
                 </div>
             </nav>
-        </header>
+        </header >
     )
 }
 
