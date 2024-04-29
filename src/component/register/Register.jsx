@@ -150,7 +150,7 @@ function Register() {
                         <button className='btn-form-register' type="submit">Registrarse</button>
 
                         <Link to={"/login"}>
-                            <button className='btn-cancel-register'>Cancelar</button>
+                            <button id='btn-cancel-register'>Cancelar</button>
                         </Link>
                     </div>
 

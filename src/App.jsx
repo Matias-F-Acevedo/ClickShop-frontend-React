@@ -2,10 +2,11 @@ import Login from "./component/login/Login"
 import Register from "./component/register/Register";
 import Navbar from "./component/navbar/Navbar";
 import { UserProvider } from "./context/UserContext";
-import { Route,Routes, BrowserRouter } from "react-router-dom"
+import { Route, Routes, BrowserRouter } from "react-router-dom"
 import ForgotPassword from "./component/forgotPassword/ForgotPassword";
 import ResetPassword from "./component/forgotPassword/ResetPassword";
-
+import ConfigurationUser from "./component/configurationUser/ConfigurationUser";
+import { ProtectedRouterIfNotUser, ProtectedRouterIfUser } from "./component/utils/ProtectedRoute";
 function App() {
 
   return (
@@ -13,14 +14,25 @@ function App() {
       <BrowserRouter>
         <Navbar></Navbar>
         <Routes>
+
+
           <Route path="/" element={<h1>home</h1>} />
           <Route path="/store" element={<h1>store</h1>} />
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
-          <Route path="/login" element={<Login></Login>} />
-          <Route path="/login-register" element={<Register></Register>} />
-          <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
-          <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
+
+          <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
+            <Route path="/login" element={<Login></Login>} />
+            <Route path="/login-register" element={<Register></Register>} />
+            <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
+          </Route>
+
+
+          <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
+            <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
+            <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
+          </Route>
+
         </Routes>
       </BrowserRouter>
     </UserProvider>

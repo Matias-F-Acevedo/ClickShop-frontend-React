@@ -4,6 +4,7 @@ import { useState, useContext } from "react"
 import { UserContext } from '../../context/UserContext'
 import { decodeToken } from 'react-jwt'
 import { Link } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
@@ -13,7 +14,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
+    const navigateTo = useNavigate();
 
     const urlLogin = "http://localhost:3000/api/auth/login"
 
@@ -57,10 +58,13 @@ function Login() {
                 setError("Inicio de sesión exitoso.");
                 setPassword("")
                 setEmail("")
+                navigateTo("/");
+
         }
     }
 
     return (
+    
         <div className="container-login">
             <div className='title-buttonPassword'>
                 <h1>Ingresá tu e-mail y contraseña</h1>
@@ -83,6 +87,7 @@ function Login() {
                 </form>
             </div>
         </div>
+       
     )
 }
 

@@ -1,0 +1,99 @@
+.container-user-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    color: black;
+    background-color: white;
+    position: fixed;
+    margin-top: 12px;
+    width: 300px;
+    height: 280px;
+    right: 40px;
+    border-radius: 10px;
+    padding: 20px;
+
+    font-family: "Roboto", sans-serif;
+    font-weight: 450;
+    font-style: normal;
+    border: #0000002a 1PX solid;
+}
+
+.displayNone {
+    display: none;
+}
+
+.container-data-userPanel {
+    display: flex;
+    /* background-color: aliceblue; */
+}
+
+.iconos-panel-user {
+    color: #006d77;
+}
+
+.user-datos {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+}
+
+.perfil {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.perfil img {
+    width: 100%;
+    height: auto;
+    border-radius: 100%;
+}
+
+.container-data-userPanel h4 {
+    font-size: 15px;
+}
+
+.container-data-userPanel p {
+    font-size: 12px;
+}
+
+.ul-user-panel {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    /* background-color: red; */
+    margin-left: 10px;
+}
+
+.ul-user-panel li {
+    display: flex;
+    justify-content: space-between;
+    list-style-type: none;
+    margin: 7px;
+    width: 90%;
+    /* background-color: #ffffff; */
+}
+
+.ul-user-panel li a {
+    /* position: relative; */
+    text-decoration: none;
+    text-decoration: none;
+    padding: 0px 0px;
+    border-radius: 0px;
+    color: #000000;
+    background-color: white;
+
+}
+
+
+
+
+.line-userpanel {
+    width: 90%;
+    height: 1px;
+    background-color: rgba(199, 199, 199, 0.699);
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
