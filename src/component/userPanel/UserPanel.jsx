@@ -38,8 +38,8 @@ function UserPanel({ closePanelUser }) {
                         <Link to={"/configuration-user"}>Editar perfil</Link>
                         <FaEdit className='iconos-panel-user' /></li>
                     <li onClick={closePanelUser}><Link to={"/"}>Favoritos</Link><MdFavorite className='iconos-panel-user' /></li>
-                    <li onClick={closePanelUser}><Link to={"/"}>Mis compras</Link><TbShoppingBagCheck className='iconos-panel-user' /></li>
-                    <li onClick={closePanelUser}><Link to={"/"}>Mis publicaciones </Link><BsPostcard className='iconos-panel-user' /></li>
+                    <li onClick={closePanelUser}><Link to={"/orders-user"}>Mis compras</Link><TbShoppingBagCheck className='iconos-panel-user' /></li>
+                    <li onClick={closePanelUser}><Link to={"/publications-user"}>Mis publicaciones </Link><BsPostcard className='iconos-panel-user' /></li>
                     <li onClick={closePanelUser}><Link onClick={handleLogout} to={"/"}>Cerrar sesión</Link>
                         <MdOutlineLogout className='iconos-panel-user' /></li>
                 </ul>
