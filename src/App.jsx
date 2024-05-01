@@ -7,6 +7,8 @@ import ForgotPassword from "./component/forgotPassword/ForgotPassword";
 import ResetPassword from "./component/forgotPassword/ResetPassword";
 import ConfigurationUser from "./component/configurationUser/ConfigurationUser";
 import { ProtectedRouterIfNotUser, ProtectedRouterIfUser } from "./component/utils/ProtectedRoute";
+import UserPublications from "./component/userPublications/UserPublications";
+import UserOrder from "./component/userOrder/UserOrder";
 function App() {
 
   return (
@@ -31,6 +33,8 @@ function App() {
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
             <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
+            <Route path="/publications-user" element={<UserPublications></UserPublications>} />
+            <Route path="/orders-user" element={<UserOrder></UserOrder>} />
           </Route>
 
         </Routes>
