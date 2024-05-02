@@ -9,6 +9,7 @@ import ConfigurationUser from "./component/configurationUser/ConfigurationUser";
 import { ProtectedRouterIfNotUser, ProtectedRouterIfUser } from "./component/utils/ProtectedRoute";
 import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
+import Store from "./component/store/Store";
 function App() {
 
   return (
@@ -19,7 +20,7 @@ function App() {
 
 
           <Route path="/" element={<h1>home</h1>} />
-          <Route path="/store" element={<h1>store</h1>} />
+          <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
 
