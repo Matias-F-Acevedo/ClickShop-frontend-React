@@ -70,6 +70,9 @@ function Navbar() {
                 <ul ref={menulist} className="nav-links">
                     <li onClick={toggleMenu}><Link to={"/"}>Inicio</Link></li>
                     <li onClick={toggleMenu}><Link to={"/store"}>Tienda</Link></li>
+                    {user ?
+                    <li onClick={toggleMenu}><Link to={"/vender"}>Vender</Link></li>
+:<></>}
                     <li onClick={toggleMenu}><Link to={"/contact"}>Contacto</Link></li>
                     <li onClick={toggleMenu}><Link to={"/team"}>Nosotros</Link></li>
                     <li className="login-button">
