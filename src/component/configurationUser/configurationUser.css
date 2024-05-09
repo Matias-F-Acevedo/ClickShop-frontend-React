@@ -1,102 +1,210 @@
+.container {
+    background: #fff;
+    width: 700px;
+    height: 450px;
+    margin: 0 auto;
+    position: relative;
+    margin-top: 5%;
+    box-shadow: 2px 5px 20px rgba(119, 119, 119, 0.377);
+    margin-bottom: 5%;
 
 
-.container-configuration-user{
-    margin-top: 7px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100vw;
-    height: 85vh;
-}
-
-
-
-.container-photo-userEdit{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100%;
-    width: 20%;
-    background-color:white;
-    padding-top: 5%;
-    border: #0000002a 1PX solid;
-    border-top-left-radius: 10px; 
-    border-bottom-left-radius: 10px; 
-}
-
-.edit-profile-photo{
-    width: 170px;
-    height: 30px;
-    border-radius: 15px;
-    border: none;
-    background-color: rgba(128, 128, 128, 0.253);
-    color: #000000;
     font-family: "Roboto", sans-serif;
-    font-weight: 400;
+    font-weight: 500;
     font-style: normal;
-    font-size: 12px;
-    margin-top: 20px;
 }
 
-.container-userEdit{
+
+
+.leftbox {
+    float: left;
+    top: -5%;
+    left: 5%;
+    /* position: absolute; */
+    width: 30%;
     height: 100%;
-    width: 50%;
-    background-color:
-    #006d77d5;
-    border-top-right-radius: 10px; 
-    border-bottom-right-radius: 10px; 
-   
-}
-
-.photo-user-perfil{
-    width: 180px;
-    height: 180px;
     background-color: white;
-    border-radius: 100%;
-    border: 1px solid rgba(128, 128, 128, 0.527);
-}
-
-.photo-user-perfil img{
-    width: auto;
-    height: 100%;
-    border-radius: 100%;
-}
-
-
-.container-form-edit-user {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    align-items: center;
+    padding-top: 5%;
+    border-right: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.user-photoAndName {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
-    height: 350px;
-    padding-top: 90px;
-}
-.container-form-edit-user h1 {
-    color: white;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+    padding-bottom: 20px;
 }
 
 
-.container-form-edit-user label{
-    color: white;
-    font-family: "Roboto", sans-serif;
+
+.user-photoAndName img {
+    border-radius: 100%;
+    width: 110px;
+    transition: background-color 0.3s ease;
+
+}
+
+.user-photoAndName img:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+
+
+
+
+.user-photoAndName p {
+    font-size: 16px;
+}
+
+
+
+.menu-options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-options ul {
+    list-style-type: none;
+}
+
+.menu-options ul li {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+
+    width: 100%;
+    height: 35px;
+    color: rgba(0, 0, 0, 0.712);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+
+
+
+.menu-options ul li:hover {
+    background: #7ed386;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+.rightbox {
+    margin: auto;
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-updateUser {
+    margin: 40px 0px 25px;
+}
+
+.title-updateUser h1 {
+    font-size: 28px;
     font-weight: 400;
-    font-style: normal;
+}
+
+.rightbox form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
 }
 
-.container-form-edit-user label span{
-    color: rgba(255, 255, 255, 0.514);
+.rightbox form input {
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.212);
+    padding-left: 5px;
+}
+
+.doble-inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.doble-inputs input {
+    margin-top: 10px;
+
 }
 
 
 
-#btn-cancel-edit{
-    background-color: rgb(221, 53, 53);
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 10px;
 }
-.buttons-edit{
-    margin-top: 20px;
+
+.buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 20px;
 }
+
+.button-confirm-update {
+    background-color: rgba(0, 128, 0, 0.74);
+    color: white;
+    border: none;
+}
+
+.button-confirm-update:hover {
+    background-color: #7ed386;
+    color: rgba(0, 128, 0, 0.74);
+}
+
+.button-cancel-update {
+    background-color: white;
+    color: red;
+    border: 1px solid rgba(0, 0, 0, 0.308);
+}
+
+.button-cancel-update:hover {
+    background-color: red;
+    color: white;
+}
+
+
+.container-password {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.container-password input {
+    width: 400px;
+}
+
 
 .p-error-edit{
-    color: rgba(255, 255, 255, 0.808);
+    margin-top: 5px;
+    color: rgba(0, 0, 0, 0.808);
 }
