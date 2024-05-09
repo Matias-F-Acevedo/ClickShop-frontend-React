@@ -29,9 +29,12 @@ header {
 
 }
 
-.icon-userProfile,
 .icon-cart {
     font-size: 23px;
+}
+
+.icon-userProfile{
+    font-size: 27px;
 }
 
 

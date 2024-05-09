@@ -9,7 +9,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { useRef } from "react";
 import { BsCart3 } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-
+import UserPanel from "../userPanel/UserPanel";
 
 function Navbar() {
 
@@ -43,8 +43,9 @@ function Navbar() {
                         </ul>
                     </div>
                     <div className="icon-nav">
-                        <CgProfile className="icon-cart" />
-                        <BsCart3 className="icon-userProfile" />
+                        <UserPanel className="icon-userProfile" />
+                        <BsCart3 className=" icon-cart" />
+
                     </div>
                 </div>
 
