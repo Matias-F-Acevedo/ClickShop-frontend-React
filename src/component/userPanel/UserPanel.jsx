@@ -71,12 +71,12 @@ function UserPanel() {
                         <p>Favoritos</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/"} className='sub-menu-link'>
+                    <Link to={"/orders-user"} className='sub-menu-link'>
                         <TbShoppingBagCheck className='icon-userPanel' />
                         <p>Mis compras</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/"} className='sub-menu-link'>
+                    <Link to={"/publications-user"} className='sub-menu-link'>
                         <BsPostcard className='icon-userPanel' />
                         <p>Mis publicaciones</p>
                         <span><IoIosArrowForward /></span>

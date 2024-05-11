@@ -1,52 +1,67 @@
 import React from 'react'
 import "./tableComponent.css"
-import {useState,} from "react";
+import { useState, } from "react";
 import { useReactTable, getCoreRowModel, flexRender, getPaginationRowModel, getSortedRowModel, getFilteredRowModel } from '@tanstack/react-table';
+import { IoIosArrowDown } from "react-icons/io";
+import { IoIosArrowUp } from "react-icons/io";
+import { IoEllipsisVerticalOutline } from "react-icons/io5";
+import { BiFirstPage } from "react-icons/bi";
+import { BiLastPage } from "react-icons/bi";
+import { MdArrowForwardIos } from "react-icons/md";
+
+import { MdArrowBackIosNew } from "react-icons/md";
 
 
 
 
-function TableComponent({data, columns}) {
+function TableComponent({ data, columns }) {
     const [sorting, setSorting] = useState([]);
     const [filtering, setFiltering] = useState("");
 
     const table = useReactTable({
-        data: data, columns, getCoreRowModel: getCoreRowModel(), getPaginationRowModel: getPaginationRowModel(), getSortedRowModel: getSortedRowModel(), getFilteredRowModel: getFilteredRowModel(),state: {
+        data: data, columns, getCoreRowModel: getCoreRowModel(), getPaginationRowModel: getPaginationRowModel(), getSortedRowModel: getSortedRowModel(), getFilteredRowModel: getFilteredRowModel(), state: {
             sorting: sorting,
-            globalFilter:filtering,
+            globalFilter: filtering,
         },
         onSortingChange: setSorting,
         onGlobalFilterChange: setFiltering,
-       
+
     })
 
     return (
         <div className='container-table'>
-        <input placeholder='Buscar' type="text" value={filtering} onChange={(e)=> setFiltering(e.target.value)}/>
+            <input placeholder='Buscar' type="text" value={filtering} onChange={(e) => setFiltering(e.target.value)} />
             <table>
-                <thead>{
+                <thead className='thead'>{
                     table.getHeaderGroups().map(headerGroup => (
                         <tr key={headerGroup.id}>
                             {
                                 headerGroup.headers.map(header => (
+
                                     <th key={header.id}
-                                        onClick={header.column.getToggleSortingHandler()}>{
-                                            flexRender(header.column.columnDef.header, header.getContext())}
+            
+                                        onClick={header.column.getToggleSortingHandler()}>{<IoEllipsisVerticalOutline className='icon-th'/>}{
+                                            flexRender(header.column.columnDef.header, header.getContext())}{" "}
 
-                                        {
+                                        
+
                                             {
-                                                "asc": "↑", "desc": "↓"
-                                            }[header.column.getIsSorted() ?? null]
-                                        }
+                                                {
+                                                    "asc": <IoIosArrowUp className='hola12'/>, "desc": <IoIosArrowDown className='hola12'/>
 
-                                    </th>
+                                                }[header.column.getIsSorted() ?? null]
+
+                                            }
+                                       
+                                    
+                                    </th> 
                                 ))
                             }
                         </tr>
                     ))
                 }
                 </thead>
-                <tbody>
+                <tbody >
                     {
                         table.getRowModel().rows.map(row => (
                             <tr key={row.id}>
@@ -60,19 +75,22 @@ function TableComponent({data, columns}) {
                         ))
                     }
                 </tbody>
-                <tfoot>
+                <tfoot className='tfoot'>
                     {
                         table.getFooterGroups().map(footerGroup => (
                             <tr key={footerGroup.id}>
                                 {
                                     footerGroup.headers.map(footer => (
-                                        <th key={footer.id}>
+                                        <th key={footer.id} >
+
                                             {
                                                 flexRender(
                                                     footer.column.columnDef.footer,
                                                     footer.getContext()
                                                 )
                                             }
+
+                                            
                                         </th>
                                     ))
                                 }
@@ -83,19 +101,19 @@ function TableComponent({data, columns}) {
             </table>
             <div className='buttons-table'>
                 <button onClick={() => table.setPageIndex(0)}>
-                Primer Pagina
-            </button>
-            <button onClick={() => table.previousPage()}>
-                Pagina Anterior
-            </button>
-            <button onClick={() => table.nextPage()}>
-                Pagina Siguiente
-            </button>
-            <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
-                Ultima Pagina
-            </button>
+                    <BiFirstPage className='icon-page'/>
+                </button>
+                <button onClick={() => table.previousPage()}>
+                <MdArrowBackIosNew />
+                </button>
+                <button onClick={() => table.nextPage()}>
+                <MdArrowForwardIos/>
+                </button>
+                <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
+                <BiLastPage className='icon-page'/>
+                </button>
             </div>
-            
+
         </div>
     )
 }
