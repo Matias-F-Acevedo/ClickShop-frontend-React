@@ -9,6 +9,10 @@ import ConfigurationUser from "./component/configurationUser/ConfigurationUser";
 import { ProtectedRouterIfNotUser, ProtectedRouterIfUser } from "./component/utils/ProtectedRoute";
 import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
+import Store from "./component/store/Store";
+import UserProduct from "./component/product/userProduct";
+import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
+
 function App() {
 
   return (
@@ -18,20 +22,27 @@ function App() {
         <Routes>
 
 
-          <Route path="/" element={<h1>home</h1>} />
-          <Route path="/store" element={<h1>store</h1>} />
+          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
+
+          <Route path="/test" element={<UpdateCard></UpdateCard>} />
+
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/login-register" element={<Register></Register>} />
+            <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
             <Route path="/forgot-password" element={<ForgotPassword></ForgotPassword>} />
           </Route>
 
 
+
+
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-            <Route path="/reset-password" element={<ResetPassword></ResetPassword>} />
+            <Route path="/vender" element={<UserProduct />} />
+
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
             <Route path="/orders-user" element={<UserOrder></UserOrder>} />

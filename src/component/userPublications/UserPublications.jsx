@@ -4,7 +4,9 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from '../../context/UserContext';
 import dayjs from 'dayjs';
 import TableComponent from '../tableComponent/TableComponent';
-
+import { CgDetailsMore } from "react-icons/cg";
+import { MdEditNote } from "react-icons/md";
+import { MdOutlineDeleteForever } from "react-icons/md";
 
 function UserPublications() {
 
@@ -19,42 +21,68 @@ function UserPublications() {
             console.log("no hay productos");
             return
         }
-        
+
         const parsed = await res.json();
         setPublications(parsed);
     }
 
     const columns = [
         {
+            header: "#",
+            accessorKey: "productId",
+        },
+        {
             header: "Nombre",
             accessorKey: "product_name",
-            footer: "Nombre"
+
         },
         {
             header: "Stock",
             accessorKey: "stock",
-            footer: "Stock"
+
         },
         {
             header: "Precio",
             accessorKey: "price",
-            footer: "Precio"
+            cell: info => {
+                const value = parseFloat(info.getValue());
+                const formattedValue = `$ ${value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+                return formattedValue;
+            }
         },
         {
             header: "Descripción",
             accessorKey: "description",
-            footer: "Descripción"
+
         },
         {
             header: "Condición",
             accessorKey: "condition",
-            footer: "Condición"
+            cell: info => {
+                const value = info.getValue();
+                let classList = ""
+                if (value === "NEW") classList = "NUEVO";
+                if (value === "USED") classList = "USADO";
+
+                return <div id={classList}>{classList}</div>;
+            }
+
         },
         {
             header: "Fecha de creación",
             accessorKey: "createdAt",
-            footer: "Fecha de creación",
+
             cell: info => dayjs(info.getValue()).format("DD/MM/YYYY")
+        },
+        {
+            header: "Configuración",
+            cell: () => {
+                return <div className='crud-publicationsUser'>
+                    <CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
+                   <MdEditNote className='btn-Edit-publicationUser btn-publicationUser' />
+                    <MdOutlineDeleteForever className='btn-delete-publicationUser btn-publicationUser' />
+                </div>;
+            }
         }
     ]
 
@@ -65,7 +93,7 @@ function UserPublications() {
 
 
     return (
-       <TableComponent data={publications} columns={columns}></TableComponent>
+        <TableComponent data={publications} columns={columns}></TableComponent>
     )
 }
 
