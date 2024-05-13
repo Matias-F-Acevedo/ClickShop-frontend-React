@@ -11,6 +11,7 @@ import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
+import Cart from "./component/cart/Cart";
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
           <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
-
+          <Route path="/cart" element={<Cart/>} />
 
 
 
@@ -41,7 +42,7 @@ function App() {
 
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
             <Route path="/vender" element={<UserProduct />} />
-
+            
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
             <Route path="/orders-user" element={<UserOrder></UserOrder>} />

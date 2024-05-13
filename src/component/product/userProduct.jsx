@@ -1,129 +1,69 @@
-import React from 'react'
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from 'react';
 import Card from './Card';
 import CardUpdate from './CardUpdate';
-import { deleteOne } from '../../service/functionsHTTP';
 import CardCreate from './CardCreate';
-import "./card.css"
+import { UserContext } from '../../context/UserContext';
+import { deleteOne } from '../../service/functionsHTTP';
+import "./userProduct.css";
 
-const urlBase = "http://localhost:3000/api/products"
+const urlBase = "http://localhost:3000/api/products";
 
 function UserProduct() {
-
-  const [products, setProducts] = useState([])
-  const [update, setUpdate] = useState(false)
-  const [create, setCreate] = useState(false)
-  const [currentProduct, setCurrentProduct] = useState()
-  const [state, setState] = useState("")
-  const [refresh, setRefresh] = useState(false)
-
-
+  const { user } = useContext(UserContext);
+  const [products, setProducts] = useState([]);
+  const [update, setUpdate] = useState(false);
+  const [create, setCreate] = useState(false);
+  const [currentProduct, setCurrentProduct] = useState();
+  const [state, setState] = useState("");
+  const [refresh, setRefresh] = useState(false);
 
   async function getProducts() {
-
-
-    const res = await fetch(urlBase)
-
-    if (!res.ok) {
-      setState("No hay productos registrados")
-      setProducts([])
-      return
+    try {
+      const res = await fetch(urlBase);
+      if (!res.ok) {
+        setState("No hay productos registrados");
+        setProducts([]);
+        return;
+      }
+      const parsed = await res.json();
+      // Filtrar los productos por el usuario actual
+      const userProducts = parsed.filter(product => product.user_id === user.sub);
+      setProducts(userProducts);
+      setRefresh(false);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setState("Ocurrió un error al obtener los productos");
+      setProducts([]);
     }
-
-    const parsed = await res.json();
-    setProducts(parsed);
-    setRefresh(false)
-
   }
 
   useEffect(() => {
     getProducts();
-  }, [refresh]);
+  }, [refresh, user]); // Asegúrate de actualizar los productos cuando cambie el usuario
 
-
-
-  async function deleteProducts(idProducts) {
-
-    if (idProducts) {
-     deleteOne(idProducts, urlBase)
-      setRefresh(true)
-    } else {
-      return console.log("no se pudo eliminar, anda a saber porque")
-    }
-  }
-
-
-  async function selectProducts(product) {
-    setUpdate(true)
-    setCurrentProduct(product)
-  }
-
-
-
-  return <>
-
-    {products.length >= 0 ?
-      <div>
-
-        <div className='container-btn-crear'>
-          <button className='btn-crear' onClick={() => setCreate(true)}>Crear producto</button>
-        </div>
-
-        {
-          products.length == 0 && create == false ?
-            <h1 className='no-hay-productos'>{state}</h1>
-            : <></>
-        }
-
-        {
-
-          create ?
-            <div className='container-cards'>
-              <CardCreate setCreate={setCreate} refresh={refresh} setRefresh={setRefresh} ></CardCreate>
-            </div>
-
-            :
-            <div className='container-cards'>
-
-              {
-                update ?
-                  <CardUpdate product={currentProduct} refresh={refresh} setUpdate={setUpdate} setRefresh={setRefresh}></CardUpdate>
-                  :
-
-                  products.map((product, index) =>
-
-                    <div key={index}>
-                      <Card product={product} index={index} button={false}  ></Card>
-
-                      <div className='div-botones'>
-                        <button className='btn-eliminar' onClick={() => deleteProducts(product.productId)}>Eliminar</button>
-                        <button className='btn-actualizar' onClick={() => selectProducts(product)}>Actualizar</button>
-                      </div>
-                    </div>
-                  )
-
-
-
-
-              }
-
-
-
-            </div>
-        }
-
-
+  return (
+    <div>
+      <div className='container-btn-crear'>
+        <button className='btn-crear' onClick={() => setCreate(true)}>Crear producto</button>
       </div>
-
-      : <h1 className='no-hay-productos'>{state}</h1>
-    }
-  </>
-
-
-
-
+      {products.length === 0 && !create && <h1 className='no-hay-productos'>{state}</h1>}
+      {create ? (
+        <div className='container-cards'>
+          <CardCreate setCreate={setCreate} refresh={refresh} setRefresh={setRefresh} />
+        </div>
+      ) : (
+        <div className='container-cards'>
+          {update ? (
+            <CardUpdate product={currentProduct} refresh={refresh} setUpdate={setUpdate} setRefresh={setRefresh} />
+          ) : (
+            products.map((product, index) => (
+              <Card key={product.productId} product={product} index={index} button={false} />
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
 }
 
-
-
-export default UserProduct
+export default UserProduct;

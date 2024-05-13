@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./Card";
 import "./store.css";
+import Cart from "../cart/Cart";
 
 const URL = "http://localhost:3000/api/products";
 
@@ -161,7 +162,7 @@ const Store = () => {
           </div>
           <div className="products">
             {productsToShow.map((product) => (
-              <ProductCard key={product.product_name} data={product} />
+              <ProductCard key={product.productId} data={product} />
             ))}
           </div>
           {pageCount > 1 && (
