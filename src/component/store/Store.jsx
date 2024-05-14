@@ -9,6 +9,7 @@ const URL = "http://localhost:3000/api/products";
 const PRODUCTS_PER_PAGE = 15;
 
 const Store = () => {
+  
   const [products, setProducts] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,6 +25,7 @@ const Store = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    
     getProducts();
     }, 
     [currentPage]); // Se vuelve a cargar cuando cambia la página

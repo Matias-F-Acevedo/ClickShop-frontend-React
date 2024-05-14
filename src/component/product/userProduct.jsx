@@ -3,8 +3,9 @@ import Card from './Card';
 import CardUpdate from './CardUpdate';
 import CardCreate from './CardCreate';
 import { UserContext } from '../../context/UserContext';
-import { deleteOne } from '../../service/functionsHTTP';
 import "./userProduct.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const urlBase = "http://localhost:3000/api/products";
 
@@ -44,22 +45,23 @@ function UserProduct() {
   return (
     <div>
       <div className='container-btn-crear'>
-        <button className='btn-crear' onClick={() => setCreate(true)}>Crear producto</button>
+        <button className='btn-crear' onClick={() => setCreate(true)}>
+          <FontAwesomeIcon icon={faPlus} /> Crear producto
+        </button>
       </div>
       {products.length === 0 && !create && <h1 className='no-hay-productos'>{state}</h1>}
       {create ? (
-        <div className='container-cards'>
           <CardCreate setCreate={setCreate} refresh={refresh} setRefresh={setRefresh} />
-        </div>
       ) : (
-        <div className='container-cards'>
-          {update ? (
-            <CardUpdate product={currentProduct} refresh={refresh} setUpdate={setUpdate} setRefresh={setRefresh} />
-          ) : (
-            products.map((product, index) => (
-              <Card key={product.productId} product={product} index={index} button={false} />
-            ))
-          )}
+        <div>
+            {update ? (
+              <CardUpdate product={currentProduct} refresh={refresh} setUpdate={setUpdate} setRefresh={setRefresh} />
+            ) : (
+              products.map((product, index) => (
+                <Card key={product.productId} product={product} index={index} setUpdate={setUpdate} setCurrentProduct={setCurrentProduct} />
+              ))
+            )}
+
         </div>
       )}
     </div>
@@ -67,3 +69,4 @@ function UserProduct() {
 }
 
 export default UserProduct;
+

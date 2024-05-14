@@ -1,0 +1,69 @@
+.div-card-update {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .div-card-update .card-actualizar {
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .div-card-update .card-actualizar label {
+    color: #000;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .div-card-update .card-actualizar input[type="number"],
+  .div-card-update .card-actualizar input[type="text"] {
+    background-color: #f8f9fa;
+    color: #000;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
+  
+  .div-card-update .card-actualizar .container-btn-confirmar-actualizar {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .div-card-update .card-actualizar .container-btn-confirmar-actualizar button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #a9ce6c;
+    color: #fff;
+  }
+  
+  .div-card-update .card-actualizar .container-btn-confirmar-actualizar button:hover {
+    background-color: #8dbf3a;
+  }
+  
+  .div-card-update .card-actualizar .container-btn-confirmar-cancelar {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .div-card-update .card-actualizar .container-btn-confirmar-cancelar button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #dc3545; /* Cambiado a rojo */
+    color: #fff;
+  }
+  
+  .div-card-update .card-actualizar .container-btn-confirmar-cancelar button:hover {
+    background-color: #bd2130; /* Cambiado a tono más oscuro de rojo al pasar el ratón */
+  }
+  
+  

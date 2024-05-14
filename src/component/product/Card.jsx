@@ -1,7 +1,8 @@
-import "./userProduct.css"
+import "./card.css"
+
+function Card({ product, index, setUpdate, setCurrentProduct }) {
 
 
-function Card({ product, index }) {
     const {
       product_name,
       description,
@@ -41,15 +42,15 @@ function Card({ product, index }) {
         <img src="" alt="" />
         <div className="product-details">
           <h2 className="product-name">{product_name}</h2>
-          <p className="descripcion">{description}</p>
           <p className="product-price">Price: ${price}</p>
           <p className="product-category">Category: {categoryName}</p>
           <p className="product-stock">Cantidad disponible: {stock}</p>
           <p className="product-condition">Estado: {condition}</p>
-        </div>
+          <p className="descripcion">{description}</p>
         <div className='div-botones'>
           <button className='btn-eliminar' onClick={() => deleteProducts(product.productId)}>Eliminar</button>
           <button className='btn-actualizar' onClick={() => selectProducts(product)}>Actualizar</button>
+        </div>
         </div>
       </div>
     );

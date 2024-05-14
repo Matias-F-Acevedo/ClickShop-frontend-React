@@ -3,12 +3,12 @@ import { BsCartPlusFill } from "react-icons/bs";
 import { FaEye } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { UserContext } from "../../context/UserContext";
+import { addOne } from "../../service/functionsHTTP";
 
-
-const urlCarts = "http://localhost:3000/api/carts"
 
 const ProductCard = (props) => {
     const { user } = useContext(UserContext);
+    const URLCartUser = `http://localhost:3000/api/carts/${user.sub}/update`;
     const { productId, product_name, price } = props.data;
     const [addedToCart, setAddedToCart] = useState(false);
     const [cart, setCart] = useState([])
@@ -25,14 +25,31 @@ const ProductCard = (props) => {
         }
 
         const parsed = await res.json();
-        const userCart = parsed.find(carts => carts.userId == user.sub);
+        console.log(parsed)
+        const userCart = parsed.find(cart => cart.userId === parseInt(user.sub));
         console.log(userCart)
         if (!userCart) {
-            console.error("Error al encontrar carrito");
-        } else{
-            console.log("Nuevo carrito del usuario:", userCart);
+            console.error("Error al encontrar carrito. Se intentará crear uno nuevo.");
+            try {
+                const userId = parseInt(user.sub)
+                const newUserCart = await fetch(URLCarts, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json"
+                  },
+                    body: JSON.stringify({userId: userId}),
+                  })
+                
+                    .then((res) => res.json()).then((parsed)=>console.log(parsed)).catch((err) => console.error(err));
+                
+                console.log("Nuevo carrito creado para el usuario usuario:");
+            
+            } catch (error) {
+                console.error("Error al crear el carrito:", error);
+            }
+        } else {
+            console.log("Carrito encontrado:", userCart);
+            setCart(userCart);
         }
-        setCart(userCart);
     }
 useEffect(() => {
     if(user){
@@ -45,7 +62,7 @@ useEffect(() => {
     const handleAddToCart = async (productId) => {
         try {
      
-               await fetch(`http://localhost:3000/api/carts/1/update`, {
+               await fetch(URLCartUser, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

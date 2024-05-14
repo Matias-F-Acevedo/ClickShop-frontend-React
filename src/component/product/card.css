@@ -1,0 +1,66 @@
+.product {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .product-details {
+    display: grid;
+    gap: 8px;
+  }
+  
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-price {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .product-category {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .product-stock {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .product-condition {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .descripcion {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .div-botones {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 8px;
+  }
+  
+  .btn-eliminar,
+  .btn-actualizar {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3483fa; /* Azul similar al de MercadoLibre */
+    cursor: pointer;
+  }
+  
+  .btn-eliminar:hover,
+  .btn-actualizar:hover {
+    background-color: #2d6ae3; /* Azul más oscuro al hacer hover */
+  }
+  
