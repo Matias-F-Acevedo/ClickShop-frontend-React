@@ -18,34 +18,50 @@ function UserOrder() {
             console.log("no hay ordenes");
             return
         }
-        
+
         const parsed = await res.json();
         setOrders(parsed);
     }
 
     const columns = [
         {
-            header: "Dirección de entrega",
-            accessorKey: "shippingAddress",
-            footer: "Dirección de entrega"
-        },
-        {
-            header: "Estado",
-            accessorKey: "status",
-            footer: "Estado"
-        },
-        {
-            header: "Total",
-            accessorKey: "total",
-            footer: "Total",
-            cell: info => `$ ${info.getValue()}`
+            header: "#",
+            accessorKey: "order_id",
         },
         {
             header: "Fecha",
             accessorKey: "date",
-            footer: "Fecha",
             cell: info => dayjs(info.getValue()).format("DD/MM/YYYY")
-        }
+        },
+        {
+            header: "Dirección de entrega",
+            accessorKey: "shippingAddress",
+        },
+        {
+            header: "Total",
+            accessorKey: "total",
+            cell: info => {
+                const value = parseFloat(info.getValue()); 
+                const formattedValue = `$ ${value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+                return formattedValue;
+              }
+        },
+
+        {
+            header: "Estado",
+            accessorKey: "status",
+            cell: info => {
+                const value = info.getValue();
+                let className = "";
+                if (value === "PENDING") className = "PENDIENTE" ;
+                else if (value === "COMPLETED") className = "COMPLETADO";
+                else if (value === "SHIPPED") className = "ENVIADO";
+                else if (value === "CANCELLED") className = "CANCELADO";
+
+                return <div id={className}>{className}</div>;
+            }
+        },
+
     ]
 
 
@@ -55,7 +71,7 @@ function UserOrder() {
 
 
     return (
-       <TableComponent data={orders} columns={columns}></TableComponent>
+        <TableComponent data={orders} columns={columns}></TableComponent>
     )
 }
 

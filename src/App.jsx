@@ -11,6 +11,7 @@ import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
+import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
 import Cart from "./component/cart/Cart";
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
           <Route path="/cart" element={<Cart/>} />
-
+          <Route path="/test" element={<UpdateCard></UpdateCard>} />
 
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
