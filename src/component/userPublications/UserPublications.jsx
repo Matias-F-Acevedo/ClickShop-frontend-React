@@ -38,7 +38,7 @@ function UserPublications() {
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            cancelButtonText:"Cancelar",
+            cancelButtonText: "Cancelar",
             confirmButtonText: "Sí, eliminar",
             customClass: {
                 title: 'swal2-title',
@@ -54,16 +54,15 @@ function UserPublications() {
                     if (!res.ok) {
                         throw new Error('No se pudo eliminar el producto');
                     }
-                    // actualizar la lista de publicaciones después de eliminar
                     setPublications(publications.filter(pub => pub.productId !== productId));
-        
+
                     Swal.fire({
                         title: "Eliminado!",
                         text: "Su publicación ha sido eliminada.",
                         icon: "success",
-                        confirmButtonColor:"#006d779a",
+                        confirmButtonColor: "#006d779a",
                     });
-        
+
                 } catch (error) {
                     console.error(error);
                     Swal.fire('Error', 'No se pudo eliminar el producto', 'error');
@@ -71,8 +70,21 @@ function UserPublications() {
 
             }
         });
-        
+
     }
+
+    const handleLinkClick = (event, productId) => {
+        event.preventDefault();
+        const url = `/product/${productId}`;
+        window.open(url, '_blank');
+    };
+
+    const truncateText = (text, maxLength) => {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    };
 
     const columns = [
         {
@@ -101,6 +113,10 @@ function UserPublications() {
         {
             header: "Descripción",
             accessorKey: "description",
+            cell: info => {
+                const description = info.getValue();
+                return <div>{truncateText(description, 10)}</div>;
+            }
 
         },
         {
@@ -127,7 +143,7 @@ function UserPublications() {
             cell: ({ row }) => {
                 const productId = row.original.productId;
                 return <div className='crud-publicationsUser'>
-                    <Link to={"/test"}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
+                    <Link onClick={(event) => handleLinkClick(event, productId)}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
                     </Link>
                     <Link to={"/test"}>
                         <MdEditNote className='btn-Edit-publicationUser btn-publicationUser' /></Link>
