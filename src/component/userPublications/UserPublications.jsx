@@ -7,6 +7,8 @@ import TableComponent from '../tableComponent/TableComponent';
 import { CgDetailsMore } from "react-icons/cg";
 import { MdEditNote } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
+import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 function UserPublications() {
 
@@ -24,6 +26,52 @@ function UserPublications() {
 
         const parsed = await res.json();
         setPublications(parsed);
+    }
+
+    async function deletePublication(productId) {
+
+
+        Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás revertir esto!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText:"Cancelar",
+            confirmButtonText: "Sí, eliminar",
+            customClass: {
+                title: 'swal2-title',
+                confirmButton: 'swal2-confirm',
+                cancelButton: 'swal2-cancel'
+            }
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
+                        method: 'DELETE',
+                    });
+                    if (!res.ok) {
+                        throw new Error('No se pudo eliminar el producto');
+                    }
+                    // actualizar la lista de publicaciones después de eliminar
+                    setPublications(publications.filter(pub => pub.productId !== productId));
+        
+                    Swal.fire({
+                        title: "Eliminado!",
+                        text: "Su publicación ha sido eliminada.",
+                        icon: "success",
+                        confirmButtonColor:"#006d779a",
+                    });
+        
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire('Error', 'No se pudo eliminar el producto', 'error');
+                }
+
+            }
+        });
+        
     }
 
     const columns = [
@@ -76,11 +124,14 @@ function UserPublications() {
         },
         {
             header: "Configuración",
-            cell: () => {
+            cell: ({ row }) => {
+                const productId = row.original.productId;
                 return <div className='crud-publicationsUser'>
-                    <CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
-                   <MdEditNote className='btn-Edit-publicationUser btn-publicationUser' />
-                    <MdOutlineDeleteForever className='btn-delete-publicationUser btn-publicationUser' />
+                    <Link to={"/test"}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
+                    </Link>
+                    <Link to={"/test"}>
+                        <MdEditNote className='btn-Edit-publicationUser btn-publicationUser' /></Link>
+                    <MdOutlineDeleteForever onClick={() => deletePublication(productId)} className='btn-delete-publicationUser btn-publicationUser' />
                 </div>;
             }
         }

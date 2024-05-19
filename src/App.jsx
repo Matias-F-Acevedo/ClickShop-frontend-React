@@ -28,7 +28,7 @@ function App() {
           <Route path="/team" element={<h1>team</h1>} />
 
           <Route path="/test" element={<UpdateCard></UpdateCard>} />
-
+          <Route path="/vender" element={<UserProduct />} />
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
@@ -41,7 +41,7 @@ function App() {
 
 
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-            <Route path="/vender" element={<UserProduct />} />
+            {/* <Route path="/vender" element={<UserProduct />} /> */}
 
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />

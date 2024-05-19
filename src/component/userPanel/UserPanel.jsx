@@ -17,9 +17,26 @@ function UserPanel() {
 
     const { user, handleLogout } = useContext(UserContext);
     const [capitalizedNameLastname, setCapitalizedNameLastname] = useState('');
+    const [userImage, setUserImage] = useState('');
 
     function capitalizeFirstLetter(word) {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+
+    const urlGetImage = "http://localhost:3000/api/users/"
+
+    async function getUserImage(user_id) {
+        const res = await fetch(`${urlGetImage}+${user_id}/profile-image`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!res.ok) return false;
+
+        const parsed = await res.json()
+        setUserImage(parsed)
+        return parsed
     }
 
 
@@ -27,6 +44,7 @@ function UserPanel() {
         if (user) {
             const capitalized = capitalizeFirstLetter(user.name) + " " + capitalizeFirstLetter(user.lastName)
             setCapitalizedNameLastname(capitalized);
+            getUserImage(user.sub)
         }
     }, [user]);
 
@@ -43,6 +61,22 @@ function UserPanel() {
     }
 
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                menuUserPanel.current &&
+                !menuUserPanel.current.contains(event.target) &&
+                !event.target.classList.contains('icon-userProfile')
+            ) {
+                menuUserPanel.current.classList.remove("open-menu");
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
         <>
             {
@@ -57,26 +91,26 @@ function UserPanel() {
             <div ref={menuUserPanel} className='sub-menu-wrap'>
                 <div className='sub-menu'>
                     <div className='user-info'>
-                        <img src="src\component\configurationUser\user-icon.jpg" alt="user-photo" />
+                        <img src={userImage.urlImage} />
                         <h3>{capitalizedNameLastname}</h3>
                     </div>
                     <hr />
-                    <Link to={"/configuration-user"} className='sub-menu-link'>
+                    <Link to={"/configuration-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <CgProfile className='icon-userPanel' />
                         <p>Editar perfil</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/"} className='sub-menu-link'>
+                    <Link to={"/"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <IoMdHeartEmpty className='icon-userPanel' />
                         <p>Favoritos</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/orders-user"} className='sub-menu-link'>
+                    <Link to={"/orders-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <TbShoppingBagCheck className='icon-userPanel' />
                         <p>Mis compras</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/publications-user"} className='sub-menu-link'>
+                    <Link to={"/publications-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <BsPostcard className='icon-userPanel' />
                         <p>Mis publicaciones</p>
                         <span><IoIosArrowForward /></span>

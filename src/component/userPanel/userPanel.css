@@ -10,6 +10,7 @@
 
 .sub-menu-wrap {
     position: absolute;
+    z-index: 99999;
     top: 100%; 
     right: 5%;
     width: 320px;
@@ -47,8 +48,9 @@
 
 
 .user-info img {
-    width: 60px;
-    border-radius: 50%;
+    height: 58px;
+    width: 58px;
+    border-radius: 100%;
     margin-right: 15px;
 }
 

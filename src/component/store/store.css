@@ -21,7 +21,7 @@
 .shopTitle {
   height: auto; /* Ajusta la altura según el contenido */
   margin-top: -170px; /* Ajusta este valor según sea necesario para evitar que se superponga con el navbar */
-  position:relative;
+  /* position:relative; */
   text-align: center;
   width: 90%;
   height: 150px;
@@ -119,14 +119,12 @@
   align-items: center;
   border: 2px solid #a8a8a8;
   padding: 10px;
+  transition: box-shadow 0.2s ease-in-out;
 }
 
 .product:hover {
-  transition: 0.1s ease-in;
-  cursor: pointer;
-  transform: scale(1.02);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-color: #a9ce6c;
-
 }
 
 

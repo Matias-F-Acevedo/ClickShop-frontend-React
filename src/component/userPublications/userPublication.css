@@ -41,3 +41,18 @@
 .btn-Edit-publicationUser {
     color: rgb(8, 8, 4);
 }
+
+
+.swal2-title,.swal2-confirm,.swal2-cancel  {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.swal2-confirm {
+    font-weight: 400;
+}
+
+.swal2-cancel {
+    font-weight: 400;
+}
