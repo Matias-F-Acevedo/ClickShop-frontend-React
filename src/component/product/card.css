@@ -64,3 +64,34 @@
     background-color: #2d6ae3; /* Azul más oscuro al hacer hover */
   }
   
+
+
+  
+  .btn-accion {
+    position: relative; /* Asegura que el botón tenga una posición relativa */
+  }
+  
+  .btn-accion:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+
+  .tooltip {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%; /* Posicionar por encima del botón */
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  

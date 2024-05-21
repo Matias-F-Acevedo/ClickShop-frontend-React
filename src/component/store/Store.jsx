@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./Card";
 import "./store.css";
-import Cart from "../cart/Cart";
 
 const URL = "http://localhost:3000/api/products";
 
@@ -33,6 +32,7 @@ const Store = () => {
   const getProducts = async () => {
     try {
       const res = await axios.get(URL);
+      console.log(res.data);
       setProducts(res.data);
     } 
     catch (error) {

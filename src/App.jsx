@@ -27,7 +27,6 @@ function App() {
           <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
-          <Route path="/cart" element={<Cart/>} />
           <Route path="/test" element={<UpdateCard></UpdateCard>} />
 
 
@@ -41,9 +40,9 @@ function App() {
 
 
 
+            <Route path="/sell" element={<UserProduct/>} />
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-            <Route path="/vender" element={<UserProduct />} />
-            
+            <Route path="/cart" element={<Cart />} />
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
             <Route path="/orders-user" element={<UserOrder></UserOrder>} />
