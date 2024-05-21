@@ -4,127 +4,199 @@
     box-sizing: border-box;
 }
 
-body {
-    height: 100%;
-    width: 100%;
-}
-
-.header {
+header {
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-style: normal;
+    height: 70px;
 }
 
-
-.nav {
+.container-nav-desktop {
+    width: 100%;
     display: flex;
-    padding: 10px 40px;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    height: 80px;
+
 }
 
-.logo {
-    color: #ffffff;
-    font-size: 20px;
-}
-
-
-.nav-links {
+.icon-nav {
     display: flex;
+    gap: 25px;
+    margin-right: 24px;
+    padding: 6px 10px;
+    color: #555555;
+
+}
+
+.icon-cart {
+    font-size: 23px;
+}
+
+.icon-userProfile{
+    font-size: 27px;
+}
+
+
+.nav-desktop ul {
+    display: flex;
+    flex-direction: row;
     gap: 30px;
-    align-items: center;
-
 }
 
-.login-button a {
+
+.nav-desktop ul li {
+    list-style: none;
+}
+
+.nav-desktop ul li a {
     text-decoration: none;
-    background-color: #D0EDA1;
-    padding: 10px 15px;
-    border-radius: 10px;
-    color: #000000;
-}
-
-.arrow-login {
-    padding-top: 5px;
+    color: #000000
 }
 
 
-.logo a {
-    text-decoration: none;
-    color: #000000;
-}
-
-
-.nav-links li {
-    list-style-type: none;
-
-}
-
-.nav-links li a {
-    position: relative;
-    text-decoration: none;
-    color: #000000;
-}
-
-
-.nav-links li a:hover {
+.nav-desktop ul li a:hover {
     color: #006D77;
 }
 
 
-/* .search input{
-    width: 300px;
-    height: 35px;
-    border-radius: 10px;
-    border: none;
-    background-color:#F2F2F2;
-    color:#A0A0A0;
-    padding-left: 10px;
-} */
 
-.menu-icon {
-    display: none;
+
+
+
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #ffff;
+    box-shadow: 0 0 1px rgb(0, 0, 0, 0.2);
+    z-index: 999999999;
 }
 
-.menu-icon {
-    color: #000000;
-    font-size: 30px;
+nav .logo {
+    display: flex;
+    align-items: center;
+    margin: 0 24px;
+
 }
 
-.menu-open:hover,
-.menu-close:hover {
+.logo .menu-icon {
+    color: #333;
+    font-size: 24px;
+    margin-right: 14px;
     cursor: pointer;
-    transform: scale(1.1);
+}
+
+.logo .logo-name {
+    color: #333;
+    font-size: 22px;
+    font-weight: 500;
 }
 
 
+nav .sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 100%;
+    width: 260px;
+    padding: 20px 0;
+    background-color: #ffff;
+    box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2);
+    transition: all 0.4s ease;
 
-@media (max-width:700px) {
-    .nav-links {
-        position: absolute;
-        top: 70px;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        text-align: center;
-        background: #00000018;
-        gap: 0;
-        overflow: hidden;
-    }
+    overflow-y: hidden;
+}
 
-    .nav-links li {
-        padding: 20px;
+nav.open .sidebar {
+    left: 0;
+
+}
+
+.sidebar .sidebar-content {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 16px;
+
+}
+
+.sidebar-content .list {
+    list-style: none;
+}
+
+.list .nav-link {
+    display: flex;
+    align-items: center;
+    margin: 8px 0;
+    text-decoration: none;
+    padding: 14px 12px;
+    border-radius: 8px;
+
+
+}
+
+.lists .nav-link:hover {
+    background-color: #D0EDA1;
+}
+
+.nav-link .icon {
+    margin-right: 14px;
+    font-size: 20px;
+    color: #707070;
+}
+
+.nav-link .link {
+    font-size: 16px;
+    color: #707070;
+    font-weight: 400;
+
+}
+
+.lists .nav-link:hover .icon,
+.lists .nav-link:hover .link {
+    color: #ffff;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    height: 1000vh;
+    width: 200%;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.4s ease;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+nav.open~.overlay {
+    opacity: 1;
+    left: 260px;
+    pointer-events: auto;
+
+}
+
+
+@media (max-width:800px) {
+    .nav-desktop {
+        display: none;
     }
 
     .menu-icon {
         display: block;
     }
+}
 
-    .nav-links {
-        transition: all 0.5s;
+
+@media (min-width:800px) {
+    .menu-icon {
+        display: none;
     }
-
-
 }

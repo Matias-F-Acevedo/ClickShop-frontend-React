@@ -1,0 +1,58 @@
+#NUEVO {
+    color: green;
+}
+
+#USADO {
+    color: rgb(255, 128, 69);
+}
+
+.crud-publicationsUser {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+.btn-publicationUser{
+    font-size: 30px;
+    background-color: #F6F6F6;
+    border-radius: 5px;
+    padding: 3px;
+    transition: all 0.3s ease;
+}
+
+
+.btn-publicationUser:hover{
+    padding: 5px;
+}
+
+.btn-delete-publicationUser {
+    color: red;
+   
+}
+
+.btn-Details-publicationUser {
+    color: rgb(100, 162, 255);
+}
+
+.btn-Edit-publicationUser {
+    color: rgb(8, 8, 4);
+}
+
+
+.swal2-title,.swal2-confirm,.swal2-cancel  {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.swal2-confirm {
+    font-weight: 400;
+}
+
+.swal2-cancel {
+    font-weight: 400;
+}

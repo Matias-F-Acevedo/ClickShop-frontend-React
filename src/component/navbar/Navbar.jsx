@@ -1,63 +1,116 @@
 import "./navbar.css"
-import { Link } from "react-router-dom"
-import { IoMdMenu } from "react-icons/io";
-import { useRef, useEffect, useState } from "react";
-import { IoMdClose } from "react-icons/io";
-import { FaArrowRight } from "react-icons/fa6";
-
+import { IoIosMenu } from "react-icons/io";
+import { Link } from "react-router-dom";
+import { GoHome } from "react-icons/go";
+import { PiStorefrontLight } from "react-icons/pi";
+import { TiMessage } from "react-icons/ti";
+import { HiOutlineUserGroup } from "react-icons/hi";
+import { IoMdHeartEmpty } from "react-icons/io";
+import { useRef } from "react";
+import { BsCart3 } from "react-icons/bs";
+import { CgProfile } from "react-icons/cg";
+import UserPanel from "../userPanel/UserPanel";
 
 function Navbar() {
 
-    const menulist = useRef();
-    const [menuOpen, setMenuOpen] = useState(false);
-
-    useEffect(() => {
-        if (menulist.current) {
-            menulist.current.style.maxHeight = "0px";
-        }
-    }, []);
+    const navbar = useRef();
 
     function toggleMenu() {
-        if (menulist.current.style.maxHeight == "0px") {
-            menulist.current.style.maxHeight = "300px"
-            setMenuOpen(true);
-        } else {
-            menulist.current.style.maxHeight = "0px"
-            setMenuOpen(false);
-        }
+        navbar.current.classList.toggle('open');
     }
 
+    function closeToggleMenu() {
+        navbar.current.classList.remove('open');
+    }
+
+
     return (
-        <header className="header">
-            <nav className="nav">
-                <div className="logo">
-                    <Link to={"/"}><h1>ClickShop</h1></Link>
+        <header>
+            <nav ref={navbar}>
+
+
+                <div className="container-nav-desktop">
+                    <div className="logo">
+                        <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
+                        <span className="logo-name">ClickShop</span>
+                    </div>
+                    <div className="nav-desktop">
+                        <ul>
+                            <li><Link to={"/"}>Inicio</Link> </li>
+                            <li><Link to={"/store"}>Tienda</Link> </li>
+                            <li><Link to={"/contact"}>Contacto</Link> </li>
+                            <li><Link to={"/team"}>Nosotros</Link> </li>
+                        </ul>
+                    </div>
+                    <div className="icon-nav">
+                        <UserPanel className="icon-userProfile" />
+                        <BsCart3 className=" icon-cart" />
+
+                    </div>
                 </div>
 
 
-                <ul ref={menulist} className="nav-links">
-                    <li onClick={toggleMenu}><Link to={"/"}>Inicio</Link></li>
-                    <li onClick={toggleMenu}><Link to={"/store"}>Tienda</Link></li>
-                    <li onClick={toggleMenu}><Link to={"/contact"}>Contacto</Link></li>
-                    <li onClick={toggleMenu}><Link to={"/team"}>Nosotros</Link></li>
-                   <li className="login-button">
-                        <Link onClick={toggleMenu} to={"/login"}>Login < FaArrowRight className="arrow-login" /></Link>
-                    </li>
-                </ul>
-                {/* <div className="login-button">
-                   <Link onClick={toggleMenu} to={"/login"}>Login < FaArrowRight  className="arrow-login" /></Link>
-                </div> */}
-                <div className="menu-icon">
+                <div className="sidebar">
+                    <div className="logo">
+                        <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
+                        <span className="logo-name">ClickShop</span>
+                    </div>
+                    <div className="sidebar-content">
+                        <ul className="lists">
+                            <li className="list">
+                                <Link to={"/"} className="nav-link">
+                                    <GoHome className="icon" />
+                                    <span className="link">Inicio</span>
+                                </Link>
+                            </li>
+                            <li className="list">
+                                <Link to={"/store"} className="nav-link">
+                                    <PiStorefrontLight className="icon" />
+                                    <span className="link">Tienda</span>
+                                </Link>
+                            </li>
+                            <li className="list">
+                                <Link to={"/"} className="nav-link">
+                                    <IoMdHeartEmpty className="icon" />
+                                    <span className="link">Favoritos</span>
+                                </Link>
+                            </li>
+                            <li className="list">
+                                <Link to={"/Contact"} className="nav-link">
+                                    <TiMessage className="icon" />
+                                    <span className="link">Contacto</span>
+                                </Link>
+                            </li>
+                            <li className="list">
+                                <Link to={"/team"} className="nav-link">
+                                    <HiOutlineUserGroup className="icon" />
+                                    <span className="link">Nosotros</span>
+                                </Link>
+                            </li>
 
-                    {menuOpen ? (
-                        <IoMdClose className="menu-close" onClick={toggleMenu} />
-                    ) : (
-                        <IoMdMenu className="menu-open" onClick={toggleMenu}></IoMdMenu>
-                    )}
 
+                        </ul>
+
+                        <div className="bottom-content">
+                            <li className="list">
+                                <Link to={"/"} className="nav-link">
+                                    <GoHome className="icon" />
+                                    <span className="link">Configuración</span>
+                                </Link>
+                            </li>
+                            <li className="list">
+                                <Link to={"/"} className="nav-link">
+                                    <GoHome className="icon" />
+                                    <span className="link">Cerrar sesión</span>
+                                </Link>
+                            </li>
+                        </div>
+                    </div>
                 </div>
             </nav>
-        </header>
+
+            <section onClick={() => closeToggleMenu()} className="overlay"></section>
+        </header >
     )
 }
 

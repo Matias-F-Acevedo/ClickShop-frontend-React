@@ -1,0 +1,228 @@
+.container {
+    background: #fff;
+    width: 700px;
+    height: 450px;
+    margin: 0 auto;
+    /* position: relative; */
+    margin-top: 5%;
+    box-shadow: 2px 5px 20px rgba(119, 119, 119, 0.377);
+    margin-bottom: 5%;
+
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+body{
+    background-color: #cdc7c734;
+}
+
+
+
+.leftbox {
+    float: left;
+    top: -5%;
+    left: 5%;
+    width: 30%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 5%;
+    border-right: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.user-photoAndName {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+    padding-bottom: 20px;
+}
+
+
+
+.user-photoAndName img {
+    border-radius: 100%;
+    width: 110px;
+    height: 110px;
+    transition: background-color 0.3s ease;
+}
+
+
+.input-file-change-image {
+    display: none;
+}
+
+.user-photoAndName img:hover {
+    cursor: pointer;
+    opacity: 0.4;
+}
+
+.image-user-change-password {
+ width: 110px;
+ height: 110px;
+}
+
+
+.image-user-change-password img:hover{
+    cursor: default;
+    opacity: 1;
+  
+}
+
+
+
+
+.user-photoAndName p {
+    font-size: 16px;
+}
+
+
+
+.menu-options {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-options ul {
+    list-style-type: none;
+}
+
+.menu-options ul li {
+    display: flex;
+    align-items: center;
+    padding: 20px 15px;
+
+    width: 100%;
+    height: 35px;
+    color: rgba(0, 0, 0, 0.712);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+
+
+
+.menu-options ul li:hover {
+    background: #7ed386;
+    color: #fff;
+    cursor: pointer;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+.rightbox {
+    margin: auto;
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.title-updateUser {
+    margin: 40px 0px 25px;
+}
+
+.title-updateUser h1 {
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.rightbox form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.rightbox form input {
+    height: 25px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.212);
+    padding-left: 5px;
+}
+
+.doble-inputs {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.doble-inputs input {
+    margin-top: 10px;
+
+}
+
+
+
+.buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 10px;
+}
+
+.buttons button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 20px;
+}
+
+.button-confirm-update {
+    background-color: rgba(0, 128, 0, 0.74);
+    color: white;
+    border: none;
+}
+
+.button-confirm-update:hover {
+    background-color: #7ed386;
+    color: rgba(0, 128, 0, 0.74);
+}
+
+.button-cancel-update {
+    background-color: white;
+    color: red;
+    border: 1px solid rgba(0, 0, 0, 0.308);
+}
+
+.button-cancel-update:hover {
+    background-color: red;
+    color: white;
+}
+
+
+.container-password {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.container-password input {
+    width: 400px;
+}
+
+
+.p-error-edit {
+    margin-top: 5px;
+    color: rgba(0, 0, 0, 0.808);
+}

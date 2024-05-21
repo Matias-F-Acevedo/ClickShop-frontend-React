@@ -4,6 +4,7 @@ import { useState, useContext } from "react"
 import { UserContext } from '../../context/UserContext'
 import { decodeToken } from 'react-jwt'
 import { Link } from "react-router-dom"
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
 
@@ -13,7 +14,7 @@ function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-
+    const navigateTo = useNavigate();
 
     const urlLogin = "http://localhost:3000/api/auth/login"
 
@@ -57,14 +58,17 @@ function Login() {
                 setError("Inicio de sesión exitoso.");
                 setPassword("")
                 setEmail("")
+                navigateTo("/");
+
         }
     }
 
     return (
+    
         <div className="container-login">
             <div className='title-buttonPassword'>
                 <h1>Ingresá tu e-mail y contraseña</h1>
-                <Link to={"/login-register"}>
+                <Link to={"/forgot-password"}>
                 <button>¿Olvidaste tu contraseña?</button>
                </Link>
             </div>
@@ -79,10 +83,11 @@ function Login() {
                     <input type="password" id='password' value={password} onChange={event => setPassword(event.target.value)} required />
                     <button className='btn-form-login' type="submit">Iniciar sesión</button>
                     <Link to={"/login-register"}>
-                        <button className='btn-registrarse'>Crear cuenta</button></Link>
+                        <button id='btn-registrarse'>Crear cuenta</button></Link>
                 </form>
             </div>
         </div>
+       
     )
 }
 
