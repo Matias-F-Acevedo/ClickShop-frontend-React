@@ -1,0 +1,44 @@
+.carousel{
+    padding: 80px 0px 80px 0px;
+}
+.latest{
+    font-weight: 700;
+    font-size: 42px;
+    padding-left: 210px
+}
+
+.card-wrapper{
+    width: 100%;
+    padding: 120px 0px 120px 0px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card{
+    width: 305px;
+    background-color: #F6F6F6;
+    border: 1px solid #C3C3C3;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding-bottom: 15px;
+}
+.card > img {
+    max-width: 305px;
+    height: 188px;
+}
+.card > h5, .card > p {
+    padding-left: 15px;
+}
+.card > h5{
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: normal;
+    opacity: 0.7;
+}
+
+.card > p {
+    font-size: 18px;
+    font-weight: bold;
+}
