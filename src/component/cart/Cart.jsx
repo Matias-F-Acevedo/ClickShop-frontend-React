@@ -42,7 +42,7 @@ function Cart() {
 
     async function deleteProductFromCart(productId) {
         try {
-            const response = await fetch(`http://localhost:3000/api/carts/${user.sub}/products`, {
+            const response = await fetch(`http://localhost:3000/api/carts/${user.sub}/products/${productId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
