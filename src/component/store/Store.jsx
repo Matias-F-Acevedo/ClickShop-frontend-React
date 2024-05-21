@@ -9,6 +9,7 @@ const URL = "http://localhost:3000/api/products";
 const PRODUCTS_PER_PAGE = 15;
 
 const Store = () => {
+  
   const [products, setProducts] = useState([]);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,6 +25,7 @@ const Store = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    
     getProducts();
   },
     [currentPage]); // Se vuelve a cargar cuando cambia la página
@@ -31,6 +33,7 @@ const Store = () => {
   const getProducts = async () => {
     try {
       const res = await axios.get(URL);
+      console.log(res.data);
       setProducts(res.data);
     }
     catch (error) {
@@ -114,6 +117,22 @@ const Store = () => {
             {searchTerm && <p>{filteredProducts.length} resultados encontrados</p>}
           </div>
 
+//           <div className="products">
+//             {productsToShow.map((product) => (
+//               <ProductCard key={product.productId} data={product} />
+//             ))}
+//           </div>
+//           {pageCount > 1 && (
+//             <div className="pagination">
+//               {Array.from({ length: pageCount }, (_, i) => (
+//                 <button
+//                   key={i + 1}
+//                   className={currentPage === i + 1 ? "active" : ""}
+//                   onClick={() => changePage(i + 1)}
+//                 >
+//                   {i + 1}
+
+
 
         </div>
         <div className="grl-container">
@@ -122,6 +141,7 @@ const Store = () => {
               <div className="priceRange">
                 <button onClick={handleTogglePriceRange}>
                   Rango de precio
+
                 </button>
                 {isPriceRangeOpen && (
                   <div className="priceRangeContent">

@@ -13,6 +13,10 @@ import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
+
+
+import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
+import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
 
 function App() {
@@ -27,9 +31,9 @@ function App() {
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
 
-          <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
-          <Route path="/vender" element={<UserProduct />} />
 
+          <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
+            
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/login-register" element={<Register></Register>} />
@@ -40,8 +44,9 @@ function App() {
 
 
 
+            <Route path="/sell" element={<UserProduct/>} />
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-            {/* <Route path="/vender" element={<UserProduct />} /> */}
+            <Route path="/cart" element={<Cart />} />
 
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
