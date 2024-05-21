@@ -1,7 +1,9 @@
-import Login from "./component/login/Login"
+import Login from "./component/login/Login";
 import Register from "./component/register/Register";
 import Navbar from "./component/navbar/Navbar";
 import { UserProvider } from "./context/UserContext";
+import "./app.css";
+import HomePage from "./pages/HomePage";
 import { Route, Routes, BrowserRouter } from "react-router-dom"
 import ForgotPassword from "./component/forgotPassword/ForgotPassword";
 import ResetPassword from "./component/forgotPassword/ResetPassword";
@@ -14,15 +16,13 @@ import UserProduct from "./component/product/userProduct";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
 
 function App() {
-
   return (
     <UserProvider>
       <BrowserRouter>
         <Navbar></Navbar>
         <Routes>
 
-
-          <Route path="/" element={<h1>Home</h1>} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
@@ -51,7 +51,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </UserProvider>
-  )
+  );
 }
 
-export default App
+export default App;
