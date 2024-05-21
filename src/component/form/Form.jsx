@@ -5,9 +5,8 @@ const Form = () => {
       <section className="contact-title">
         <h2 className="contact">Contact</h2>
         <p className="contact-subtitle">
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since.
+          Ante cualquier duda envianos un mensaje por este medio
+          de contacto, te responderemos en breve.
         </p>
       </section>
       <form className="contact-form">
@@ -35,7 +34,7 @@ const Form = () => {
           <input type="file" className="file-input"/>
         </label>
         <div className="button-wrapper">
-        <button className="button-form">SEND</button>
+        <button className="button-form">Enviar</button>
         </div>
       </form>
     </div>

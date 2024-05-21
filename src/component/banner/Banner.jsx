@@ -5,16 +5,15 @@ const Banner = () => {
   return (
     <section className="banner">
       <div className="left-box">
-        <h2>Descripción del TP</h2>
+        <h2>Tu e-commerce</h2>
         <p>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
+        Descubre una experiencia de compra única y personalizada. Desde productos de alta calidad hasta 
+        ofertas exclusivas, estamos aquí para satisfacer todas tus necesidades. Navega por nuestras 
+        categorías, encuentra lo que amas y disfruta de un servicio al cliente excepcional.
         </p>
         <div>
-          <button className="store">View Store</button>
-          <button className="team">View Team</button>
+          <button className="store">Ver productos</button>
+          <button className="team">Ver equipo</button>
         </div>
       </div>
       <div className="banner-images">

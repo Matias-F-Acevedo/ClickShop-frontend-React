@@ -12,7 +12,7 @@ const Carousel = () => {
     },
     {
       img: Car2,
-      title: "CASA EN TANDIL CON PARQUE,PILETA Y PARRILLA",
+      title: "CASA EN TANDIL CON PARQUE, PILETA Y PARRILLA",
       price: "US$425.000",
     },
     {
@@ -28,7 +28,7 @@ const Carousel = () => {
   ];
   return (
     <div className="carousel">
-      <h2 className="latest">Latest publications</h2>
+      <h2 className="latest">Ultimas publicaciones</h2>
       <section className="card-wrapper">
         {data?.map((article, index) => (
           <div key={index} className="card">

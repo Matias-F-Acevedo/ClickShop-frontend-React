@@ -7,8 +7,8 @@ const Footer = () => {
         <h2>ClickShop</h2>
         <h3>TRABAJO PRACTICO</h3>
         <p style={{width:"335px"}}>
-          Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet
-          sint. Velit officia consequat duis enim velit mollit. Exercitation.
+          Esta es tu tienda online preferida, podrás encontrar una gran
+          cantidad de productos, incluso publicar los tuyos.
         </p>
       </div>
       <ul className="foot-col-2">
