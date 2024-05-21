@@ -75,6 +75,7 @@ nav {
     align-items: center;
     background-color: #ffff;
     box-shadow: 0 0 1px rgb(0, 0, 0, 0.2);
+    z-index: 999999999;
 }
 
 nav .logo {

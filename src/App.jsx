@@ -11,7 +11,7 @@ import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
-import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
+import ProductPage from "./component/userPublications/productPage/ProductPage";
 
 function App() {
 
@@ -27,8 +27,8 @@ function App() {
           <Route path="/contact" element={<h1>contact</h1>} />
           <Route path="/team" element={<h1>team</h1>} />
 
-          <Route path="/test" element={<UpdateCard></UpdateCard>} />
-
+          <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
+          <Route path="/vender" element={<UserProduct />} />
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
@@ -41,7 +41,7 @@ function App() {
 
 
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-            <Route path="/vender" element={<UserProduct />} />
+            {/* <Route path="/vender" element={<UserProduct />} /> */}
 
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
