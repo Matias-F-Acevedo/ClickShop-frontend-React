@@ -3,15 +3,18 @@
     width: 700px;
     height: 450px;
     margin: 0 auto;
-    position: relative;
+    /* position: relative; */
     margin-top: 5%;
     box-shadow: 2px 5px 20px rgba(119, 119, 119, 0.377);
     margin-bottom: 5%;
 
-
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-style: normal;
+}
+
+body{
+    background-color: #cdc7c734;
 }
 
 
@@ -20,7 +23,6 @@
     float: left;
     top: -5%;
     left: 5%;
-    /* position: absolute; */
     width: 30%;
     height: 100%;
     background-color: white;
@@ -46,15 +48,31 @@
 .user-photoAndName img {
     border-radius: 100%;
     width: 110px;
+    height: 110px;
     transition: background-color 0.3s ease;
+}
 
+
+.input-file-change-image {
+    display: none;
 }
 
 .user-photoAndName img:hover {
     cursor: pointer;
-    opacity: 0.7;
+    opacity: 0.4;
 }
 
+.image-user-change-password {
+ width: 110px;
+ height: 110px;
+}
+
+
+.image-user-change-password img:hover{
+    cursor: default;
+    opacity: 1;
+  
+}
 
 
 
@@ -204,7 +222,7 @@
 }
 
 
-.p-error-edit{
+.p-error-edit {
     margin-top: 5px;
     color: rgba(0, 0, 0, 0.808);
 }

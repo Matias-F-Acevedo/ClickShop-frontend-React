@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from "react"
 import "./register.css"
 import { Link } from "react-router-dom"
-
+import { useNavigate } from 'react-router-dom';
 function Register() {
 
 
@@ -13,7 +13,7 @@ function Register() {
     const [phoneNumber, setPhoneNumber] = useState("")
     const [address, setAddress] = useState("")
     const [identificationNumber, setIdentificationNumber] = useState("")
-
+    const navigateTo = useNavigate();
 
     const [error, setError] = useState("");
 
@@ -85,10 +85,8 @@ function Register() {
 
         setTimeout(() => {
             setError("")
-            setEmail(newUser.user_email)
+            navigateTo("/login");
         }, 2000)
-
-
     }
 
 

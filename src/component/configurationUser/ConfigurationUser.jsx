@@ -1,7 +1,7 @@
 import React from 'react'
 import "./configurationUser.css"
 import { Link } from "react-router-dom"
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { UserContext } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa6";
@@ -22,9 +22,12 @@ function ConfigurationUser() {
     const [phoneNumber, setPhoneNumber] = useState("")
     const [address, setAddress] = useState("")
     const [identificationNumber, setIdentificationNumber] = useState("")
+    const [userImage, setUserImage] = useState('');
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [originalValues, setOriginalValues] = useState({});
     const [error, setError] = useState("");
     const navigateTo = useNavigate();
-
+    const fileInputRef = useRef(null);
 
     async function fetchUserData() {
         try {
@@ -37,6 +40,17 @@ function ConfigurationUser() {
                 setPhoneNumber(data.user_phoneNumber)
                 setIdentificationNumber(data.user_identificationNumber)
                 setAddress(data.user_address)
+                setUserImage(data.user_image)
+
+                setOriginalValues({
+                    email: data.user_email,
+                    name: data.user_name,
+                    lastname: data.user_lastname,
+                    phoneNumber: data.user_phoneNumber,
+                    identificationNumber: data.user_identificationNumber,
+                    address: data.user_address,
+                });
+
             } else {
                 console.error('Error al obtener los datos del usuario');
             }
@@ -54,8 +68,63 @@ function ConfigurationUser() {
     }, [user]);
 
 
+    const handleImageClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            setSelectedFile(file);
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUserImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const uploadFile = async (file) => {
+        const url = `http://localhost:3000/api/users/${user.sub}/profile-image`;
+        const formData = new FormData();
+        formData.append('file', file);
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const result = await response.json();
+            console.log('Archivo subido con éxito:', result);
+        } catch (error) {
+            console.error('Error al subir el archivo:', error);
+        }
+    };
+
+    const hasChanges = () => {
+        return (
+            name !== originalValues.name ||
+            lastname !== originalValues.lastname ||
+            phoneNumber !== originalValues.phoneNumber ||
+            address !== originalValues.address ||
+            identificationNumber !== originalValues.identificationNumber ||
+            email !== originalValues.email ||
+            selectedFile !== null
+        );
+    };
+
+
     async function updateUser(event) {
         event.preventDefault();
+
+        if (!hasChanges()) {
+            setError("No se han realizado cambios");
+            return;
+        }
 
         if (name.length < 3 || name.length > 15) { setError("El nombre debe tener entre 3 y 15 caracteres"); return; }
 
@@ -88,7 +157,6 @@ function ConfigurationUser() {
         }
 
 
-
         const res = await fetch(`http://localhost:3000/api/users/${user.sub}`, {
             method: "PATCH",
             headers: {
@@ -108,17 +176,19 @@ function ConfigurationUser() {
             return;
         }
 
+        if (selectedFile) {
+            await uploadFile(selectedFile);
+        }
+
         setError("Se ha modificado con éxito, debera ingresar nuevamente");
 
         setTimeout(() => {
             handleLogout()
+            window.location.reload();
             navigateTo("/login");
         }, 2000)
+
     }
-
-
-
-
 
     return (
         <>
@@ -127,8 +197,24 @@ function ConfigurationUser() {
 
                 <div className="leftbox">
                     <div className='user-photoAndName'>
+                        {renderConditional ?
+                            <>
+                               <img src={userImage} onClick={handleImageClick} alt="photo-user" title="Haz clic para cambiar la imagen"/>
+                                <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    className='input-file-change-image'
+                                    onChange={handleFileChange}
+                                    accept="image/*"
+                                /> 
+                                </> :
+                                <div className='image-user-change-password'>
+                                     <img src={userImage} alt="photo-user" />
+                                     
+                                </div>
+                           
+                        }
 
-                        <img src="src\component\configurationUser\user-icon.jpg" alt="photo-user" />
                         <p>Matias Acevedo</p>
                     </div>
 
@@ -157,7 +243,7 @@ function ConfigurationUser() {
                         }
 
                         <p className="p-error p-error-edit">{error}</p>
-                        
+
                     </div>
                     {
                         renderConditional ?
