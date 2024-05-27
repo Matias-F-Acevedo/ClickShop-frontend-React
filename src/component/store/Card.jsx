@@ -11,9 +11,11 @@ import React, { useState, useContext, useEffect } from "react";
 // import { FaEye } from "react-icons/fa";
 // import { FaStar } from "react-icons/fa";
 import { UserContext } from "../../context/UserContext";
+import { FiEye } from "react-icons/fi";
+
 
 const ProductCard = (props) => {
-  const { data } = props
+  const { data, handleLinkClickProduct } = props
 
   const { user } = useContext(UserContext);
   const URLCartUser = user ? `http://localhost:3000/api/carts/${user.sub}/update` : 'no hay user';
@@ -102,9 +104,10 @@ const ProductCard = (props) => {
 
 
 
+
   return (
-    <div className="product" >
-      <div className="slide-var">
+    <div className="product">
+      <div className="slide-var" >
         <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} renderLeftNav={renderLeftNav}
           renderRightNav={renderRightNav}></ImageGallery>
       </div>
@@ -113,11 +116,14 @@ const ProductCard = (props) => {
           <b>{data.product_name}</b>
         </p>
         <p className="price-product">${data.price}</p>
-        {/* <button class="addToCartBttn"><FaEye /></button> */}
-        <button className="addToCartBttn" onClick={() => handleAddToCart(productId)}>
-          <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
-        </button>
-        <button class="addToCartBttn"><FaRegHeart /></button>
+        <div className="buttons-card-product">
+          <button onClick={handleLinkClickProduct} ><FiEye /></button>
+          <button onClick={() => handleAddToCart(productId)}>
+            <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
+          </button>
+          <button><FaRegHeart /></button>
+        </div>
+
 
 
       </div>

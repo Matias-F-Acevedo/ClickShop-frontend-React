@@ -14,6 +14,7 @@ function ProductPage() {
 
 
     const { user, handleLogout } = useContext(UserContext);
+    
     const divSelect1 = useRef();
     const divSelect2 = useRef();
     const divSelect3 = useRef();
