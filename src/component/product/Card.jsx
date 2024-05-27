@@ -1,4 +1,4 @@
-import "./card.css"
+// import "./card.css"
 import { deleteOne } from "../../service/functionsHTTP";
 
 

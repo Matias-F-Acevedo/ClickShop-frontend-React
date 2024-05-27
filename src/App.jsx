@@ -15,7 +15,7 @@ import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
 
 
-import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
+// import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
 import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
 
@@ -28,8 +28,8 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/store" element={<Store></Store>} />
-          <Route path="/contact" element={<h1>contact</h1>} />
-          <Route path="/team" element={<h1>team</h1>} />
+          <Route path="/contact" element={<HomePage />} />
+          <Route path="/team" element={<HomePage />} />
 
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />

@@ -1,11 +1,20 @@
-
-import React, { useState, useContext, useEffect } from "react";
+import "./store.css";
+import "react-image-gallery/styles/css/image-gallery.css";
 import { BsCartPlusFill } from "react-icons/bs";
 import { FaEye } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+import ImageGallery from "react-image-gallery";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { FaRegHeart } from "react-icons/fa6";
+import React, { useState, useContext, useEffect } from "react";
+// import { BsCartPlusFill } from "react-icons/bs";
+// import { FaEye } from "react-icons/fa";
+// import { FaStar } from "react-icons/fa";
 import { UserContext } from "../../context/UserContext";
 
 const ProductCard = (props) => {
+  const { data } = props
+
   const { user } = useContext(UserContext);
   const URLCartUser = user ? `http://localhost:3000/api/carts/${user.sub}/update` : 'no hay user';
   const { productId, product_name, price } = props.data;
@@ -32,7 +41,7 @@ const ProductCard = (props) => {
         const newCart = await newUserCart.json();
         setCart(newCart);
       } else {
-        console.log("Carrito encontrado:", userCart);
+        // console.log("Carrito encontrado:", userCart);
         setCart(userCart);
       }
     } catch (error) {
@@ -65,83 +74,129 @@ const ProductCard = (props) => {
     }
   };
 
+
+  const images = data.product_image.map((img) => {
+    return {
+      original: img,
+      thumbnail: img,
+    }
+  })
+
+
+
+  const renderLeftNav = (onClick, disabled) => (
+    <IoIosArrowBack
+      className="image-gallery-custom-left-nav"
+      onClick={onClick}
+      disabled={disabled}
+    />
+  );
+
+  const renderRightNav = (onClick, disabled) => (
+    <IoIosArrowForward
+      className="image-gallery-custom-right-nav"
+      onClick={onClick}
+      disabled={disabled}
+    />
+  );
+
+
+
   return (
-    <div className="product">
+    <div className="product" >
       <div className="slide-var">
-        <p>Agregar fotos</p>
+        <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} renderLeftNav={renderLeftNav}
+          renderRightNav={renderRightNav}></ImageGallery>
       </div>
       <div className="descripcion">
         <p>
-          <b>{product_name}</b>
+          <b>{data.product_name}</b>
         </p>
-        <p>${price}</p>
-        <button className="addToCartBttn"><FaEye /></button>
+        <p className="price-product">${data.price}</p>
+        {/* <button class="addToCartBttn"><FaEye /></button> */}
         <button className="addToCartBttn" onClick={() => handleAddToCart(productId)}>
           <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
         </button>
-        <button className="addToCartBttn"><FaStar /></button>
+        <button class="addToCartBttn"><FaRegHeart /></button>
+
+
       </div>
     </div>
   );
 
-import "./store.css";
-import "react-image-gallery/styles/css/image-gallery.css";
-import React from "react";
-import { BsCartPlusFill } from "react-icons/bs";
-import { FaEye } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
-import ImageGallery from "react-image-gallery";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { FaRegHeart } from "react-icons/fa6";
-
-const ProductCard = (props) => {
-    const { data } = props
-
-
-    const images = data.product_image.map((img) => {
-        return {
-            original: img,
-            thumbnail: img,
-        }
-    })
 
 
 
-    const renderLeftNav = (onClick, disabled) => (
-        <IoIosArrowBack
-            className="image-gallery-custom-left-nav"
-            onClick={onClick}
-            disabled={disabled}
-        />
-    );
 
-    const renderRightNav = (onClick, disabled) => (
-        <IoIosArrowForward
-            className="image-gallery-custom-right-nav"
-            onClick={onClick}
-            disabled={disabled}
-        />
-    );
-
-    return (
-        <div  className="product" >
-            <div className="slide-var">
-               <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} renderLeftNav={renderLeftNav}
-                    renderRightNav={renderRightNav}></ImageGallery>
-            </div>
-            <div className="descripcion">
-                <p>
-                    <b>{data.product_name}</b>
-                </p>
-                <p className="price-product">${data.price}</p>
-                {/* <button class="addToCartBttn"><FaEye /></button> */}
-                <button class="addToCartBttn"><BsCartPlusFill /></button>
-                <button class="addToCartBttn"><FaRegHeart /></button>
+  // return (
+  //   <div className="product">
+  //     <div className="slide-var">
+  //       <p>Agregar fotos</p>
+  //     </div>
+  //     <div className="descripcion">
+  //       <p>
+  //         <b>{product_name}</b>
+  //       </p>
+  //       <p>${price}</p>
+  //       <button className="addToCartBttn"><FaEye /></button>
+  //       <button className="addToCartBttn" onClick={() => handleAddToCart(productId)}>
+  //         <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
+  //       </button>
+  //       <button className="addToCartBttn"><FaStar /></button>
+  //     </div>
+  //   </div>
+  // );
 
 
-            </div>
-        </div>
-    );
+
+  // const ProductCard = (props) => {
+  //     const { data } = props
+
+
+  //     const images = data.product_image.map((img) => {
+  //         return {
+  //             original: img,
+  //             thumbnail: img,
+  //         }
+  //     })
+
+
+
+  //     const renderLeftNav = (onClick, disabled) => (
+  //         <IoIosArrowBack
+  //             className="image-gallery-custom-left-nav"
+  //             onClick={onClick}
+  //             disabled={disabled}
+  //         />
+  //     );
+
+  //     const renderRightNav = (onClick, disabled) => (
+  //         <IoIosArrowForward
+  //             className="image-gallery-custom-right-nav"
+  //             onClick={onClick}
+  //             disabled={disabled}
+  //         />
+  //     );
+
+  //     return (
+  //         <div  className="product" >
+  //             <div className="slide-var">
+  //                <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} renderLeftNav={renderLeftNav}
+  //                     renderRightNav={renderRightNav}></ImageGallery>
+  //             </div>
+  //             <div className="descripcion">
+  //                 <p>
+  //                     <b>{data.product_name}</b>
+  //                 </p>
+  //                 <p className="price-product">${data.price}</p>
+  //                 {/* <button class="addToCartBttn"><FaEye /></button> */}
+  //                 <button class="addToCartBttn"><BsCartPlusFill /></button>
+  //                 <button class="addToCartBttn"><FaRegHeart /></button>
+
+
+  //             </div>
+  //         </div>
+  //     );
 
 };
 

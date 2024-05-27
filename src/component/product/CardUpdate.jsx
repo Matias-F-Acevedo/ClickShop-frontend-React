@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { updateOne } from "../../service/functionsHTTP";
-import "./card-update.css";
+// import "./card-update.css";
 
 const urlBase = "http://localhost:3000/api/products";
 

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { UserContext } from '../../context/UserContext';
-import "./cardCart.css";
+// import "./cardCart.css";
 
 
 function CardCart({ product, index, deleteProductFromCart }) {

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
-import CardCart from './Card-Cart';
+// import CardCart from './Card-Cart';
 
 function Cart() {
     const { user } = useContext(UserContext);
