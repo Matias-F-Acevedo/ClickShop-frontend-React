@@ -1,5 +1,5 @@
 
-.contact-wrapper{
+.contact-wrapper-home{
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -7,17 +7,17 @@
     align-items: center;
 }
 
-.contact-title{
+.contact-title-home{
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
-.contact{
+.contact-home{
     text-align: center;
     font-size: 42px;
     font-weight: 600;
 }
-.contact-subtitle{
+.contact-subtitle-home{
     text-align: center;
     width: 530px;
     font-size: 16px;
@@ -25,7 +25,7 @@
     opacity: 0.7;
 }
 
-.contact-form{
+.contact-form-home{
     width: 508px;
     height: 530px;
     background-color: #F1FCE1;
@@ -36,10 +36,10 @@
     margin-top: 100px;
     border-radius: 10px;
 }
-label{
+.contact-form-home label{
     margin-top: 30px;
 }
-.form-inputs{
+.form-inputs-home{
     width: 100%;
     border-left: none;
     border-right: none;
@@ -47,7 +47,7 @@ label{
     border-bottom: 1px solid #507810;
     background-color: transparent;
 }
-.textarea-form {
+.textarea-form-home {
     width: 100%;
     border-left: none;
     border-right: none;
@@ -56,13 +56,13 @@ label{
     background-color: transparent;
     resize: none;
 }
-.button-wrapper{
+.button-wrapper-home{
     padding-top: 30px;
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.button-form{
+.button-form-home{
     background-color: #507810;
     color: #fff;
     margin-top: 30px;

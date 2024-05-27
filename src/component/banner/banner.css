@@ -1,4 +1,4 @@
-.banner{
+.banner-home{
     background-color: #D0EDA1;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -6,7 +6,7 @@
     padding-right: 80px;
 }
 
-.left-box{
+.left-box-home{
     display: flex;
     width: 580px;
     padding: 150px 0px 150px 130px;
@@ -15,50 +15,50 @@
     gap: 20px;
 }
 
-.left-box > h2{
+.left-box-home > h2{
     font-weight: 700;
     font-size: 42px;
 }
 
-.left-box > p {
+.left-box-home > p {
     font-size: 16px;
     font-weight: 300;
     color: #444444;
 }
 
-.left-box > div {
+.left-box-home > div {
     display: flex;
     gap: 10px;
 }
 
-.left-box > div > button{ 
+.left-box-home > div > button{ 
     padding: 10px 26px;
     border-radius: 10px;
     cursor: pointer;
 }
 
-.store{
+.store-home{
     background-color: black;
     color: white;
     font-weight: bolder;
     border: none;
 }
-.team{
+.team-home{
     background-color: transparent;
     border: 2px solid black;
     font-weight: bolder;
 }
 
-.banner-images{
+.banner-images-home{
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.banner-images > .img-1{
+.banner-images-home > .img-1{
     transform: translateY(50px);
     z-index: 10;
 }
-.banner-images > .img-2{
+.banner-images-home > .img-2{
     transform: translateY(-50px) translateX(-100px);
 }

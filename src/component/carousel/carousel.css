@@ -1,20 +1,20 @@
-.carousel{
+.carousel-home{
     padding: 80px 0px 80px 0px;
 }
-.latest{
+.latest-home{
     font-weight: 700;
     font-size: 42px;
     padding-left: 210px
 }
 
-.card-wrapper{
+.card-wrapper-home{
     width: 100%;
     padding: 120px 0px 120px 0px;
     display: flex;
     justify-content: space-between;
 }
 
-.card{
+.card-home{
     width: 305px;
     background-color: #F6F6F6;
     border: 1px solid #C3C3C3;
@@ -24,21 +24,21 @@
     gap: 20px;
     padding-bottom: 15px;
 }
-.card > img {
+.card-home > img {
     max-width: 305px;
     height: 188px;
 }
-.card > h5, .card > p {
+.card-home > h5, .card > p {
     padding-left: 15px;
 }
-.card > h5{
+.card-home > h5{
     padding-top: 10px;
     font-size: 18px;
     font-weight: normal;
     opacity: 0.7;
 }
 
-.card > p {
+.card-home > p {
     font-size: 18px;
     font-weight: bold;
 }

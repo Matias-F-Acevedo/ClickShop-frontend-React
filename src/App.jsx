@@ -33,7 +33,7 @@ function App() {
 
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
-            
+
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/login-register" element={<Register></Register>} />
@@ -44,7 +44,7 @@ function App() {
 
 
 
-            <Route path="/sell" element={<UserProduct/>} />
+          <Route path="/sell" element={<UserProduct />} />
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
             <Route path="/cart" element={<Cart />} />
 
