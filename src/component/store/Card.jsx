@@ -5,14 +5,14 @@ import { FaEye } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import ImageGallery from "react-image-gallery";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { FaRegHeart } from "react-icons/fa6";
+import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import React, { useState, useContext, useEffect } from "react";
 // import { BsCartPlusFill } from "react-icons/bs";
 // import { FaEye } from "react-icons/fa";
 // import { FaStar } from "react-icons/fa";
 import { UserContext } from "../../context/UserContext";
 import { FiEye } from "react-icons/fi";
-
+import Swal from 'sweetalert2';
 
 const ProductCard = (props) => {
   const { data, handleLinkClickProduct } = props
@@ -22,6 +22,8 @@ const ProductCard = (props) => {
   const { productId, product_name, price } = props.data;
   const [addedToCart, setAddedToCart] = useState(false);
   const [cart, setCart] = useState(null);
+  const [isFavorite, setIsFavorite] = useState(false);
+
 
   async function getCarts() {
     try {
@@ -54,6 +56,7 @@ const ProductCard = (props) => {
   useEffect(() => {
     if (user) {
       getCarts();
+      checkIfFavorite();
     }
   }, [user]);
 
@@ -76,6 +79,82 @@ const ProductCard = (props) => {
     }
   };
 
+
+  const checkIfFavorite = async () => {
+    try {
+      if (user) {
+        const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch favorites');
+        }
+        const favorites = await res.json();
+        const isFav = favorites.some(fav => fav.product_id === productId);
+        setIsFavorite(isFav);
+      }
+    } catch (error) {
+      console.error("Error al verificar los favoritos:", error);
+    }
+  };
+
+  const handleToggleFavorite = async (productId) => {
+    try {
+      if (user) {
+        const url = `http://localhost:3000/api/favorites/${user.sub}/${productId}`;
+        const method = isFavorite ? 'DELETE' : 'POST';
+        const body = isFavorite ? null : JSON.stringify({ "product_id": productId, "user_id": user.sub });
+
+        const response = await fetch(isFavorite ? url : 'http://localhost:3000/api/favorites', {
+          method,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: isFavorite ? null : body,
+        });
+
+        if (response.ok) {
+          setIsFavorite(!isFavorite);
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: isFavorite ? 'info' : 'success',
+            title: isFavorite ? 'Eliminado de favoritos' : 'Agregado con éxito',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            customClass: {
+              popup: 'swal2-toast-custom'
+            },
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+        } else {
+          throw new Error(isFavorite ? 'Failed to remove favorite' : 'Failed to add favorite');
+        }
+      } else {
+        console.error("El usuario no está definido.");
+      }
+    } catch (error) {
+      console.error("Error al actualizar los favoritos:", error);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: isFavorite ? 'No se pudo eliminar el producto de favoritos' : 'No se pudo agregar el producto a favoritos',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        customClass: {
+          popup: 'swal2-toast-custom'
+        },
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+    }
+  };
 
   const images = data.product_image.map((img) => {
     return {
@@ -121,7 +200,9 @@ const ProductCard = (props) => {
           <button onClick={() => handleAddToCart(productId)}>
             <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
           </button>
-          <button><FaRegHeart /></button>
+          <button onClick={() => handleToggleFavorite(productId)}>
+            {isFavorite ? <FaHeart style={{ color: "red" }} /> : <FaRegHeart />}
+          </button>
         </div>
 
 

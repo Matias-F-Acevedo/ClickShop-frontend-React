@@ -18,6 +18,7 @@ import UserProduct from "./component/product/userProduct";
 // import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
 import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
+import Favorites from "./component/favorites/Favorites";
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
           <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<HomePage />} />
           <Route path="/team" element={<HomePage />} />
-
+          <Route path="/favorites" element={<Favorites />} />
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
 

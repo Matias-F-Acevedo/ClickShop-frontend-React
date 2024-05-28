@@ -100,7 +100,7 @@ function UserPanel() {
                         <p>Editar perfil</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
+                    <Link to={"/favorites"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <IoMdHeartEmpty className='icon-userPanel' />
                         <p>Favoritos</p>
                         <span><IoIosArrowForward /></span>
