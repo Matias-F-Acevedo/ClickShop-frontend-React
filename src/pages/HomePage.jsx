@@ -10,7 +10,6 @@ const HomePage = () => {
       <Carousel />
       <Ourteam />
       <Form />
-      <Footer />
     </>
   );
 };

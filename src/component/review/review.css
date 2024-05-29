@@ -1,0 +1,168 @@
+#reviews {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+
+.reviews-heading {
+    letter-spacing: 1px;
+    margin: 40px 0px;
+    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 80%;
+}
+
+
+
+
+.reviews-heading h3 {
+    font-size: 2.2rem;
+    font-weight: 500;
+    background-color: #202020d0;
+    color: #ffffff;
+    padding: 10px 20px;
+    width: 430px;
+}
+
+
+.reviews-heading span {
+    font-size: 1.3rem;
+    color: #252525;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+}
+
+.review-box-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.review-box {
+    width: 500px;
+    box-shadow: 2px 2px 30px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 20px;
+    margin: 15px;
+}
+
+
+.profile-img-review {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.profile-img-review img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-review {
+    display: flex;
+    align-items: center;
+}
+
+
+.name-user-review {
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+.name-user-review strong {
+    color: #3d3d3d;
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
+}
+
+
+.name-user-review span {
+    color: #979797;
+    font-size: 0.8rem;
+}
+
+
+.reviews {
+    color: #f9d71c
+}
+
+.box-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+}
+
+.client-comment p {
+    font-size: 0.9rem;
+    color: #4b4b4b;
+}
+
+.review-box:hover {
+    transform: translateY(-5px);
+}
+
+.client-comment .date-review{
+    margin: 10px 0px 0px 0px;
+    color: #949494e7;
+}
+
+@media(max-width:1060px) {
+    .review-box {
+        width: 45%;
+        padding: 10px;
+    }
+
+
+}
+
+@media(max-width:790px) {
+    .review-box {
+        width: 100%;
+    }
+
+    .reviews-heading h3 {
+        font-size: 1.4rem;
+        width: 300px;
+    }
+    .reviews-heading {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+}
+
+@media(max-width:340px) {
+    .box-top {
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .reviews {
+        margin-top: 10px;
+    }
+}
+
+::selection {
+    color: #ffffff;
+    background-color: #252525;
+}

@@ -14,11 +14,11 @@ import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
 
-
-// import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
 import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
 import Favorites from "./component/favorites/Favorites";
+import RatingForm from "./component/ratingForm/RatingForm";
+import Footer from "./component/footer/Footer";
 
 function App() {
   return (
@@ -34,6 +34,8 @@ function App() {
           <Route path="/favorites" element={<Favorites />} />
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
+
+          <Route path="/comment" element={<RatingForm></RatingForm>} />
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
@@ -55,6 +57,7 @@ function App() {
           </Route>
 
         </Routes>
+        <Footer></Footer>
       </BrowserRouter>
     </UserProvider>
   );

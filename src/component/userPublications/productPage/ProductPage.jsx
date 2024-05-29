@@ -7,6 +7,8 @@ import { MdOutlineStar } from "react-icons/md";
 import { BsCart3 } from "react-icons/bs";
 import { BsBagCheck } from "react-icons/bs";
 import { useParams } from 'react-router-dom';
+import Review from '../../review/Review';
+import RatingForm from '../../ratingForm/RatingForm';
 
 
 
@@ -130,7 +132,7 @@ function ProductPage() {
                     </div>
                 </div>
             </div>
-
+            <Review productId={product.productId}></Review>
         </>
     )
 
