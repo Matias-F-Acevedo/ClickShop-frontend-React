@@ -35,6 +35,11 @@
     gap: 10px;
     align-items: center;
     border: 1px solid #ffffff;
+
+}
+
+.details-order:hover {
+    cursor: pointer;
 }
 
 .container-img-details-order {

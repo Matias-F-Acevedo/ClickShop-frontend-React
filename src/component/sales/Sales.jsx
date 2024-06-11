@@ -3,6 +3,8 @@ import './sales.css';
 import dayjs from 'dayjs';
 import TableComponent from '../tableComponent/TableComponent';
 import { UserContext } from '../../context/UserContext';
+import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function Sales() {
     const { user } = useContext(UserContext);
@@ -10,7 +12,7 @@ function Sales() {
     const [loading, setLoading] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [statusMap, setStatusMap] = useState({});
-
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -71,10 +73,23 @@ function Sales() {
         const currentStatus = orders.find(order => order.order_id === orderId).status;
 
 
-        console.log(newStatus, currentStatus);
-
         if (newStatus === undefined || newStatus === currentStatus) {
-            alert("El estado seleccionado es el mismo que el estado actual del pedido o no ha sido cambiado.");
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'info',
+                title: 'El estado seleccionado es el mismo que el estado actual del pedido o no ha sido cambiado.',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'swal2-toast-custom'
+                },
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
             return;
         }
         try {
@@ -90,14 +105,54 @@ function Sales() {
             if (!res.ok) {
                 throw new Error('Error al enviar la petición');
             }
+            
+            setOrders(prevOrders => prevOrders.map(order => 
+                order.order_id === orderId ? { ...order, status: newStatus } : order
+            ));
+
             setIsLoading(false);
-            alert("Petición enviada con éxito");
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'El estado fue cambiado con éxito',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'swal2-toast-custom'
+                },
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
         } catch (error) {
             console.error("Error al enviar la petición:", error);
             setIsLoading(false);
-            alert("Hubo un error al enviar la petición");
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'Hubo un error al enviar la petición',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                customClass: {
+                    popup: 'swal2-toast-custom'
+                },
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
         }
     };
+
+    const handleLinkClick = (productId) => {
+        navigate(`/product/${productId}`);
+      };
+    
 
     const columns = [
         {
@@ -132,7 +187,7 @@ function Sales() {
             cell: info => (
                 <div className='scrollable-container'>
                     {info.getValue().map((detail, index) => (
-                        <div key={index} className='details-order'>
+                        <div key={index} className='details-order' onClick={()=>handleLinkClick(detail.product_id)}>
                             <div className='container-img-details-order'>
                                 <img src={detail.product.product_image} alt="Producto" />
                             </div>
