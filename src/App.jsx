@@ -19,7 +19,7 @@ import ProductPage from "./component/userPublications/productPage/ProductPage";
 import Favorites from "./component/favorites/Favorites";
 import RatingForm from "./component/ratingForm/RatingForm";
 import Footer from "./component/footer/Footer";
-
+import Sales from "./component/sales/Sales";
 function App() {
   return (
     <UserProvider>
@@ -32,6 +32,8 @@ function App() {
           <Route path="/contact" element={<HomePage />} />
           <Route path="/team" element={<HomePage />} />
           <Route path="/favorites" element={<Favorites />} />
+
+          <Route path="/sales" element={<Sales />} />
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
 
