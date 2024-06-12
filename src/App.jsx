@@ -13,9 +13,6 @@ import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
-
-
-import UpdateCard from "./component/userPublications/updateCard.jsx/UpdateCard";
 import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
 
@@ -44,10 +41,9 @@ function App() {
 
 
 
-            <Route path="/sell" element={<UserProduct/>} />
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
             <Route path="/cart" element={<Cart />} />
-
+            <Route path="/sell" element={<UserProduct/>} />
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
             <Route path="/orders-user" element={<UserOrder></UserOrder>} />

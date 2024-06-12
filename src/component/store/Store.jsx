@@ -116,24 +116,6 @@ const Store = () => {
           <div className="container-p-results">
             {searchTerm && <p>{filteredProducts.length} resultados encontrados</p>}
           </div>
-
-//           <div className="products">
-//             {productsToShow.map((product) => (
-//               <ProductCard key={product.productId} data={product} />
-//             ))}
-//           </div>
-//           {pageCount > 1 && (
-//             <div className="pagination">
-//               {Array.from({ length: pageCount }, (_, i) => (
-//                 <button
-//                   key={i + 1}
-//                   className={currentPage === i + 1 ? "active" : ""}
-//                   onClick={() => changePage(i + 1)}
-//                 >
-//                   {i + 1}
-
-
-
         </div>
         <div className="grl-container">
           <div className="sidebar">
@@ -194,7 +176,7 @@ const Store = () => {
           <div className="productsContainer">
             <div className="products">
               {productsToShow.map((product) => (
-                <Link onClick={(event) => handleLinkClick(event, product.productId)}><ProductCard key={product.product_name} data={product} /></Link>
+                <ProductCard key={product.product_name} data={product} />
               ))}
             </div>
             {pageCount > 1 && (

@@ -2,8 +2,6 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { addOne } from "../../service/functionsHTTP";
 
-import "./card-create.css";
-
 const urlBase = "http://localhost:3000/api/products";
 
 function CardCreate({ setCreate, refresh, setRefresh }) {
@@ -16,9 +14,8 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     "condition": "",
     "category_id": "",
     "user_id": "",
-   // "image": ""
   });
-  const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   const handleConditionChange = (event) => {
@@ -29,28 +26,50 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     }));
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+  const uploadFile = async (productId, file) => {
+    const url = `http://localhost:3000/api/products/${productId}/images`;
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        console.log('Archivo subido con éxito:', result);
+    } catch (error) {
+        console.error('Error al subir el archivo:', error);
+    }
   };
 
   const confirmCreateCard = async (event) => {
     event.preventDefault();
-    // setUploading(true);
-    // if (file) {
-    //   const storageRef = ref(storage, `products/${file.name}`);
-    //   await uploadBytes(storageRef, file);
-    //   const downloadURL = await getDownloadURL(storageRef);
-    //   currentProduct.image = downloadURL;
-    // }
+    setUploading(true);
     currentProduct.price = parseInt(currentProduct.price);
     currentProduct.stock = parseInt(currentProduct.stock);
     currentProduct.category_id = parseInt(currentProduct.category_id);
     currentProduct.user_id = user.sub;
     console.log(currentProduct);
-    await addOne(currentProduct, urlBase);
-    setCreate(false);
-    setRefresh(true);
-   // setUploading(false);
+    try {
+        const result = await addOne(currentProduct, urlBase);
+        console.log(result)
+        if (result && result.productId) {
+            await uploadFile(result.productId, image);
+            setCreate(false);
+            setRefresh(true);
+        } else {
+            throw new Error('Error en la creación del producto');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    } finally {
+        setUploading(false);
+    }
   };
 
   return (
@@ -84,8 +103,8 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
             </div>
           </fieldset>
 
-          {/* <label>Imagen</label>
-          <input type="file" onChange={handleFileChange} required /> */}
+          <label>Imagen</label>
+          <input type="file" required onChange={(e) => setImage(e.target.files[0])} />
 
           <div className="container-btns">
             <button className='btn-confirmar-crear' type="submit" disabled={uploading}>

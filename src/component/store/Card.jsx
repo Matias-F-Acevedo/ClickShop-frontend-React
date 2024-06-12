@@ -1,89 +1,5 @@
-
-import React, { useState, useContext, useEffect } from "react";
-import { BsCartPlusFill } from "react-icons/bs";
-import { FaEye } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
 import { UserContext } from "../../context/UserContext";
-
-const ProductCard = (props) => {
-  const { user } = useContext(UserContext);
-  const URLCartUser = user ? `http://localhost:3000/api/carts/${user.sub}/update` : 'no hay user';
-  const { productId, product_name, price } = props.data;
-  const [addedToCart, setAddedToCart] = useState(false);
-  const [cart, setCart] = useState(null);
-
-  async function getCarts() {
-    try {
-      const res = await fetch(`http://localhost:3000/api/carts`);
-      const parsed = await res.json();
-
-      const userCart = parsed.find(cart => cart.userId === parseInt(user.sub));
-
-      if (!userCart) {
-        console.error("Error al encontrar carrito. Se intentará crear uno nuevo.");
-        const userId = parseInt(user.sub);
-        const newUserCart = await fetch("http://localhost:3000/api/carts", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ userId: userId }),
-        });
-        const newCart = await newUserCart.json();
-        setCart(newCart);
-      } else {
-        console.log("Carrito encontrado:", userCart);
-        setCart(userCart);
-      }
-    } catch (error) {
-      console.error("Error al obtener los carritos:", error);
-    }
-  }
-
-  useEffect(() => {
-    if (user) {
-      getCarts();
-    }
-  }, [user]);
-
-  const handleAddToCart = async (productId) => {
-    try {
-      if (user) {
-        await fetch(URLCartUser, {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ "userId": user.sub, "productId": productId }),
-        });
-        setAddedToCart(true);
-      } else {
-        console.error("El usuario no está definido.");
-      }
-    } catch (error) {
-      console.error("Error al agregar el producto al carrito:", error);
-    }
-  };
-
-  return (
-    <div className="product">
-      <div className="slide-var">
-        <p>Agregar fotos</p>
-      </div>
-      <div className="descripcion">
-        <p>
-          <b>{product_name}</b>
-        </p>
-        <p>${price}</p>
-        <button className="addToCartBttn"><FaEye /></button>
-        <button className="addToCartBttn" onClick={() => handleAddToCart(productId)}>
-          <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
-        </button>
-        <button className="addToCartBttn"><FaStar /></button>
-      </div>
-    </div>
-  );
-
+import { useContext, useState, useEffect } from "react";
 import "./store.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import React from "react";
@@ -95,7 +11,37 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaRegHeart } from "react-icons/fa6";
 
 const ProductCard = (props) => {
-    const { data } = props
+    const { data } = props;
+    const { user } = useContext(UserContext);
+  const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
+  const [addedToCart, setAddedToCart] = useState(false);
+  
+  
+  const newProduct = {
+    product_id: data.productId,
+    quantity: 1,
+    unitPrice: data.price
+  }
+  const handleAddToCart = async () => {
+    try {
+      if (user) {
+        await fetch(URLCartUser, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newProduct ),  
+        });
+        console.log(newProduct)
+        console.log("se agrego el producto al carrito")
+        setAddedToCart(true);
+      } else {
+        console.error("El usuario no está definido.");
+      }
+    } catch (error) {
+      console.error("Error al agregar el producto al carrito:", error);
+    }
+  };
 
 
     const images = data.product_image.map((img) => {
@@ -135,7 +81,9 @@ const ProductCard = (props) => {
                 </p>
                 <p className="price-product">${data.price}</p>
                 {/* <button class="addToCartBttn"><FaEye /></button> */}
-                <button class="addToCartBttn"><BsCartPlusFill /></button>
+                <button className="addToCartBttn" onClick={() => handleAddToCart()}>
+                <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
+                </button>
                 <button class="addToCartBttn"><FaRegHeart /></button>
 
 

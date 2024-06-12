@@ -1,15 +1,23 @@
 export async function addOne(body, url) {
-
-    await fetch(url, {
+  try {
+    const response = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json"
-    },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
-    })
-  
-      .then((res) => res.json()).then((parsed)=>console.log(parsed)).catch((err) => console.error(err));
-  
+    });
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const parsed = await response.json();
+    return parsed; // Devolvemos la respuesta JSON
+  } catch (err) {
+    console.error('Error al crear el producto:', err);
+    throw err; // Lanzamos el error para que pueda ser capturado en el componente
   }
+}
+
   
   
   

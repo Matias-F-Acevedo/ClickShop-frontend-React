@@ -40,6 +40,7 @@ function Navbar() {
                             <li><Link to={"/store"}>Tienda</Link> </li>
                             <li><Link to={"/contact"}>Contacto</Link> </li>
                             <li><Link to={"/team"}>Nosotros</Link> </li>
+                            <li><Link to={"/sell"}>Vender</Link> </li>
                         </ul>
                     </div>
                     <div className="icon-nav">

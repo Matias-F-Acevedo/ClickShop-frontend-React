@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Card from './Card';
+import Card from './CardProduct';
 import CardUpdate from './CardUpdate';
 import CardCreate from './CardCreate';
 import { UserContext } from '../../context/UserContext';
-import "./userProduct.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
