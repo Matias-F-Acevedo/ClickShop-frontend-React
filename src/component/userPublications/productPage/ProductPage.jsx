@@ -28,7 +28,7 @@ function ProductPage() {
     const [error, setError] = useState(null);
     const [imagesProduct, setImagesProduct] = useState([])
     const [principalImage, setPrincipalImage] = useState(imagesProduct[0])
-
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
 
@@ -43,6 +43,14 @@ function ProductPage() {
                 setImagesProduct(data.product_image)
                 setPrincipalImage(data.product_image[0])
                 setProduct(data);
+
+                const reviewsRes = await fetch(`http://localhost:3000/api/review?productId=${productId}`);
+                if (!reviewsRes.ok) {
+                    throw new Error('No se pudo obtener las reseñas del producto');
+                }
+                const reviewsData = await reviewsRes.json();
+                setReviews(reviewsData);
+
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -118,7 +126,7 @@ function ProductPage() {
                                 <span><MdOutlineStar /></span>
                                 <span><MdOutlineStar /></span>
                                 <span><MdOutlineStarBorder /></span>
-                                <span>(25 Opiniones del producto)</span>
+                                <span>({reviews.length} Opiniones del producto)</span>
                             </div>
                             <p className='product-description'> {product.description}</p>
                             <div className='btn-groups'>

@@ -70,33 +70,37 @@ function Review({ productId }) {
                 <h3>Opiniones del producto</h3>
             </div>
 
+
             <div className='review-box-container'>
-                {reviews.map((review, index) => (
-                    <div className='review-box' key={index}>
-                        <div className='box-top'>
-                            <div className='profile-review'>
-                                <div className='profile-img-review'>
-                                    <img src={review.user.user_image} alt="" />
+                {reviews.length > 0 ? (
+                    reviews.map((review, index) => (
+                        <div className='review-box' key={index}>
+                            <div className='box-top'>
+                                <div className='profile-review'>
+                                    <div className='profile-img-review'>
+                                        <img src={review.user.user_image} alt="" />
+                                    </div>
+                                    <div className='name-user-review'>
+                                        <strong>{`${capitalizeFirstLetter(review.user.user_name)} ${capitalizeFirstLetter(review.user.user_lastname)}`}</strong>
+                                        <span>@{`${capitalizeFirstLetter(review.user.user_name)}${review.user.user_lastname}`}</span>
+                                    </div>
                                 </div>
-                                <div className='name-user-review'>
-                                    <strong>{`${capitalizeFirstLetter(review.user.user_name)} ${capitalizeFirstLetter(review.user.user_lastname)}`}</strong>
-                                    <span>@{`${capitalizeFirstLetter(review.user.user_name)}${review.user.user_lastname}`}</span>
+
+                                <div className='reviews'>
+                                    {[...Array(5)].map((_, i) => (
+                                        i < review.score ? <MdOutlineStar key={i} /> : <MdOutlineStarBorder key={i} />
+                                    ))}
                                 </div>
                             </div>
-
-                            <div className='reviews'>
-                                {[...Array(5)].map((_, i) => (
-                                    i < review.score ? <MdOutlineStar key={i} /> : <MdOutlineStarBorder key={i} />
-                                ))}
-
+                            <div className='client-comment'>
+                                <p>{capitalizeFirstLetter(review.commentary)}</p>
+                                <p className='date-review'>{dayjs(review.date).format("DD/MM/YYYY")}</p>
                             </div>
                         </div>
-                        <div className='client-comment'>
-                            <p>{capitalizeFirstLetter(review.commentary)}</p>
-                            <p className='date-review'>{dayjs(review.date).format("DD/MM/YYYY")}</p>
-                        </div>
-                    </div>
-                ))}
+                    ))
+                ) : (
+                    <p className='no-reviews-p'>No hay opiniones para este producto.</p>
+                )}
             </div>
         </section>
     );
