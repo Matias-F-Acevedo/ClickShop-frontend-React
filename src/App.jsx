@@ -19,6 +19,8 @@ import ProductPage from "./component/userPublications/productPage/ProductPage";
 import Favorites from "./component/favorites/Favorites";
 import RatingForm from "./component/ratingForm/RatingForm";
 import Footer from "./component/footer/Footer";
+import Ourteam from "./component/team/OurTeam";
+import Form from "./component/form/Form";
 
 function App() {
   return (
@@ -29,8 +31,8 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/store" element={<Store></Store>} />
-          <Route path="/contact" element={<HomePage />} />
-          <Route path="/team" element={<HomePage />} />
+          <Route path="/contact" element={<Form />} />
+          <Route path="/team" element={<Ourteam/>} />
           <Route path="/favorites" element={<Favorites />} />
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />

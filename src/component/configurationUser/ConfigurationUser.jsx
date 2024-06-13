@@ -215,7 +215,7 @@ function ConfigurationUser() {
                            
                         }
 
-                        <p>Matias Acevedo</p>
+                        <p>Foto de perfil</p>
                     </div>
 
                     <div className='menu-options'>

@@ -12,8 +12,12 @@ const Banner = () => {
         categorías, encuentra lo que amas y disfruta de un servicio al cliente excepcional.
         </p>
         <div>
-          <button className="store-home">Ver productos</button>
-          <button className="team-home">Ver equipo</button>
+        <a href="store">
+            <button className="store-home">Ver productos</button>
+          </a>
+          <a href="team">
+         <button className="team-home">Ver equipo</button>
+         </a>
         </div>
       </div>
       <div className="banner-images-home">

@@ -35,7 +35,7 @@ const Ourteam = () => {
         <h2 className="title-home">Nuestro equipo</h2>
         <p className="subtitle-home">
           Siguenos en Github para enterarte de las novedades y herramientas
-          que añadimos en la plataforma.
+          que añadimos en la plataforma o podes contactarnos a traves de LinkedIn
         </p>
       </section>
       <section className="member-wrapper-home">

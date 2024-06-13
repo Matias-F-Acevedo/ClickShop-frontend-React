@@ -31,17 +31,18 @@
     gap: 10px;
 }
 
-.left-box-home > div > button{ 
+
+.left-box-home button {
     padding: 10px 26px;
     border-radius: 10px;
     cursor: pointer;
 }
 
-.store-home{
+.store-home {
     background-color: black;
     color: white;
     font-weight: bolder;
-    border: none;
+    border: 2px solid black;
 }
 .team-home{
     background-color: transparent;
@@ -62,3 +63,4 @@
 .banner-images-home > .img-2{
     transform: translateY(-50px) translateX(-100px);
 }
+
