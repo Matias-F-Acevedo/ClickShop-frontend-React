@@ -19,6 +19,7 @@ import ProductPage from "./component/userPublications/productPage/ProductPage";
 import Favorites from "./component/favorites/Favorites";
 import RatingForm from "./component/ratingForm/RatingForm";
 import Footer from "./component/footer/Footer";
+import Sales from "./component/sales/Sales";
 import Ourteam from "./component/team/OurTeam";
 import Form from "./component/form/Form";
 
@@ -34,6 +35,8 @@ function App() {
           <Route path="/contact" element={<Form />} />
           <Route path="/team" element={<Ourteam/>} />
           <Route path="/favorites" element={<Favorites />} />
+
+          <Route path="/sales" element={<Sales />} />
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
 
