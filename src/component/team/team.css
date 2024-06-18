@@ -1,24 +1,26 @@
-
-.team-wrapper-home{
+.team-wrapper-home {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 0 20px;
 }
 
-.team-title-home{
+.team-title-home {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
-.title-home{
+
+.title-home {
     margin-top: 35px;
     text-align: center;
     font-size: 42px;
     font-weight: 600;
 }
-.subtitle-home{
+
+.subtitle-home {
     text-align: center;
     width: 530px;
     font-size: 16px;
@@ -26,15 +28,91 @@
     opacity: 0.7;
 }
 
-.member-wrapper-home{
+.member-wrapper-home {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    padding: 100px 180px;
+    padding: 100px 80px;
 }
-.member-card-home{
+
+.member-card-home {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+}
+
+.member-card-home img {
+    width: 100%;
+    max-width: 200px;
+}
+
+
+@media (max-width: 992px) {
+    .team-title-home {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .subtitle-home {
+        width: 100%;
+        max-width: 530px;
+        font-size: 16px;
+        font-weight: 300;
+        opacity: 0.7;
+    }
+
+    .member-wrapper-home {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 40px 0;
+    }
+
+    .member-card-home {
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
+    }
+
+    .member-card-home img {
+        max-width: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .team-title-home {
+        margin-bottom: 60px;
+    }
+
+    .member-wrapper-home {
+        gap: 30px;
+    }
+
+    .member-card-home img {
+        max-width: 130px;
+    }
+}
+
+@media (max-width: 576px) {
+    .title-home {
+        font-size: 32px;
+    }
+
+    .subtitle-home {
+        font-size: 14px;
+    }
+
+    .member-wrapper-home {
+        gap: 10px;
+        padding: 20px 0;
+    }
+
+    .member-card-home {
+        max-width: 180px;
+    }
+
+    .member-card-home img {
+        max-width: 100px;
+    }
 }
