@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mercadopago/sdk-react": "^0.0.19",
     "@nestjs/config": "^3.2.2",
     "@tanstack/react-table": "^8.16.0",
     "axios": "^1.6.8",

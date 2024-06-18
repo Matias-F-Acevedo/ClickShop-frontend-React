@@ -1,11 +1,16 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
 import CardCart from './Card-Cart';
+import "./card-cart.css";
+import BuyProduct from '../adressForm/BuyProduct';
 
 function Cart() {
     const { user } = useContext(UserContext);
+    const [carts, setCarts] = useState([]);
     const [cart, setCart] = useState([]);
-    
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedCartItem, setSelectCartItem] = useState(null);
+
     async function getCarts() {
         try {
             const res = await fetch(`http://localhost:3000/api/cart/${user.sub}/items`);
@@ -15,15 +20,33 @@ function Cart() {
             }
 
             const parsed = await res.json();
-            setCart(parsed);
+            console.log(parsed)
+            setCarts(parsed);
         } catch (error) {
             console.error("Error al obtener los carritos:", error);
         }
     }
 
+
+    async function getCart() {
+        try {
+            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}`);
+            if (!res.ok) {
+                console.error("Error al obtener el carro");
+                return;
+            }
+
+            const parsed = await res.json();
+            console.log(parsed)
+            setCart(parsed);
+        } catch (error) {
+            console.error("Error al obtener el carro:", error);
+        }
+    }
+
     async function deleteProductFromCart(itemId) {
         try {
-            const cartItem = cart.find(item => item.product_id === itemId);
+            const cartItem = carts.find(item => item.product_id === itemId);
             if (!cartItem) {
                 throw new Error('Producto no encontrado en el carrito');
             }
@@ -42,6 +65,7 @@ function Cart() {
     
             console.log('Producto eliminado exitosamente');
             getCarts();
+            getCart();
         } catch (error) {
             console.error('Error al eliminar el producto:', error.message);
         }
@@ -73,21 +97,22 @@ function Cart() {
             }
     
             getCarts();
+            getCart();
         } catch (error) {
             console.error('Error al actualizar la cantidad del producto:', error.message);
         }
     }
-    
 
     useEffect(() => {
         if (user) {
             getCarts();
+            getCart()
         }
     }, [user]);
 
     return (
-        <div className="products">
-            {cart.map((cartItem, index) => (
+        <div className="CardCart">
+            {carts.map((cartItem, index) => (
                 <CardCart
                     key={cartItem.cartItem_id}
                     product={cartItem.product}
@@ -95,11 +120,19 @@ function Cart() {
                     deleteProductFromCart={() => deleteProductFromCart(cartItem.product_id)}
                     updateProductQuantity={updateProductQuantity}
                     cartItem={cartItem}
+                    onSelectProduct={setSelectedProduct}
+                    onSelectCartItem={setSelectCartItem}
                 />
             ))}
+            <div className='total'>
+                Total: {cart.total}
+            </div>
+
+            {selectedProduct && (
+                <BuyProduct product={selectedProduct} cartItem={selectedCartItem} /> // Renderizar BuyProduct si hay un producto seleccionado
+            )}
         </div>
     );
 }
 
 export default Cart;
-
