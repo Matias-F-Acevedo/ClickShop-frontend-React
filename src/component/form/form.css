@@ -1,75 +1,81 @@
-
-.contact-wrapper-home{
+.contact-wrapper-home {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 40px 20px; 
 }
 
-.contact-title-home{
+.contact-title-home {
     margin-top: 35px;
     display: flex;
     flex-direction: column;
     gap: 15px;
+    text-align: center; 
 }
-.contact-home{
-    text-align: center;
+
+.contact-home {
     font-size: 42px;
     font-weight: 600;
+    margin: 0; 
 }
-.contact-subtitle-home{
-    text-align: center;
-    width: 530px;
+
+.contact-subtitle-home {
+    width: 100%;
+    max-width: 530px; 
     font-size: 16px;
     font-weight: 300;
     opacity: 0.7;
+    text-align: center; 
 }
 
-.contact-form-home{
-    width: 508px;
-    height: 580px;
+.contact-form-home {
+    width: 100%;
+    max-width: 508px; 
+    height: auto; 
     background-color: #F1FCE1;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 50px;
+    padding: 30px; 
     margin-top: 50px;
     border-radius: 10px;
 }
-.contact-form-home label{
-    margin-top: 40px;
+
+.contact-form-home label {
+    margin-top: 20px; 
 }
-.form-inputs-home{
-    width: 100%;
-    height: 30px;
-    border-left: none;
-    border-right: none;
-    border-top: none;
-    border-bottom: 1px solid #507810;
-    background-color: transparent;
-}
+
+.form-inputs-home,
 .textarea-form-home {
     width: 100%;
-    border-left: none;
-    border-right: none;
-    border-top: none;
+    height: 40px; 
+    border: none;
     border-bottom: 1px solid #507810;
     background-color: transparent;
-    resize: none;
+    margin-top: 10px;
+    padding: 5px 0; 
 }
-.button-wrapper-home{
+
+.textarea-form-home {
+    height: 100px; 
+}
+
+.button-wrapper-home {
     padding-top: 30px;
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.button-form-home{
+
+.button-form-home {
     background-color: #507810;
     color: #fff;
-    margin-top: 10px;
+    margin-top: 20px; 
     width: 150px;
     height: 45px;
     border-radius: 10px;
     border: none;
+    cursor: pointer;
 }

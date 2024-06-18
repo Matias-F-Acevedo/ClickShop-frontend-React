@@ -32,8 +32,8 @@ const Form = () => {
       <section className="contact-title-home">
         <h2 className="contact-home">Contact</h2>
         <p className="contact-subtitle-home">
-          Ante cualquier duda envíanos un mensaje por este medio
-          de contacto, te responderemos en breve.
+          Ante cualquier duda o consulta, envíanos un mensaje por este medio
+          de contacto, nuestro soporte de trabajo te respondera lo antes posible.
         </p>
       </section>
       
