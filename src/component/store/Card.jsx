@@ -17,6 +17,7 @@ const ProductCard = (props) => {
   const [addedToCart, setAddedToCart] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const jwt = user.jwt;
+  
   const newProduct = {
     product_id: data.productId,
     quantity: 1,

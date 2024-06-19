@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../../context/UserContext';
 function AddressForm({ userId, product, cartItem }) {
-
   
 
+  
   const [formData, setFormData] = useState({
     shippingAddress: '',
     city: '',
@@ -11,9 +12,12 @@ function AddressForm({ userId, product, cartItem }) {
     country: ''
   });
 
+  
   // const [order, setOrder] = useState([])
   const [preferenceId, setPreferenceId] = useState(null);
+  
   const [message, setMessage] = useState('');
+  const {user} = useContext(UserContext)  
 
   const handleChange = (e) => {
     setFormData({
@@ -27,9 +31,9 @@ function AddressForm({ userId, product, cartItem }) {
     try {
       const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { "Content-Type": "application/json",
+          Authorization:`Bearer ${user.jwt}`
+          },
         body: JSON.stringify(formData)
       });
       console.log(response)
@@ -53,9 +57,9 @@ function AddressForm({ userId, product, cartItem }) {
 
       const preferenceResponse = await fetch('http://localhost:3000/api/mercado-pago/create-preference', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { "Content-Type": "application/json",
+          Authorization:`Bearer ${user.jwt}`
+          },
         body: JSON.stringify(item),
       });
 

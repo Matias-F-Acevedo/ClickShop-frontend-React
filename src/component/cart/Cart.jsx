@@ -10,25 +10,23 @@ function Cart() {
     const [cart, setCart] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [selectedCartItem, setSelectCartItem] = useState(null);
-    const jwt = user.jwt;
-
     async function getCarts() {
         try {
+            console.log(user.sub)
             const res = await fetch(`http://localhost:3000/api/cart/${user.sub}/items`
                 ,{
                     method: "GET",
                     headers: { "Content-Type": "application/json",
-                      Authorization:`Bearer ${jwt}`
+                      Authorization:`Bearer ${user.jwt}`
                       },
                   }
+                 
             );
-            if (!res.ok) {
-                console.error("Error al obtener los carritos");
-                return;
-            }
+            console.log("res",res)
+            
 
             const parsed = await res.json();
-            console.log(parsed)
+            console.log("parsed",parsed)
             setCarts(parsed);
         } catch (error) {
             console.error("Error al obtener los carritos:", error);
@@ -42,7 +40,7 @@ function Cart() {
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json",
-                      Authorization:`Bearer ${jwt}`
+                      Authorization:`Bearer ${user.jwt}`
                       },
                   }
             );
@@ -52,7 +50,7 @@ function Cart() {
             }
 
             const parsed = await res.json();
-            console.log(parsed)
+            console.log("parsed Cart",parsed)
             setCart(parsed);
         } catch (error) {
             console.error("Error al obtener el carro:", error);
