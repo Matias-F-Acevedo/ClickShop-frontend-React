@@ -2,16 +2,15 @@ import "./store.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProductCard from "./Card";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const URL = "http://localhost:3000/api/products";
 
 const PRODUCTS_PER_PAGE = 15;
 
 const Store = () => {
-  
   const [products, setProducts] = useState([]);
-
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
 
   const [minPrice, setMinPrice] = useState("");
@@ -25,7 +24,6 @@ const Store = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    
     getProducts();
   },
     [currentPage]); // Se vuelve a cargar cuando cambia la página
@@ -33,7 +31,6 @@ const Store = () => {
   const getProducts = async () => {
     try {
       const res = await axios.get(URL);
-      console.log(res.data);
       setProducts(res.data);
     }
     catch (error) {
@@ -96,11 +93,12 @@ const Store = () => {
     window.scrollTo(0, 0); // Scroll hasta la parte superior de la página
   };
 
-  const handleLinkClick = (event, productId) => {
-    event.preventDefault();
-    const url = `/product/${productId}`;
-     window.location.href = url;
-};
+
+  const handleLinkClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
+
+
 
   return (
     <div className="shop">
@@ -123,7 +121,6 @@ const Store = () => {
               <div className="priceRange">
                 <button onClick={handleTogglePriceRange}>
                   Rango de precio
-
                 </button>
                 {isPriceRangeOpen && (
                   <div className="priceRangeContent">
@@ -176,7 +173,7 @@ const Store = () => {
           <div className="productsContainer">
             <div className="products">
               {productsToShow.map((product) => (
-                <ProductCard key={product.product_name} data={product} />
+                <ProductCard key={product.product_name} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
               ))}
             </div>
             {pageCount > 1 && (
@@ -194,11 +191,6 @@ const Store = () => {
             )}
           </div>
         </div>
-
-
-
-
-
 
       </div>
     </div>

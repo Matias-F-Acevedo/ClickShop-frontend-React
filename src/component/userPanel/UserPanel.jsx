@@ -9,7 +9,7 @@ import { TbShoppingBagCheck } from "react-icons/tb";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsPostcard } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-
+import { IoMdTrendingUp } from "react-icons/io";
 import { LiaUserPlusSolid } from "react-icons/lia";
 
 import { PiUserCircle } from "react-icons/pi";
@@ -100,7 +100,7 @@ function UserPanel() {
                         <p>Editar perfil</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
+                    <Link to={"/favorites"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <IoMdHeartEmpty className='icon-userPanel' />
                         <p>Favoritos</p>
                         <span><IoIosArrowForward /></span>
@@ -108,6 +108,11 @@ function UserPanel() {
                     <Link to={"/orders-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <TbShoppingBagCheck className='icon-userPanel' />
                         <p>Mis compras</p>
+                        <span><IoIosArrowForward /></span>
+                    </Link>
+                    <Link to={"/sales"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
+                        <IoMdTrendingUp className='icon-userPanel' />
+                        <p>Mis ventas</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
                     <Link to={"/publications-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>

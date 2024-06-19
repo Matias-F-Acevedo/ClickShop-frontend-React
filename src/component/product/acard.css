@@ -1,0 +1,97 @@
+.product {
+    display: grid;
+    grid-template-columns: auto;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .product-details {
+    display: grid;
+    gap: 8px;
+  }
+  
+  .product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-price {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .product-category {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .product-stock {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .product-condition {
+    font-size: 1rem;
+    color: #666;
+  }
+  
+  .descripcion {
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .div-botones {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    gap: 8px;
+  }
+  
+  .btn-eliminar,
+  .btn-actualizar {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3483fa; /* Azul similar al de MercadoLibre */
+    cursor: pointer;
+  }
+  
+  .btn-eliminar:hover,
+  .btn-actualizar:hover {
+    background-color: #2d6ae3; /* Azul más oscuro al hacer hover */
+  }
+  
+
+
+  
+  .btn-accion {
+    position: relative; /* Asegura que el botón tenga una posición relativa */
+  }
+  
+  .btn-accion:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+
+  .tooltip {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%; /* Posicionar por encima del botón */
+    left: 50%;
+    margin-left: -80px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  

@@ -27,11 +27,11 @@ const Carousel = () => {
     },
   ];
   return (
-    <div className="carousel">
-      <h2 className="latest">Ultimas publicaciones</h2>
-      <section className="card-wrapper">
+    <div className="carousel-home">
+      <h2 className="latest-home">Ultimas publicaciones</h2>
+      <section className="card-wrapper-home">
         {data?.map((article, index) => (
-          <div key={index} className="card">
+          <div key={index} className="card-home">
             <img src={article.img} alt={article.title} />
             <h5>{article.title}</h5>
             <p>{article.price}</p>
