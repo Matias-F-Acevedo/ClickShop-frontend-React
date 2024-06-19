@@ -2,6 +2,11 @@ import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { addOne } from "../../service/functionsHTTP";
 
+<<<<<<< HEAD
+=======
+// import "./card-create.css";
+
+>>>>>>> dev
 const urlBase = "http://localhost:3000/api/products";
 
 function CardCreate({ setCreate, refresh, setRefresh }) {

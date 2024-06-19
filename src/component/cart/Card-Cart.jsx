@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import './card-cart.css';
 import { Link } from "react-router-dom";
+=======
+import React, { useContext } from 'react';
+import { UserContext } from '../../context/UserContext';
+// import "./cardCart.css";
+>>>>>>> dev
 
 function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem, onSelectProduct, onSelectCartItem }) {
     const { product_name, price, stock, product_image } = product;

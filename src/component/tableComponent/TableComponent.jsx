@@ -8,7 +8,6 @@ import { IoEllipsisVerticalOutline } from "react-icons/io5";
 import { BiFirstPage } from "react-icons/bi";
 import { BiLastPage } from "react-icons/bi";
 import { MdArrowForwardIos } from "react-icons/md";
-
 import { MdArrowBackIosNew } from "react-icons/md";
 
 
@@ -28,6 +27,12 @@ function TableComponent({ data, columns }) {
 
     })
 
+    const emptyRow = () => (
+        <tr>
+            <td colSpan={columns.length}>No hay datos disponibles.</td>
+        </tr>
+    );
+
     return (
         <div className='container-table'>
             <input placeholder='Buscar' type="text" value={filtering} onChange={(e) => setFiltering(e.target.value)} />
@@ -39,22 +44,22 @@ function TableComponent({ data, columns }) {
                                 headerGroup.headers.map(header => (
 
                                     <th key={header.id}
-            
-                                        onClick={header.column.getToggleSortingHandler()}>{<IoEllipsisVerticalOutline className='icon-th'/>}{
+
+                                        onClick={header.column.getToggleSortingHandler()}>{<IoEllipsisVerticalOutline className='icon-th' />}{
                                             flexRender(header.column.columnDef.header, header.getContext())}{" "}
 
-                                        
 
+
+                                        {
                                             {
-                                                {
-                                                    "asc": <IoIosArrowUp className='hola12'/>, "desc": <IoIosArrowDown className='hola12'/>
+                                                "asc": <IoIosArrowUp className='hola12' />, "desc": <IoIosArrowDown className='hola12' />
 
-                                                }[header.column.getIsSorted() ?? null]
+                                            }[header.column.getIsSorted() ?? null]
 
-                                            }
-                                       
-                                    
-                                    </th> 
+                                        }
+
+
+                                    </th>
                                 ))
                             }
                         </tr>
@@ -62,7 +67,8 @@ function TableComponent({ data, columns }) {
                 }
                 </thead>
                 <tbody >
-                    {
+                    {data.length === 0 ? emptyRow() : (
+
                         table.getRowModel().rows.map(row => (
                             <tr key={row.id}>
                                 {row.getVisibleCells().map(cell => (
@@ -73,7 +79,7 @@ function TableComponent({ data, columns }) {
                                 }
                             </tr>
                         ))
-                    }
+                    )}
                 </tbody>
                 <tfoot className='tfoot'>
                     {
@@ -90,7 +96,7 @@ function TableComponent({ data, columns }) {
                                                 )
                                             }
 
-                                            
+
                                         </th>
                                     ))
                                 }
@@ -101,16 +107,16 @@ function TableComponent({ data, columns }) {
             </table>
             <div className='buttons-table'>
                 <button onClick={() => table.setPageIndex(0)}>
-                    <BiFirstPage className='icon-page'/>
+                    <BiFirstPage className='icon-page' />
                 </button>
                 <button onClick={() => table.previousPage()}>
-                <MdArrowBackIosNew />
+                    <MdArrowBackIosNew />
                 </button>
                 <button onClick={() => table.nextPage()}>
-                <MdArrowForwardIos/>
+                    <MdArrowForwardIos />
                 </button>
                 <button onClick={() => table.setPageIndex(table.getPageCount() - 1)}>
-                <BiLastPage className='icon-page'/>
+                    <BiLastPage className='icon-page' />
                 </button>
             </div>
 

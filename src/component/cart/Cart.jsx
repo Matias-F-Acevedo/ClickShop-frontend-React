@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext';
+<<<<<<< HEAD
 import CardCart from './Card-Cart';
 import "./card-cart.css";
 import BuyProduct from '../adressForm/BuyProduct';
+=======
+// import CardCart from './Card-Cart';
+>>>>>>> dev
 
 function Cart() {
     const { user } = useContext(UserContext);

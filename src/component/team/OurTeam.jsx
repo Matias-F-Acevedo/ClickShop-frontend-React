@@ -30,17 +30,17 @@ const Ourteam = () => {
     },
   ];
   return (
-    <div className="team-wrapper">
-      <section className="team-title">
-        <h2 className="title">Nuestro equipo</h2>
-        <p className="subtitle">
+    <div className="team-wrapper-home">
+      <section className="team-title-home">
+        <h2 className="title-home">Nuestro equipo</h2>
+        <p className="subtitle-home">
           Siguenos en Github para enterarte de las novedades y herramientas
-          que añadimos en la plataforma.
+          que añadimos en la plataforma o podes contactarnos a traves de LinkedIn
         </p>
       </section>
-      <section className="member-wrapper">
+      <section className="member-wrapper-home">
         {members?.map((member, index) => (
-          <article className="member-card" key={index}>
+          <article className="member-card-home" key={index}>
             <img src={member.img} alt="team-members" />
             <h3>{member.name}</h3>
             <Link to={member.Github} target="_blank">

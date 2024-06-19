@@ -1,0 +1,15 @@
+.image-favorites{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-favorites img {
+    width: auto;
+    height: 95px;
+}
+
+.div-description-favorites{
+    width: 400px;
+}

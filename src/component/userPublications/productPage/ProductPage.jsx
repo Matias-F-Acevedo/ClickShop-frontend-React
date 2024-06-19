@@ -7,6 +7,8 @@ import { MdOutlineStar } from "react-icons/md";
 import { BsCart3 } from "react-icons/bs";
 import { BsBagCheck } from "react-icons/bs";
 import { useParams } from 'react-router-dom';
+import Review from '../../review/Review';
+import RatingForm from '../../ratingForm/RatingForm';
 
 
 
@@ -14,6 +16,7 @@ function ProductPage() {
 
 
     const { user, handleLogout } = useContext(UserContext);
+    
     const divSelect1 = useRef();
     const divSelect2 = useRef();
     const divSelect3 = useRef();
@@ -25,7 +28,7 @@ function ProductPage() {
     const [error, setError] = useState(null);
     const [imagesProduct, setImagesProduct] = useState([])
     const [principalImage, setPrincipalImage] = useState(imagesProduct[0])
-
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
 
@@ -40,6 +43,14 @@ function ProductPage() {
                 setImagesProduct(data.product_image)
                 setPrincipalImage(data.product_image[0])
                 setProduct(data);
+
+                const reviewsRes = await fetch(`http://localhost:3000/api/review?productId=${productId}`);
+                if (!reviewsRes.ok) {
+                    throw new Error('No se pudo obtener las reseñas del producto');
+                }
+                const reviewsData = await reviewsRes.json();
+                setReviews(reviewsData);
+
             } catch (error) {
                 setError(error.message);
             } finally {
@@ -115,7 +126,7 @@ function ProductPage() {
                                 <span><MdOutlineStar /></span>
                                 <span><MdOutlineStar /></span>
                                 <span><MdOutlineStarBorder /></span>
-                                <span>(25 Opiniones del producto)</span>
+                                <span>({reviews.length} Opiniones del producto)</span>
                             </div>
                             <p className='product-description'> {product.description}</p>
                             <div className='btn-groups'>
@@ -129,7 +140,7 @@ function ProductPage() {
                     </div>
                 </div>
             </div>
-
+            <Review productId={product.productId}></Review>
         </>
     )
 

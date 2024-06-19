@@ -1,3 +1,7 @@
+<<<<<<< HEAD:src/component/product/CardProduct.jsx
+=======
+// import "./card.css"
+>>>>>>> dev:src/component/product/Card.jsx
 import { deleteOne } from "../../service/functionsHTTP";
 
 

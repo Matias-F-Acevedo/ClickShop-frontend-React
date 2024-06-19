@@ -17,6 +17,12 @@ import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
 import AddressForm from "./component/adressForm/AddressForm";
 import BuyProduct from "./component/adressForm/BuyProduct";
+import Favorites from "./component/favorites/Favorites";
+import RatingForm from "./component/ratingForm/RatingForm";
+import Footer from "./component/footer/Footer";
+import Sales from "./component/sales/Sales";
+import Ourteam from "./component/team/OurTeam";
+import Form from "./component/form/Form";
 
 function App() {
   return (
@@ -27,12 +33,16 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/store" element={<Store></Store>} />
-          <Route path="/contact" element={<h1>contact</h1>} />
-          <Route path="/team" element={<h1>team</h1>} />
+          <Route path="/contact" element={<Form />} />
+          <Route path="/team" element={<Ourteam/>} />
+          <Route path="/favorites" element={<Favorites />} />
 
+          <Route path="/sales" element={<Sales />} />
 
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
-            
+
+          <Route path="/comment" element={<RatingForm></RatingForm>} />
+
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
             <Route path="/login-register" element={<Register></Register>} />
@@ -53,6 +63,7 @@ function App() {
           </Route>
 
         </Routes>
+        <Footer></Footer>
       </BrowserRouter>
     </UserProvider>
   );

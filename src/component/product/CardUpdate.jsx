@@ -1,6 +1,10 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { updateOne } from "../../service/functionsHTTP";
+<<<<<<< HEAD
+=======
+// import "./card-update.css";
+>>>>>>> dev
 
 const urlBase = "http://localhost:3000/api/products";
 
