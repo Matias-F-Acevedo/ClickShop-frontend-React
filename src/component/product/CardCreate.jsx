@@ -6,6 +6,7 @@ const urlBase = "http://localhost:3000/api/products";
 
 function CardCreate({ setCreate, refresh, setRefresh }) {
   const { user } = useContext(UserContext);
+  const jwt = user.jwt;
   const [currentProduct, setCurrentProduct] = useState({
     "product_name": "",
     "price": 0,
@@ -32,7 +33,9 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     formData.append('file', file);
     try {
         const response = await fetch(url, {
-            method: 'POST',
+            method: 'POST', headers: { "Content-Type": "application/json",
+              Authorization:`Bearer ${jwt}`
+              },
             body: formData,
         });
 

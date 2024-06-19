@@ -28,10 +28,14 @@ function ConfigurationUser() {
     const [error, setError] = useState("");
     const navigateTo = useNavigate();
     const fileInputRef = useRef(null);
-
+    const jwt = user.jwt;
     async function fetchUserData() {
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${user.sub}`)
+            const response = await fetch(`http://localhost:3000/api/users/${user.sub}`,{
+                headers: { "Content-Type": "application/json",
+                    Authorization:`Bearer ${jwt}`
+                    }
+            })
             if (response.ok) {
                 const data = await response.json();
                 setEmail(data.user_email)
@@ -91,6 +95,9 @@ function ConfigurationUser() {
         try {
             const response = await fetch(url, {
                 method: 'POST',
+                headers: { "Content-Type": "application/json",
+                    Authorization:`Bearer ${jwt}`
+                    },
                 body: formData,
             });
 
@@ -159,9 +166,9 @@ function ConfigurationUser() {
 
         const res = await fetch(`http://localhost:3000/api/users/${user.sub}`, {
             method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json",
+                Authorization:`Bearer ${jwt}`
+                },
             body: JSON.stringify(userEdit),
         })
         const parsed = await res.json()

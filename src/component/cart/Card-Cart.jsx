@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './card-cart.css';
-import { Link } from "react-router-dom";
 
 function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem, onSelectProduct, onSelectCartItem }) {
     const { product_name, price, stock, product_image } = product;

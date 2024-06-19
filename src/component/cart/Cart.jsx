@@ -10,10 +10,18 @@ function Cart() {
     const [cart, setCart] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [selectedCartItem, setSelectCartItem] = useState(null);
+    const jwt = user.jwt;
 
     async function getCarts() {
         try {
-            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}/items`);
+            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}/items`
+                ,{
+                    method: "GET",
+                    headers: { "Content-Type": "application/json",
+                      Authorization:`Bearer ${jwt}`
+                      },
+                  }
+            );
             if (!res.ok) {
                 console.error("Error al obtener los carritos");
                 return;
@@ -30,7 +38,14 @@ function Cart() {
 
     async function getCart() {
         try {
-            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}`);
+            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}`,
+                {
+                    method: "GET",
+                    headers: { "Content-Type": "application/json",
+                      Authorization:`Bearer ${jwt}`
+                      },
+                  }
+            );
             if (!res.ok) {
                 console.error("Error al obtener el carro");
                 return;
@@ -54,9 +69,9 @@ function Cart() {
             const cartItemId = cartItem.cartItem_id;
             const response = await fetch(`http://localhost:3000/api/cart/${user.sub}/items/${cartItemId}`, {
                 method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { "Content-Type": "application/json",
+                    Authorization:`Bearer ${jwt}`
+                    },
             });
     
             if (!response.ok) {
@@ -78,9 +93,9 @@ function Cart() {
         try {
             const response = await fetch(`http://localhost:3000/api/cart/${user.sub}/items/${cartItemId}/quantity`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { "Content-Type": "application/json",
+                    Authorization:`Bearer ${jwt}`
+                    },
                 body: JSON.stringify({ quantity }),
             });
         

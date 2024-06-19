@@ -4,18 +4,9 @@ import "./store.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import React from "react";
 import { BsCartPlusFill } from "react-icons/bs";
-import { FaEye } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
 import ImageGallery from "react-image-gallery";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
-import React, { useState, useContext, useEffect } from "react";
-// import { BsCartPlusFill } from "react-icons/bs";
-// import { FaEye } from "react-icons/fa";
-// import { FaStar } from "react-icons/fa";
-import ImageGallery from "react-image-gallery";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
-import { FaRegHeart } from "react-icons/fa6";
 import { FiEye } from "react-icons/fi";
 import Swal from 'sweetalert2';
 
@@ -25,7 +16,7 @@ const ProductCard = (props) => {
   const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
   const [addedToCart, setAddedToCart] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  
+  const jwt = user.jwt;
   const newProduct = {
     product_id: data.productId,
     quantity: 1,
@@ -36,9 +27,9 @@ const ProductCard = (props) => {
       if (user) {
         await fetch(URLCartUser, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { "Content-Type": "application/json",
+            Authorization:`Bearer ${jwt}`
+            },
           body: JSON.stringify(newProduct ),  
         });
         console.log(newProduct)
@@ -56,7 +47,11 @@ const ProductCard = (props) => {
   const checkIfFavorite = async () => {
     try {
       if (user) {
-        const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`);
+        const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`,{
+          headers: { "Content-Type": "application/json",
+            Authorization:`Bearer ${jwt}`
+            }
+        });
         if (!res.ok) {
           throw new Error('Failed to fetch favorites');
         }
@@ -78,9 +73,9 @@ const ProductCard = (props) => {
 
         const response = await fetch(isFavorite ? url : 'http://localhost:3000/api/favorites', {
           method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { "Content-Type": "application/json",
+            Authorization:`Bearer ${jwt}`
+            },
           body: isFavorite ? null : body,
         });
 
@@ -170,10 +165,10 @@ const ProductCard = (props) => {
         <p className="price-product">${data.price}</p>
         <div className="buttons-card-product">
           <button onClick={handleLinkClickProduct} ><FiEye /></button>
-          <button onClick={() => handleAddToCart(productId)}>
+          <button onClick={() => handleAddToCart(data.productId)}>
             <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
           </button>
-          <button onClick={() => handleToggleFavorite(productId)}>
+          <button onClick={() => handleToggleFavorite(data.productId)}>
             {isFavorite ? <FaHeart style={{ color: "red" }} /> : <FaRegHeart />}
           </button>
         </div>
@@ -183,81 +178,6 @@ const ProductCard = (props) => {
       </div>
     </div>
   );
-
-
-
-
-
-  // return (
-  //   <div className="product">
-  //     <div className="slide-var">
-  //       <p>Agregar fotos</p>
-  //     </div>
-  //     <div className="descripcion">
-  //       <p>
-  //         <b>{product_name}</b>
-  //       </p>
-  //       <p>${price}</p>
-  //       <button className="addToCartBttn"><FaEye /></button>
-  //       <button className="addToCartBttn" onClick={() => handleAddToCart(productId)}>
-  //         <BsCartPlusFill style={{ color: addedToCart ? "green" : "black" }} />
-  //       </button>
-  //       <button className="addToCartBttn"><FaStar /></button>
-  //     </div>
-  //   </div>
-  // );
-
-
-
-  // const ProductCard = (props) => {
-  //     const { data } = props
-
-
-  //     const images = data.product_image.map((img) => {
-  //         return {
-  //             original: img,
-  //             thumbnail: img,
-  //         }
-  //     })
-
-
-
-  //     const renderLeftNav = (onClick, disabled) => (
-  //         <IoIosArrowBack
-  //             className="image-gallery-custom-left-nav"
-  //             onClick={onClick}
-  //             disabled={disabled}
-  //         />
-  //     );
-
-  //     const renderRightNav = (onClick, disabled) => (
-  //         <IoIosArrowForward
-  //             className="image-gallery-custom-right-nav"
-  //             onClick={onClick}
-  //             disabled={disabled}
-  //         />
-  //     );
-
-  //     return (
-  //         <div  className="product" >
-  //             <div className="slide-var">
-  //                <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} renderLeftNav={renderLeftNav}
-  //                     renderRightNav={renderRightNav}></ImageGallery>
-  //             </div>
-  //             <div className="descripcion">
-  //                 <p>
-  //                     <b>{data.product_name}</b>
-  //                 </p>
-  //                 <p className="price-product">${data.price}</p>
-  //                 {/* <button class="addToCartBttn"><FaEye /></button> */}
-  //                 <button class="addToCartBttn"><BsCartPlusFill /></button>
-  //                 <button class="addToCartBttn"><FaRegHeart /></button>
-
-
-  //             </div>
-  //         </div>
-  //     );
-
 };
 
 export default ProductCard;
