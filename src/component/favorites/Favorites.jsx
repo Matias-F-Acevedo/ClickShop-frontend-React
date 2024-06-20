@@ -16,7 +16,13 @@ function Favorites() {
     const navigate = useNavigate();
     async function getFavorites() {
         try {
-            const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`);
+            const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`,
+                {
+                    headers: { "Content-Type": "application/json",
+                        Authorization:`Bearer ${user.jwt}`
+                        }
+                }
+            );
             if (!res.ok) {
                 throw new Error('Failed to fetch favorites');
             }
@@ -63,6 +69,9 @@ function Favorites() {
                 try {
                     const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}/${productId}`, {
                         method: 'DELETE',
+                        headers: { "Content-Type": "application/json",
+                            Authorization:`Bearer ${user.jwt}`
+                            }
                     });
                     if (!res.ok) {
                         throw new Error('No se pudo eliminar el producto');

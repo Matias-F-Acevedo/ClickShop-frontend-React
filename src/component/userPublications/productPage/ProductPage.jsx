@@ -16,12 +16,9 @@ function ProductPage() {
 
 
     const { user, handleLogout } = useContext(UserContext);
-    
     const divSelect1 = useRef();
     const divSelect2 = useRef();
     const divSelect3 = useRef();
-
-
     const { productId } = useParams();
     const [product, setProduct] = useState()
     const [loading, setLoading] = useState(true);
@@ -29,13 +26,18 @@ function ProductPage() {
     const [imagesProduct, setImagesProduct] = useState([])
     const [principalImage, setPrincipalImage] = useState(imagesProduct[0])
     const [reviews, setReviews] = useState([]);
+    const [addedToCart, setAddedToCart] = useState(false);
+
+
+    
 
     useEffect(() => {
 
 
         async function fetchProductDetails() {
             try {
-                const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+                const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
+                });
                 if (!res.ok) {
                     throw new Error('No se pudo obtener los detalles del producto');
                 }
@@ -60,8 +62,38 @@ function ProductPage() {
 
         fetchProductDetails();
 
-    }, [productId]);
-
+    }, [productId, user]);
+  
+    
+    
+    const handleAddToCart = async () => {
+      
+        const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
+        try {
+          if (user) {
+            const jwt = user.jwt;
+            const newProduct = {
+              product_id: product.productId,
+              quantity: 1,
+              unitPrice: product.price
+            }
+            await fetch(URLCartUser, {
+              method: 'POST',
+              headers: { "Content-Type": "application/json",
+                Authorization:`Bearer ${jwt}`
+                },
+              body: JSON.stringify(newProduct ),  
+            });
+            console.log(newProduct)
+            console.log("se agrego el producto al carrito")
+            setAddedToCart(true);
+          } else {
+            console.error("El usuario no está definido.");
+          }
+        } catch (error) {
+          console.error("Error al agregar el producto al carrito:", error);
+        }
+      };
 
     function changeImageAndActiveClass(img, divSelect) {
         setPrincipalImage(img);
@@ -130,7 +162,7 @@ function ProductPage() {
                             </div>
                             <p className='product-description'> {product.description}</p>
                             <div className='btn-groups'>
-                                <button className='add-cart-btn'> <BsCart3 className='icon-add-cart' /> Agregar al carrito</button>
+                                <button className='add-cart-btn' onClick={() => handleAddToCart(productId)}> <BsCart3 className='icon-add-cart' /> Agregar al carrito</button>
                                 <button className='buy-now-btn'><BsBagCheck className='icon-buy' />  Comprar ahora</button>
 
                             </div>
