@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 1fr;
     padding: 40px;
+    margin-top:150px;
 }
 
 .foot > ul {

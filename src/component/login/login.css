@@ -24,7 +24,7 @@
     color: 000000;
 }
 
-.line{
+.line {
     height: 350px;
     width: 2px;
     background-color: #608d1836;
@@ -37,7 +37,13 @@
     font-style: normal;
 }
 
-.title-buttonPassword button {
+
+
+.title-buttonPassword a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
     width: 190px;
     height: 30px;
     border-radius: 15px;
@@ -50,7 +56,16 @@
     font-size: 12px;
 }
 
+.title-buttonPassword a:hover {
+    background-color: rgba(128, 128, 128, 0.568);
+    color: #000000;
+}
 
+.title-buttonPassword a:active {
+    background-color: #00000000;
+    color: #000000;
+    border: 1px solid #505050;
+}
 
 .container-form {
     display: flex;
@@ -97,13 +112,26 @@
 
 
 
-.btn-form-login {
-    margin-top: 25px;
-    margin-left: 20px;
+.p-error {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 15px;
 }
 
 
-.container-form button {
+
+
+
+
+.container-button-login {
+    display: flex;
+    width: 80%;
+}
+
+
+.container-button-login button,
+.container-button-login a {
     width: 125px;
     height: 35px;
     border-radius: 5px;
@@ -111,19 +139,163 @@
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-style: normal;
-    background-color:#608d18e7;
+    background-color: #608d18e7;
     color: #ffffff;
     font-size: 16px;
     margin: 20px;
+    cursor: pointer;
 }
 
-.p-error{
-    font-family: "Roboto", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 15px;
-}
-
-#btn-registrarse{
+.container-button-login a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
     background-color: #006D77;
+}
+
+
+
+
+.container-button-login button:hover {
+    background-color: #608d18ad;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.container-button-login a:hover {
+    background-color: #006d77ce;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+
+
+.container-button-login button:active {
+    background-color: #ffffff;
+    color: #608d18ad;
+    border: 1px solid #618D18;
+}
+
+.container-button-login a:active {
+    background-color: #ffffff;
+    color: #006d77ce;
+    border: 1px solid #006d77ce;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#btn-forgotpassword-login {
+    display: none;
+}
+
+
+@media (max-width:1200px) {
+
+    .title-buttonPassword {
+        width: 50%;
+    }
+
+    .form-login input {
+        width: 100%;
+    }
+
+    .container-button-login {
+        width: 100%;
+    }
+
+    .container-button-login button,
+    .container-button-login a {
+        width: 100%;
+        font-size: 16px;
+    }
+}
+
+@media (max-width:1000px) {
+
+    .container-button-login {
+        flex-direction: column;
+        width: 80%;
+    }
+
+    .container-button-login button {
+        margin: 20px;
+    }
+
+    .container-button-login a {
+        width: 100%;
+        font-size: 15px;
+        margin: 5px 20px;
+    }
+}
+
+
+@media (max-width:800px) {
+
+    .container-login {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 70px;
+
+    }
+
+    .title-buttonPassword {
+        display: none;
+    }
+
+    .line {
+       display: none;
+    }
+
+    .container-form {
+        width: 80%;
+
+    }
+
+    .form-login {
+        gap: 5px;
+    }
+
+    .container-button-login {
+        width: 90%;
+    }
+
+    .container-button-login button {
+        margin: 15px 20px;
+    }
+
+    #btn-forgotpassword-login {
+        display: block;
+        background-color: rgba(128, 128, 128, 0.253);
+        color: #000000b7;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 15px 20px;
+    }
+
+    #btn-forgotpassword-login:hover {
+        font-size: 16px;
+    }
+}
+
+@media (max-width:550px) {
+
+    .container-button-login {
+        width: 80%;
+    }
+
+    #btn-forgotpassword-login {
+        font-size: 13px;
+    }
+
+    #btn-forgotpassword-login:hover {
+        font-size: 14px;
+    }
+
 }
