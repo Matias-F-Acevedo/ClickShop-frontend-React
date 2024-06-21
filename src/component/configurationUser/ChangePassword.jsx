@@ -108,7 +108,7 @@ function ChangePassword({setErrorProp}) {
             </div>
 
             <div className='buttons'>
-                <Link to={"/login"}>
+                <Link to={"/login"} className='link-button-cancel-update'>
                     <button className='button-cancel-update'><RxCross2 /></button>
                 </Link>
 
