@@ -1,4 +1,3 @@
-// import "./card.css"
 import { deleteOne } from "../../service/functionsHTTP";
 
 
@@ -7,12 +6,14 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
   
   const {
     product_name,
-    description,
     price,
     category,
     stock,
-    condition
+    condition,
+    product_image
   } = product;
+
+  console.log(product)
   
   if(product.condition = "NEW"){
     product.condition = "Nuevo"
@@ -30,7 +31,7 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
       deleteOne(idProducts, urlBase)
       //setRefresh(true)
     } else {
-        return console.log("no se pudo eliminar, anda a saber porque")
+        return console.log("no se pudo eliminar")
       }
     }
   
@@ -41,17 +42,16 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
     }
   
     return (
-      <div key={index} className="product">
-        <img src="" alt="" />
+      <div key={index} className="productCard">
         <div className="product-details">
-          <h2 className="product-name">{product_name}</h2>
-          <p className="product-price">Price: ${price}</p>
-          <p className="product-category">Category: {categoryName}</p>
-          <p className="product-stock">Cantidad disponible: {stock}</p>
-          <p className="product-condition">Estado: {condition}</p>
-          <p className="descripcion">{description}</p>
+        <img className="product-imagen" src={product_image} alt="error al cargar imagen" />
+          <h2 className="product-names">{product_name}</h2>
+          <p className="product-prices">Price: ${price}</p>
+          <p className="product-stocks">Cantidad disponible: {stock}</p>
+          <p className="product-conditions">Estado: {condition}</p>
+        </div>
           <div className='div-botones'>
-            <button className='btn-eliminar btn-accion' onClick={() => deleteProducts(product.productId)}>
+            <button className='btn-delete btn-accion' onClick={() => deleteProducts(product.productId)}>
               <div className="tooltip">Haz clic para eliminar el producto</div>
               Eliminar
             </button>
@@ -62,7 +62,6 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
             </button>
 
           </div>
-        </div>
       </div>
     );
   }

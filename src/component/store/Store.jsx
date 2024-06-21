@@ -114,8 +114,6 @@ const Store = () => {
           <div className="container-p-results">
             {searchTerm && <p>{filteredProducts.length} resultados encontrados</p>}
           </div>
-
-
         </div>
         <div className="grl-container">
           <div className="sidebar">
