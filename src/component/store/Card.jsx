@@ -16,7 +16,7 @@ const ProductCard = (props) => {
   const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
   const [addedToCart, setAddedToCart] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const jwt = user.jwt;
+
   
   const newProduct = {
     product_id: data.productId,
@@ -29,7 +29,7 @@ const ProductCard = (props) => {
         await fetch(URLCartUser, {
           method: 'POST',
           headers: { "Content-Type": "application/json",
-            Authorization:`Bearer ${jwt}`
+            Authorization:`Bearer ${user.jwt}`
             },
           body: JSON.stringify(newProduct ),  
         });
@@ -50,7 +50,7 @@ const ProductCard = (props) => {
       if (user) {
         const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`,{
           headers: { "Content-Type": "application/json",
-            Authorization:`Bearer ${jwt}`
+            Authorization:`Bearer ${user.jwt}`
             }
         });
         if (!res.ok) {
@@ -75,7 +75,7 @@ const ProductCard = (props) => {
         const response = await fetch(isFavorite ? url : 'http://localhost:3000/api/favorites', {
           method,
           headers: { "Content-Type": "application/json",
-            Authorization:`Bearer ${jwt}`
+            Authorization:`Bearer ${user.jwt}`
             },
           body: isFavorite ? null : body,
         });
