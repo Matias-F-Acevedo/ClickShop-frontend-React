@@ -17,7 +17,6 @@ function UserProduct() {
   const [state, setState] = useState("");
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true); // Estado de carga
-  const jwt = user.jwt;
   async function getProducts() {
     if (!user) return; // Si el usuario no está disponible, no intentar obtener productos
 
@@ -25,7 +24,7 @@ function UserProduct() {
       setLoading(true);
       const res = await fetch(urlBase, {
         headers: { "Content-Type": "application/json",
-          Authorization:`Bearer ${jwt}`
+          Authorization:`Bearer ${user.jwt}`
           }
       }
       );
