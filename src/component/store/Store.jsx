@@ -31,6 +31,8 @@ const Store = () => {
   const getProducts = async () => {
     try {
       const res = await axios.get(URL);
+
+      
       setProducts(res.data);
     }
     catch (error) {

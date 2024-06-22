@@ -222,7 +222,7 @@ function ConfigurationUser() {
                            
                         }
 
-                        <p>Foto de perfil</p>
+                        <p className='text-photoOfProfile'>Foto de perfil</p>
                     </div>
 
                     <div className='menu-options'>

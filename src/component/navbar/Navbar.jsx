@@ -13,10 +13,11 @@ import { CiSettings } from "react-icons/ci";
 import { MdOutlineLogout } from "react-icons/md";
 import { UserContext } from '../../context/UserContext';
 import { MdOutlineLogin } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 function Navbar() {
 
     const { user, handleLogout } = useContext(UserContext);
-
+    const navigate = useNavigate();
     const navbar = useRef();
 
     function toggleMenu() {
@@ -36,7 +37,7 @@ function Navbar() {
                 <div className="container-nav-desktop">
                     <div className="logo">
                         <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
-                        <span className="logo-name">ClickShop</span>
+                        <span className="logo-name" onClick={()=> navigate(`/`)}>ClickShop</span>
                     </div>
                     <div className="nav-desktop">
                         <ul>

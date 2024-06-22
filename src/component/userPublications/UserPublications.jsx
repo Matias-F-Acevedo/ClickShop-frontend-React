@@ -88,19 +88,15 @@ function UserPublications() {
 
     const columns = [
         {
-            header: "#",
-            accessorKey: "productId",
-        },
-        {
             header: "Nombre",
             accessorKey: "product_name",
 
         },
         {
-            header: "Stock",
-            accessorKey: "stock",
-
-        },
+            header: 'Stock',
+            accessorKey: 'stock',
+            cell: info => `${info.getValue()} Uds.`,
+          },
         {
             header: "Precio",
             accessorKey: "price",
@@ -143,11 +139,11 @@ function UserPublications() {
             cell: ({ row }) => {
                 const productId = row.original.productId;
                 return <div className='crud-publicationsUser'>
-                    <Link onClick={(event) => handleLinkClick(event, productId)}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
+                    <Link onClick={(event) => handleLinkClick(event, productId)}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser crud-publicationsUser-btns' />
                     </Link>
                 
-                        <MdEditNote className='btn-Edit-publicationUser btn-publicationUser' />
-                    <MdOutlineDeleteForever onClick={() => deletePublication(productId)} className='btn-delete-publicationUser btn-publicationUser' />
+                        <MdEditNote className='btn-Edit-publicationUser btn-publicationUser crud-publicationsUser-btns' />
+                    <MdOutlineDeleteForever onClick={() => deletePublication(productId)} className='btn-delete-publicationUser btn-publicationUser crud-publicationsUser-btns' />
                 </div>;
             }
         }

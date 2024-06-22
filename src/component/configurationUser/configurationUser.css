@@ -44,7 +44,6 @@ body{
 }
 
 
-
 .user-photoAndName img {
     border-radius: 100%;
     width: 110px;
@@ -334,5 +333,19 @@ body{
     color: rgba(0, 0, 0, 0.808);
 }
 
+
+.user-photoAndName img {
+    width: 70px;
+    height: 70px;
+}
+
+.image-user-change-password {
+ width: 70px;
+ height: 70px;
+}
+
+.user-photoAndName .text-photoOfProfile{
+    font-size: 14px;
+}
 
 }
