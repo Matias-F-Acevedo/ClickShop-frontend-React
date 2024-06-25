@@ -38,6 +38,7 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
             onChange={(e) =>
               setCurrentProduct((prev) => ({ ...prev, price: e.target.value }))
             }
+            className="input-cardUpdate-product"
             required
           />
 
@@ -54,6 +55,7 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
                 product_name: e.target.value
               }))
             }
+            className="input-cardUpdate-product"
             required
           />
 
@@ -69,6 +71,7 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
                 description: e.target.value
               }))
             }
+            className="input-cardUpdate-product"
             required
           />
 

@@ -1,6 +1,6 @@
-body {
+/* body {
     overflow-x: hidden;
-}
+} */
 
 .div-card-update {
     width: 320px;
@@ -54,8 +54,7 @@ body {
     border-color: #D0EDA1;
 }
 
-input[type="text"],
-input[type="number"] {
+.input-cardUpdate-product {
     width: 100%;
     padding: 10px;
     margin: 8px 0 16px;
