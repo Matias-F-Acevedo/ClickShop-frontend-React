@@ -1,0 +1,82 @@
+
+body {
+  overflow-x: hidden;
+}
+
+.div-card-creation {
+  width: 320px;
+  margin: 15px auto;
+  padding: 20px;
+  background: #ffffff;
+  border: 2px solid #42424225;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.div-card-creation:hover {
+  transform: scale(1.01);
+  border-color: #a9ce6c;
+}
+
+
+.input-cart-creation {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+input[type="radio"] {
+  margin-right: 10px;
+}
+
+fieldset {
+  border: none;
+  margin-bottom: 16px;
+}
+
+.container-btns {
+  display: flex;
+  padding: 15px;
+ justify-content: space-between;
+}
+
+.btn-confirmar-crear, .btn-eliminar {
+  background-color: rgb(230, 230, 230);
+  border: 2px solid rgb(140, 133, 133);
+  min-width: 100px;
+  padding: 10px 15px;
+  margin: 0px 5px;
+  font-size: 15px;
+  color: #555555;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-confirmar-crear:hover, .btn-eliminar:hover {
+  background-color: rgba(42, 42, 42, 0.651);
+  color: #D0EDA1;
+  border-color: #D0EDA1;
+}
+
+
+label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #555;
+}
+
+input[type="file"] {
+  width: 100%;
+  margin-top: 10px;
+}
+
+input[type="radio"] + label {
+  font-size: 14px;
+  color: #555;
+}

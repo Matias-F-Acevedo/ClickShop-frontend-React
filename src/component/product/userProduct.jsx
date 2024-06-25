@@ -5,6 +5,8 @@ import CardCreate from './CardCreate';
 import { UserContext } from '../../context/UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import "./userProduct.css";
+
 
 const urlBase = "http://localhost:3000/api/products";
 

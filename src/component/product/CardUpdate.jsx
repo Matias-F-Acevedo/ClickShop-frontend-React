@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { updateOne } from "../../service/functionsHTTP";
+import "./cardUpdate.css";
 
 const urlBase = "http://localhost:3000/api/products";
 
@@ -71,17 +72,15 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
             required
           />
 
-          <div className="container-btn-confirmar-actualizar">
+          <div className="container-btns">
             <button type="submit" className="btn-actualizar">
               Actualizar
             </button>
+            <button className="btn-eliminar" onClick={() => setUpdate(false)}>
+              Cancelar
+            </button>
           </div>
         </form>
-        <div className="container-btn-confirmar-cancelar">
-          <button className="btn-eliminar" onClick={() => setUpdate(false)}>
-            Cancelar
-          </button>
-        </div>
       </div>
     </div>
   );

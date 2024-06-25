@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../../context/UserContext";
 import { addOne } from "../../service/functionsHTTP";
+import "./cardCreate.css";
 
 const urlBase = "http://localhost:3000/api/products";
 
@@ -16,8 +17,10 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     "category_id": "",
     "user_id": "",
   });
+
   const [image, setImage] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleConditionChange = (event) => {
     const value = event.target.value;
@@ -27,28 +30,40 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     }));
   };
 
-  const uploadFile = async (productId, file) => {
-    const url = `http://localhost:3000/api/products/${productId}/images`;
+  const uploadFile = async (file, id) => {
+    console.log(file, id);
+    const url = `http://localhost:3000/api/products/${id}/images`;
     const formData = new FormData();
     formData.append('file', file);
     try {
         const response = await fetch(url, {
-            method: 'POST', headers: { "Content-Type": "application/json",
-              Authorization:`Bearer ${jwt}`
-              },
-            body: formData,
+            method: 'POST',
+            headers: { "Content-Type": "application/json",
+                Authorization:`Bearer ${user.jwt}`
+                },
+           // body: formData,
+            body: JSON.stringify(formData),
         });
 
         if (!response.ok) {
+          console.log(await response.json());
             throw new Error('Network response was not ok');
         }
 
         const result = await response.json();
         console.log('Archivo subido con éxito:', result);
     } catch (error) {
+      console.log(error);
         console.error('Error al subir el archivo:', error);
     }
-  };
+};
+
+const handleFileChange = async (event) => {
+  const file = event.target.files[0];
+  if (file) {
+      setSelectedFile(file);
+  }
+};
 
   const confirmCreateCard = async (event) => {
     event.preventDefault();
@@ -59,16 +74,22 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     currentProduct.user_id = user.sub;
     console.log(currentProduct);
     try {
-        const result = await addOne(currentProduct, urlBase);
-        console.log(result)
-        if (result && result.productId) {
-            await uploadFile(result.productId, image);
+      const response = await fetch(urlBase, {
+        method: 'POST', headers: { "Content-Type": "application/json",
+          Authorization:`Bearer ${user.jwt}`
+          },
+        body: JSON.stringify(currentProduct),
+    });
+    const result= await response.json();
+    console.log(result);
+            
+    const hola= await uploadFile(selectedFile, result.productId);
+    console.log(hola);
             setCreate(false);
-            setRefresh(true);
-        } else {
-            throw new Error('Error en la creación del producto');
-        }
+        setRefresh(true);
+  
     } catch (error) {
+      console.log(error);
         console.error('Error:', error);
     } finally {
         setUploading(false);
@@ -107,7 +128,12 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
           </fieldset>
 
           <label>Imagen</label>
-          <input type="file" required onChange={(e) => setImage(e.target.files[0])} />
+
+          <input
+           type="file"
+           onChange={handleFileChange}
+            accept="image/*"
+           />
 
           <div className="container-btns">
             <button className='btn-confirmar-crear' type="submit" disabled={uploading}>

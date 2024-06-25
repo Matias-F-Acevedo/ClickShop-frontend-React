@@ -1,9 +1,9 @@
 import { deleteOne } from "../../service/functionsHTTP";
-
+import "./cardProduct.css";
 
 function Card({ product, index, setUpdate, setCurrentProduct }) {
   
-  
+   
   const {
     product_name,
     price,
@@ -29,7 +29,7 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
     const urlBase = `http://localhost:3000/api/products`
     if (idProducts) {
       deleteOne(idProducts, urlBase)
-      //setRefresh(true)
+      setRefresh(true)
     } else {
         return console.log("no se pudo eliminar")
       }
@@ -51,14 +51,14 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
           <p className="product-conditions">Estado: {condition}</p>
         </div>
           <div className='div-botones'>
-            <button className='btn-delete btn-accion' onClick={() => deleteProducts(product.productId)}>
-              <div className="tooltip">Haz clic para eliminar el producto</div>
+            <button className='btn-accion' onClick={() => deleteProducts(product.productId)}>
+              <div className="tooltip">Clic para eliminar producto</div>
               Eliminar
             </button>
 
-            <button className='btn-actualizar btn-accion' onClick={() => selectProducts(product)}>
+            <button className='btn-accion' onClick={() => selectProducts(product)}>
               Actualizar
-              <div className="tooltip">Haz clic para actualizar el producto</div>
+              <div className="tooltip">Clic para actualizar producto</div>
             </button>
 
           </div>
