@@ -1,0 +1,97 @@
+body {
+    overflow-x: hidden;
+}
+
+.productCard {
+    width: 270px;
+    margin: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px solid #42424225;
+    padding: 15px;
+    background: #fff;
+    border-radius: 4px;
+    transition: 0.3s ease-in-out;
+}
+
+.productCard:hover {
+    transform: scale(1.01);
+    border-color: #a9ce6c;
+}
+
+.product-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-imagen {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.product-names {
+    font-size: 18px;
+    color: #333;
+    margin: 10px 0;
+}
+
+.product-prices,
+.product-stocks,
+.product-conditions {
+    font-size: 16px;
+    color: #555;
+    margin: 5px 0;
+}
+
+.div-botones {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-accion {
+    background-color: rgb(230, 230, 230);
+    border: 2px solid rgb(140, 133, 133);
+    width: 85px;
+    padding: 5px 5px;
+    margin: 5px 5px;
+    font-size: 15px;
+    color: #555555;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative;
+}
+
+.btn-accion:hover {
+    background-color: rgba(42, 42, 42, 0.651);
+    color: #D0EDA1;
+    border-color: #D0EDA1;
+}
+
+.tooltip {
+    visibility: hidden;
+    position: absolute;
+    bottom: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    font-size: 10px;
+    z-index: 1;
+    transition: visibility 0s linear 0.3s, opacity 0.3s ease-in-out;
+}
+
+.btn-accion:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 1s;
+}
