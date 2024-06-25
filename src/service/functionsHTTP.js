@@ -26,6 +26,17 @@ export function updateOne(id, body, url, jwt) {
 }
 
 
+export function updateOnePatch(id, body, url, jwt) {
+  fetch(`${url}/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json",
+      Authorization:`Bearer ${jwt}`
+      },
+    body: JSON.stringify(body),
+  })
+    .then((res) => res.json()).then((parsed)=>console.log(parsed)).catch((err) => console.error(err));
+}
+
 
 
 export function deleteOne(id, url, jwt) {

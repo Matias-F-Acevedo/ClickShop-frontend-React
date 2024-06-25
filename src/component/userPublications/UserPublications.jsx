@@ -50,6 +50,9 @@ function UserPublications() {
                 try {
                     const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
                         method: 'DELETE',
+                        headers: {
+                            Authorization:`Bearer ${user.jwt}`
+                          },
                     });
                     if (!res.ok) {
                         throw new Error('No se pudo eliminar el producto');

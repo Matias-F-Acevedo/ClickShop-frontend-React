@@ -4,7 +4,11 @@ import { Navigate, Outlet} from "react-router-dom";
 
 const ProtectedRouterIfNotUser = ({redirectPath})=> {
     const {user} = useContext(UserContext);
-    if(!user) return console.log("no llega el user", user), <Navigate to={redirectPath} replace/>
+    if(!user) {
+       return;
+    //console.log("no llega el user", user)  
+    } 
+    <Navigate to={redirectPath} replace/>
     return <Outlet/>
 }
 

@@ -30,6 +30,7 @@ function UserPanel() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                  Authorization:`Bearer ${user.jwt}`
             },
         });
         if (!res.ok) return false;

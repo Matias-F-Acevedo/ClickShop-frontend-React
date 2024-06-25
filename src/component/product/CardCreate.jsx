@@ -7,7 +7,6 @@ const urlBase = "http://localhost:3000/api/products";
 
 function CardCreate({ setCreate, refresh, setRefresh }) {
   const { user } = useContext(UserContext);
-  const jwt = user.jwt;
   const [currentProduct, setCurrentProduct] = useState({
     "product_name": "",
     "price": 0,
@@ -38,11 +37,10 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: { "Content-Type": "application/json",
+            headers: {
                 Authorization:`Bearer ${user.jwt}`
                 },
-           // body: formData,
-            body: JSON.stringify(formData),
+           body: formData,
         });
 
         if (!response.ok) {
@@ -81,15 +79,15 @@ const handleFileChange = async (event) => {
         body: JSON.stringify(currentProduct),
     });
     const result= await response.json();
-    console.log(result);
             
-    const hola= await uploadFile(selectedFile, result.productId);
-    console.log(hola);
-            setCreate(false);
-        setRefresh(true);
+    if(selectedFile){
+      await uploadFile(selectedFile, result.productId);
+    }
+   
+      setCreate(false);
+      setRefresh(true);
   
     } catch (error) {
-      console.log(error);
         console.error('Error:', error);
     } finally {
         setUploading(false);

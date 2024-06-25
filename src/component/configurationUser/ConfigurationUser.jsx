@@ -28,12 +28,12 @@ function ConfigurationUser() {
     const [error, setError] = useState("");
     const navigateTo = useNavigate();
     const fileInputRef = useRef(null);
-    const jwt = user.jwt;
+
     async function fetchUserData() {
         try {
             const response = await fetch(`http://localhost:3000/api/users/${user.sub}`,{
                 headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${jwt}`
+                    Authorization:`Bearer ${user.jwt}`
                     }
             })
             if (response.ok) {
@@ -95,8 +95,8 @@ function ConfigurationUser() {
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${jwt}`
+                headers: {
+                    Authorization:`Bearer ${user.jwt}`
                     },
                 body: formData,
             });
@@ -108,6 +108,7 @@ function ConfigurationUser() {
             const result = await response.json();
             console.log('Archivo subido con éxito:', result);
         } catch (error) {
+            console.log(error, "hola");
             console.error('Error al subir el archivo:', error);
         }
     };
@@ -167,7 +168,7 @@ function ConfigurationUser() {
         const res = await fetch(`http://localhost:3000/api/users/${user.sub}`, {
             method: "PATCH",
             headers: { "Content-Type": "application/json",
-                Authorization:`Bearer ${jwt}`
+                Authorization:`Bearer ${user.jwt}`
                 },
             body: JSON.stringify(userEdit),
         })

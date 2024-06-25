@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './card-cart.css';
 
 function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem, onSelectProduct, onSelectCartItem }) {
+
+    
     const { product_name, price, stock, product_image } = product;
     const [quantity, setQuantity] = useState(cartItem.quantity);
 
