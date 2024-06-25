@@ -1,6 +1,6 @@
 import React from 'react'
 import "./forgotPassword.css"
-import { useState} from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
 function ForgotPassword() {
@@ -59,7 +59,7 @@ function ForgotPassword() {
             setEmail("")
         }
     }
- 
+
     return (
         <div className="container-forgot-password">
             <div className='container-h1'>
@@ -70,14 +70,14 @@ function ForgotPassword() {
             <div className='line-forgot-password'></div>
             <div className='container-form-forgot-password'>
 
-            {
+                {
                     conditionalRender ?
-                <h2 className="title-forgot-password">Ingresá tu email</h2>
-                : 
-                <div className='container-title-verification'>
-                    <h3 className="title-verification-forgot-password">Listo, verifique su email y siga los pasos.</h3>
-                </div>
-                
+                        <h2 className="title-forgot-password">Ingresá tu email</h2>
+                        :
+                        <div className='container-title-verification'>
+                            <h3 className="title-verification-forgot-password">Listo, verifique su email y siga los pasos.</h3>
+                        </div>
+
                 }
                 <p className="p-error">{error}</p>
                 <form onSubmit={event => handleSubmit(event)} className="form-forgot-password">
@@ -86,10 +86,11 @@ function ForgotPassword() {
                             <>
                                 <label htmlFor="email">Email</label>
                                 <input type="email" id='email' value={email} onChange={event => setEmail(event.target.value)} required />
+                                <div className='container-btn-form-forgot-password'>
+                                    <button className='btn-form-forgot-password' type="submit">Aceptar</button>
 
-                                <button className='btn-form-forgot-password' type="submit">Aceptar</button>
-                                <Link to={"/login"}>
-                                    <button id='btn-cancel-forgot-password'>Cancelar</button></Link>
+                                    <Link to={"/login"} id='btn-cancel-forgot-password'>Cancelar</Link>
+                                </div>
 
                             </>
                             : <></>

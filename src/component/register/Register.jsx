@@ -96,19 +96,22 @@ function Register() {
 
         <div className="container-register">
             <div className='container-form-register'>
-                <h1 className="title-register">Registrarse</h1>
+                <div className='container-title-register'> 
+                  <h1 className="title-register">Registrarse</h1>  
+                </div>
+                
                 <p className="p-error">{error}</p>
 
                 <form onSubmit={event => registrarUsuario(event)} className="form-register">
                     <div className='doble-inputs'>
 
-                        <div>
+                        <div >
                             <label htmlFor="name">Nombre</label>
                             <input type="text" id='name' value={name} onChange={event => setName(event.target.value)} minLength={3} maxLength={15} pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required />
 
                         </div>
 
-                        <div>
+                        <div className='hola'>
                             <label htmlFor="lastname">Apellido</label>
                             <input type="text" id='lastname' value={lastname} onChange={event => setLastname(event.target.value)} minLength={3} maxLength={15} pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required />
                         </div>

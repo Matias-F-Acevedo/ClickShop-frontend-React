@@ -199,7 +199,7 @@ function ConfigurationUser() {
 
     return (
         <>
-
+ 
             <div className="container">
 
                 <div className="leftbox">
@@ -222,7 +222,7 @@ function ConfigurationUser() {
                            
                         }
 
-                        <p>Foto de perfil</p>
+                        <p className='text-photoOfProfile'>Foto de perfil</p>
                     </div>
 
                     <div className='menu-options'>
@@ -257,12 +257,12 @@ function ConfigurationUser() {
                             <form onSubmit={event => updateUser(event)}>
                                 <div className='doble-inputs'>
 
-                                    <div>
+                                    <div className='div-doble-input'>
                                         <label htmlFor="name">Nombre</label>
                                         <input type="text" id='name' minLength={3} maxLength={15} value={name} onChange={event => setName(event.target.value)} pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required />
                                     </div>
 
-                                    <div>
+                                    <div className='div-doble-input'>
                                         <label htmlFor="lastname">Apellido</label>
                                         <input type="text" id='lastname' minLength={3} maxLength={15} value={lastname} onChange={event => setLastname(event.target.value)} pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required />
                                     </div>
@@ -276,13 +276,13 @@ function ConfigurationUser() {
 
 
                                 <div className='doble-inputs'>
-                                    <div>
+                                    <div className='div-doble-input'>
                                         <label htmlFor="phoneNumber">Número de teléfono</label>
                                         <input type="number" id='phoneNumber' minLength={7} maxLength={15} value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)}
                                             title="El número de teléfono debe tener entre 7 y 9 dígitos" pattern="[0-15]{7,15}"
                                             required />
                                     </div>
-                                    <div>
+                                    <div className='div-doble-input'>
 
                                         <label htmlFor="identificationNumber">Número de documento</label>
                                         <input type="number" id='identificationNumber' value={identificationNumber} onChange={event => setIdentificationNumber(event.target.value)}
@@ -298,7 +298,7 @@ function ConfigurationUser() {
 
 
                                 <div className='buttons'>
-                                    <Link to={"/login"}>
+                                    <Link to={"/login"} className='link-button-cancel-update'>
                                         <button className='button-cancel-update'><RxCross2 /></button>
                                     </Link>
 

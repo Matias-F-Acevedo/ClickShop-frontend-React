@@ -1,4 +1,4 @@
-.image-favorites{
+.image-favorites {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -10,6 +10,65 @@
     height: 95px;
 }
 
-.div-description-favorites{
+.div-description-favorites {
     width: 400px;
+}
+
+
+
+
+@media (max-width: 900px) {
+    .div-description-favorites {
+        width: 90%;
+    }
+}
+
+
+
+@media (max-width: 800px) {
+
+
+    .image-favorites {
+        width: 100%;
+    }
+
+
+    .image-favorites img {
+        width: auto;
+        height: 150px;
+    }
+
+
+    .div-description-favorites {
+        width: 100%;
+    }
+
+    table .btn-delete-favorite {
+        height: 45px;
+        width: 100%;
+        gap: 30px;
+        font-size: 30px;
+    }
+
+    table .btn-delete-favorite .btn-crud-publicationsUser {
+        width: 100px;
+        height: 35px;
+    }
+
+
+}
+
+
+
+@media (max-width: 500px) {
+
+    .image-favorites img {
+        width: auto;
+        height: 130px;
+    }
+
+    .td-name-colum{
+        display: none;
+    }
+
 }

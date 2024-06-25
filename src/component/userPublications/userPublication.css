@@ -56,3 +56,26 @@
 .swal2-cancel {
     font-weight: 400;
 }
+
+
+
+
+@media (max-width: 800px) {
+
+ .crud-publicationsUser-btns{
+    font-size: 35px;
+    width: 100px;
+
+ }
+
+}
+
+@media (max-width: 500px) {
+
+    .crud-publicationsUser-btns{
+       font-size: 35px;
+       width: 70px;
+   
+    }
+   
+   }

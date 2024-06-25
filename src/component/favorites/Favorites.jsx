@@ -18,11 +18,11 @@ function Favorites() {
         try {
             const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`,
                 {
-                    headers: { "Content-Type": "application/json",
-                        Authorization:`Bearer ${user.jwt}`
-                        }
+                    headers:{
+                        Authorization:`Bearer ${user.jwt}`,   
+                       } 
                 }
-            );
+            ); 
             if (!res.ok) {
                 throw new Error('Failed to fetch favorites');
             }
@@ -97,7 +97,7 @@ function Favorites() {
 
     const columns = [
         {
-            header: "#",
+            header: "Producto",
             cell: ({ row }) => {
                 const productImg = row.original.product.product_image;
                 return <div className='image-favorites'>
@@ -128,13 +128,13 @@ function Favorites() {
             }
         },
         {
-            header: "Eliminar",
+            header: "Opciones",
             cell: ({ row }) => {
                 const productId = row.original.product_id;
                 return <div className='crud-publicationsUser btn-delete-favorite' >
-                    <Link onClick={(event) => handleLinkClick(event, productId)}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser' />
+                    <Link onClick={(event) => handleLinkClick(event, productId)} className='btn-crud-publicationsUser'><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser btn-crud-publicationsUser' />
                     </Link>
-                    <MdOutlineDeleteForever onClick={(event) => removeFavorite(productId, event)} className='btn-delete-publicationUser btn-publicationUser' />
+                    <MdOutlineDeleteForever onClick={(event) => removeFavorite(productId, event)} className='btn-delete-publicationUser btn-publicationUser btn-crud-publicationsUser' />
                 </div>;
             }
         }

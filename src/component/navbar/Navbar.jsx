@@ -6,13 +6,18 @@ import { PiStorefrontLight } from "react-icons/pi";
 import { TiMessage } from "react-icons/ti";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { useRef } from "react";
+import { useRef, useContext } from "react";
 import { BsCart3 } from "react-icons/bs";
-import { CgProfile } from "react-icons/cg";
 import UserPanel from "../userPanel/UserPanel";
-
+import { CiSettings } from "react-icons/ci";
+import { MdOutlineLogout } from "react-icons/md";
+import { UserContext } from '../../context/UserContext';
+import { MdOutlineLogin } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 function Navbar() {
 
+    const { user, handleLogout } = useContext(UserContext);
+    const navigate = useNavigate();
     const navbar = useRef();
 
     function toggleMenu() {
@@ -32,7 +37,7 @@ function Navbar() {
                 <div className="container-nav-desktop">
                     <div className="logo">
                         <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
-                        <span className="logo-name">ClickShop</span>
+                        <span className="logo-name" onClick={()=> navigate(`/`)}>ClickShop</span>
                     </div>
                     <div className="nav-desktop">
                         <ul>
@@ -59,31 +64,33 @@ function Navbar() {
                     <div className="sidebar-content">
                         <ul className="lists">
                             <li className="list">
-                                <Link to={"/"} className="nav-link">
+                                <Link to={"/"} className="nav-link" onClick={() => closeToggleMenu()}>
                                     <GoHome className="icon" />
                                     <span className="link">Inicio</span>
                                 </Link>
                             </li>
                             <li className="list">
-                                <Link to={"/store"} className="nav-link">
+                                <Link to={"/store"} className="nav-link" onClick={() => closeToggleMenu()}>
                                     <PiStorefrontLight className="icon" />
                                     <span className="link">Tienda</span>
                                 </Link>
                             </li>
+                            {user ?
+                                <li className="list">
+                                    <Link to={"/favorites"} className="nav-link" onClick={() => closeToggleMenu()}>
+                                        <IoMdHeartEmpty className="icon" />
+                                        <span className="link">Favoritos</span>
+                                    </Link>
+                                </li>
+                                : <></>}
                             <li className="list">
-                                <Link to={"/"} className="nav-link">
-                                    <IoMdHeartEmpty className="icon" />
-                                    <span className="link">Favoritos</span>
-                                </Link>
-                            </li>
-                            <li className="list">
-                                <Link to={"/Contact"} className="nav-link">
+                                <Link to={"/Contact"} className="nav-link" onClick={() => closeToggleMenu()}>
                                     <TiMessage className="icon" />
                                     <span className="link">Contacto</span>
                                 </Link>
                             </li>
                             <li className="list">
-                                <Link to={"/team"} className="nav-link">
+                                <Link to={"/team"} className="nav-link" onClick={() => closeToggleMenu()}>
                                     <HiOutlineUserGroup className="icon" />
                                     <span className="link">Nosotros</span>
                                 </Link>
@@ -93,18 +100,34 @@ function Navbar() {
                         </ul>
 
                         <div className="bottom-content">
-                            <li className="list">
-                                <Link to={"/"} className="nav-link">
-                                    <GoHome className="icon" />
-                                    <span className="link">Configuración</span>
-                                </Link>
-                            </li>
-                            <li className="list">
-                                <Link to={"/"} className="nav-link">
-                                    <GoHome className="icon" />
-                                    <span className="link">Cerrar sesión</span>
-                                </Link>
-                            </li>
+
+                            {user ?
+                                <li className="list">
+                                    <Link to={"/configuration-user"} className="nav-link" onClick={() => closeToggleMenu()}>
+                                        <CiSettings className="icon" />
+                                        <span className="link">Configuración</span>
+                                    </Link>
+                                </li>
+                                : <></>}
+                            {user ?
+                                <li className="list">
+                                    <Link to={"/"} className="nav-link" onClick={() => { handleLogout(), closeToggleMenu() }}>
+                                        <MdOutlineLogout className="icon" />
+                                        <span className="link">Cerrar sesión</span>
+                                    </Link>
+                                </li>
+                                :
+
+                                <li className="list">
+                                    <Link to={"/login"} className="nav-link" onClick={() => closeToggleMenu()}>
+                                        <MdOutlineLogin className="icon" />
+                                        <span className="link">Iniciar sesión</span>
+                                    </Link>
+                                </li>
+                            }
+
+
+
                         </div>
                     </div>
                 </div>

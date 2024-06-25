@@ -40,6 +40,7 @@ const Store = () => {
         const result= await response.json();
         console.log(result);
       setProducts(result);
+
     }
     catch (error) {
       console.error("Error fetching products:", error);

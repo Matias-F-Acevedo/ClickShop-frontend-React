@@ -7,19 +7,25 @@
 
 
 .container-register {
-    padding-top: 7%;
     display: flex;
-    width: 100%;
     justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 570px;
+}
+
+.container-title-register {
+    width: 420px;
 }
 
 .container-form-register {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 10px;
-    height: 350px;
-    width: 40%;
+    height: auto;
+    width: 420px;
     padding: 5%;
 }
 
@@ -100,6 +106,7 @@
 .buttons-register {
     display: flex;
     justify-content: center;
+    width: 100%;
 }
 
 
@@ -108,6 +115,118 @@
     margin-left: 5px;
 }
 
-.btn-cancel-register{
-    background-color: rgb(221, 53, 53);
+
+.form-register #btn-cancel-register {
+    background-color: red;
 }
+
+
+
+.btn-form-register:hover {
+    background-color: #608d18ad;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+#btn-cancel-register:hover {
+    background-color: rgba(255, 0, 0, 0.719);
+    color: #ffffff;
+    font-size: 17px;
+}
+
+
+
+.btn-form-register:active {
+    background-color: #ffffff;
+    color: #608d18ad;
+    border: 1px solid #618D18;
+}
+
+#btn-cancel-register:active {
+    background-color: #ffffff;
+    color: red;
+    border: 1px solid red;
+}
+
+
+@media (max-width: 500px) {
+
+    #email-register,
+    #password-register,
+    #address {
+        width: 90%;
+    }
+
+    #name,
+    #lastname,
+    #phoneNumber,
+    #identificationNumber {
+        width: 90%;
+    }
+
+
+    .form-register .doble-inputs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .container-register {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .container-title-register {
+        width: 100%;
+    }
+
+    .container-title-register .title-register {
+        padding-left: 4%;
+    }
+
+
+    .container-form-register {
+        width: 90%;
+        display: flex;
+        padding: 0;
+        padding-top: 30px;
+
+    }
+
+    .container-form-register .form-register {
+        padding-left: 5%;
+        width: 100%;
+    }
+
+
+    .form-register button {
+        margin: 20px 10px;
+    }
+
+
+    .buttons-register {
+        width: 90%;
+    }
+
+    .buttons-register #btn-cancel-register{
+        width: 100px;
+        
+    }
+
+    .buttons-register .btn-form-register{
+        width: 100px;
+    }
+
+    .form-register #btn-cancel-register {
+        background-color: red;
+    }
+
+    .btn-cancel-register {
+        background-color: rgb(221, 53, 53);
+    }
+}
+

@@ -18,7 +18,11 @@ function Sales() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await fetch(`http://localhost:3000/api/order/product-owner/${user.sub}`);
+                const res = await fetch(`http://localhost:3000/api/order/product-owner/${user.sub}`,{
+                    headers: { "Content-Type": "application/json",
+                        Authorization:`Bearer ${user.jwt}`
+                        }, 
+                });
                 if (!res.ok) throw new Error('Error fetching data');
                 const data = await res.json();
                 // Mapear sobre cada orden y sus detalles
@@ -26,7 +30,11 @@ function Sales() {
                     const detailPromises = order.orderDetail.map(async (detail) => {
                         // Si hay una imagen de producto
                         if (detail.product && detail.product.product_image) {
-                            const res = await fetch(`http://localhost:3000/api/products/${detail.product_id}/images`);
+                            const res = await fetch(`http://localhost:3000/api/products/${detail.product_id}/images`,{
+                                headers: { "Content-Type": "application/json",
+                                    Authorization:`Bearer ${user.jwt}`
+                                    }, 
+                            });
 
                             if (!res.ok) throw new Error('Error posting data');
                             const responseData = await res.json();
@@ -98,6 +106,7 @@ function Sales() {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization:`Bearer ${user.jwt}`
                 },
                 body: JSON.stringify({ status: newStatus }),
             });
@@ -227,7 +236,7 @@ function Sales() {
                 else if (value === "SHIPPED") className = "ENVIADO";
                 else if (value === "CANCELLED") className = "CANCELADO";
                 return (
-                    <div>
+                    <div className='sales-status-order'>
                         <div className='current-status'>Estado actual:<p id={className}>{className}</p></div>
 
                         <div className='container-select-status'>

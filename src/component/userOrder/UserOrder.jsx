@@ -12,7 +12,11 @@ function UserOrder() {
 
     async function getOrders() {
 
-        const res = await fetch(`http://localhost:3000/api/order?userId=${user.sub}`)
+        const res = await fetch(`http://localhost:3000/api/order?userId=${user.sub}`,{
+            headers:{
+                Authorization:`Bearer ${user.jwt}`,   
+               } 
+        })
 
         if (!res.ok) {
             console.log("no hay ordenes");
@@ -24,10 +28,6 @@ function UserOrder() {
     }
 
     const columns = [
-        {
-            header: "#",
-            accessorKey: "order_id",
-        },
         {
             header: "Fecha",
             accessorKey: "date",
