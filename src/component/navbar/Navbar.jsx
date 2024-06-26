@@ -50,7 +50,7 @@ function Navbar() {
                     </div>
                     <div className="icon-nav">
                         <UserPanel className="icon-userProfile" />
-                        <Link to={"/cart"}><BsCart3 className=" icon-cart" /></Link>
+                        <Link to={"/cart"}><BsCart3 className="icon-cart" /></Link>
 
                     </div>
                 </div>
