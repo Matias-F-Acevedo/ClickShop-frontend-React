@@ -3,8 +3,10 @@ import { useState } from "react"
 import "./register.css"
 import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
-function Register() {
+import { post } from '../../service/functionsHTTP';
 
+
+function Register() {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,7 +22,7 @@ function Register() {
     const urlUsers = "http://localhost:3000/api/users"
 
 
-    async function registrarUsuario(event) {
+    async function registerUser(event) {
         event.preventDefault();
 
         if (name.length < 3 || name.length > 15) { setError("El nombre debe tener entre 3 y 15 caracteres"); return; }
@@ -55,13 +57,8 @@ function Register() {
             "user_password": password
         };
 
-        const res = await fetch(urlUsers, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newUser),
-        })
+        const body = newUser;
+        const res = await post(urlUsers,body)
         const parsed = await res.json()
 
         if (parsed.status == 409) {
@@ -90,8 +87,6 @@ function Register() {
     }
 
 
-
-
     return (
 
         <div className="container-register">
@@ -102,7 +97,7 @@ function Register() {
                 
                 <p className="p-error">{error}</p>
 
-                <form onSubmit={event => registrarUsuario(event)} className="form-register">
+                <form onSubmit={event => registerUser(event)} className="form-register">
                     <div className='doble-inputs'>
 
                         <div >
@@ -158,11 +153,7 @@ function Register() {
                 </form>
             </div>
         </div>
-
-
     )
-
-
 }
 
 export default Register;

@@ -1,45 +1,116 @@
-import { UserContext } from "../../context/UserContext";
-import { useContext, useState, useEffect } from "react";
 import "./store.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import React from "react";
+import { UserContext } from "../../context/UserContext";
+import { useContext, useState, useEffect } from "react";
 import { BsCartPlusFill } from "react-icons/bs";
 import ImageGallery from "react-image-gallery";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiEye } from "react-icons/fi";
+import { getAll, getById, post, updatePut } from "../../service/functionsHTTP";
 import Swal from 'sweetalert2';
 
+
 const ProductCard = (props) => {
-    const { data, handleLinkClickProduct } = props
-    const { user } = useContext(UserContext);
-  const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
+
+  const { data, handleLinkClickProduct } = props
+  const { user } = useContext(UserContext);
   const [addedToCart, setAddedToCart] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  
-  const newProduct = {
-    product_id: data.productId,
-    quantity: 1,
-    unitPrice: data.price
-  }
+
+
+
   const handleAddToCart = async () => {
+
+    const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
+    const URLCartItems = `http://localhost:3000/api/cart/${user.sub}/items`
     try {
       if (user) {
-        await fetch(URLCartUser, {
-          method: 'POST',
-          headers: { "Content-Type": "application/json",
-            Authorization:`Bearer ${user.jwt}`
+        const cartItemsRes = await getAll(URLCartItems, user.jwt);
+        if (!cartItemsRes.ok) {
+          throw new Error('Failed to fetch user cart');
+        }
+        const cartItems = await cartItemsRes.json();
+
+        const existingProduct = cartItems.find(item => item.product_id == data.productId);
+
+        let res;
+
+        if (existingProduct) {
+          const updatedProduct = {
+            quantity: existingProduct.quantity + 1
+          };
+
+          res = await updatePut(`${URLCartUser}/items/${existingProduct.cartItem_id}/quantity`, updatedProduct, user.jwt);
+
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Cantidad del producto actualizada en el carrito',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            customClass: {
+              popup: 'swal2-toast-custom'
             },
-          body: JSON.stringify(newProduct ),  
-        });
-        console.log(newProduct)
-        console.log("se agrego el producto al carrito")
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+
+        } else {
+          const newProduct = {
+            product_id: data.productId,
+            quantity: 1,
+            unitPrice: data.price
+          };
+          res = await post(URLCartUser, newProduct, user.jwt);
+          Swal.fire({
+            toast: true,
+            position: 'top-end',
+            icon: 'success',
+            title: 'Agregado al carrito',
+            showConfirmButton: false,
+            timer: 1500,
+            timerProgressBar: true,
+            customClass: {
+              popup: 'swal2-toast-custom'
+            },
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer);
+              toast.addEventListener('mouseleave', Swal.resumeTimer);
+            }
+          });
+
+        }
+        if (!res.ok) {
+          throw new Error('Error when adding product to cart');
+        }
         setAddedToCart(true);
       } else {
-        console.error("El usuario no está definido.");
+        console.error("The user is not defined");
       }
     } catch (error) {
-      console.error("Error al agregar el producto al carrito:", error);
+      console.error("Error when adding product to cart:", error);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se pudo agregar el producto al carrito',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        customClass: {
+          popup: 'swal2-toast-custom'
+        },
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
     }
   };
 
@@ -47,16 +118,15 @@ const ProductCard = (props) => {
   const checkIfFavorite = async () => {
     try {
       if (user) {
-        const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`,{
-          headers: { "Content-Type": "application/json",
-            Authorization:`Bearer ${user.jwt}`
-            }
-        });
+
+        const urlFavorites = `http://localhost:3000/api/favorites`
+        const res = await getById(user.sub, urlFavorites, user.jwt)
+
         if (!res.ok) {
           throw new Error('Failed to fetch favorites');
         }
         const favorites = await res.json();
-        const isFav = favorites.some(fav => fav.product_id === productId);
+        const isFav = favorites.some(fav => fav.product_id === data.productId);
         setIsFavorite(isFav);
       }
     } catch (error) {
@@ -73,9 +143,10 @@ const ProductCard = (props) => {
 
         const response = await fetch(isFavorite ? url : 'http://localhost:3000/api/favorites', {
           method,
-          headers: { "Content-Type": "application/json",
-            Authorization:`Bearer ${user.jwt}`
-            },
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.jwt}`
+          },
           body: isFavorite ? null : body,
         });
 
@@ -132,7 +203,6 @@ const ProductCard = (props) => {
   })
 
 
-
   const renderLeftNav = (onClick, disabled) => (
     <IoIosArrowBack
       className="image-gallery-custom-left-nav"
@@ -149,6 +219,11 @@ const ProductCard = (props) => {
     />
   );
 
+  useEffect(() => {
+    if (user) {
+      checkIfFavorite();
+    }
+  }, [user]);
 
 
 
@@ -172,9 +247,6 @@ const ProductCard = (props) => {
             {isFavorite ? <FaHeart style={{ color: "red" }} /> : <FaRegHeart />}
           </button>
         </div>
-
-
-
       </div>
     </div>
   );

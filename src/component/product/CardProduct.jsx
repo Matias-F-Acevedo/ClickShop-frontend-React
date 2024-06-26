@@ -1,18 +1,13 @@
-import { useContext } from "react";
-import { deleteOne } from "../../service/functionsHTTP";
 import "./cardProduct.css";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+import { remove } from "../../service/functionsHTTP";
 
+function Card({ product, index, setUpdate, setCurrentProduct ,setPublications, products}) {
 
-
-
-
-
-function Card({ product, index, setUpdate, setCurrentProduct }) {
   const { user } = useContext(UserContext);
-  const navigateTo = useNavigate();
+
   const {
     product_name,
     price,
@@ -22,29 +17,15 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
     product_image
   } = product;
 
-  if (product.condition = "NEW") {
+  if (product.condition === "NEW") {
     product.condition = "Nuevo"
   }
   else {
     product.condition = "Usado"
   }
-  // Verificar si category es null antes de acceder a su propiedad name
-  const categoryName = category ? category.name : 'Sin categoría';
-
-  // async function deleteProducts(idProducts) {
-
-  //   const urlBase = `http://localhost:3000/api/products`
-  //   if (idProducts) {
-  //     deleteOne(idProducts, urlBase, user.jwt)
-  //     setRefresh(true)
-  //   } else {
-  //       return console.log("no se pudo eliminar")
-  //     }
-  //   }
 
 
-  async function deleteProducts(productId) {
-
+  async function deleteProduct(productId) {
 
     Swal.fire({
       title: "¿Estás seguro?",
@@ -63,27 +44,22 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
-            method: 'DELETE',
-            headers: {
-              Authorization: `Bearer ${user.jwt}`
-            },
-          });
+          const fullUrl = `http://localhost:3000/api/products/${productId}`;
+
+          const res = await remove(fullUrl, user.jwt);
+
           if (!res.ok) {
             throw new Error('No se pudo eliminar el producto');
           }
+
+          setPublications(products.filter(pub => pub.productId !== productId));
+
           Swal.fire({
             title: "Eliminado!",
             text: "Su publicación ha sido eliminada.",
             icon: "success",
             confirmButtonColor: "#006d779a",
           });
-
-
-          setTimeout(() => {
-            window.location.reload();
-            navigateTo("/sell");
-          }, 2000)
 
         } catch (error) {
           console.error(error);
@@ -94,7 +70,6 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
     });
 
   }
-
 
 
   async function selectProducts(product) {
@@ -112,7 +87,7 @@ function Card({ product, index, setUpdate, setCurrentProduct }) {
         <p className="product-conditions">Estado: {condition}</p>
       </div>
       <div className='div-botones'>
-        <button className='btn-accion' onClick={() => deleteProducts(product.productId)}>
+        <button className='btn-accion' onClick={() => deleteProduct(product.productId)}>
           <div className="tooltip">Clic para eliminar producto</div>
           Eliminar
         </button>

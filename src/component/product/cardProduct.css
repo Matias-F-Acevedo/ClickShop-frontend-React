@@ -18,7 +18,6 @@
 }
 
 .productCard:hover {
-    transform: scale(1.01);
     border-color: #a9ce6c;
 }
 

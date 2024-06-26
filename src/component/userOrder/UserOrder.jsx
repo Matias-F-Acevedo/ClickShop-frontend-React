@@ -4,27 +4,27 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from '../../context/UserContext';
 import dayjs from 'dayjs';
 import TableComponent from '../tableComponent/TableComponent';
+import { getAll } from '../../service/functionsHTTP';
+
 
 function UserOrder() {
 
-    const { user, handleLogout } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [orders, setOrders] = useState([])
 
     async function getOrders() {
+        try {
+            const url = `http://localhost:3000/api/order?userId=${user.sub}`;
+            const res = await getAll(url, user.jwt)
 
-        const res = await fetch(`http://localhost:3000/api/order?userId=${user.sub}`,{
-            headers:{
-                Authorization:`Bearer ${user.jwt}`,   
-               } 
-        })
-
-        if (!res.ok) {
-            console.log("no hay ordenes");
-            return
+            if (!res.ok) {
+                throw new Error('Failed to fetch orders');
+            }
+            const parsed = await res.json();
+            setOrders(parsed);
+        } catch (error) {
+            console.error(error);
         }
-
-        const parsed = await res.json();
-        setOrders(parsed);
     }
 
     const columns = [
@@ -41,10 +41,10 @@ function UserOrder() {
             header: "Total",
             accessorKey: "total",
             cell: info => {
-                const value = parseFloat(info.getValue()); 
+                const value = parseFloat(info.getValue());
                 const formattedValue = `$ ${value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
                 return formattedValue;
-              }
+            }
         },
 
         {
@@ -53,7 +53,7 @@ function UserOrder() {
             cell: info => {
                 const value = info.getValue();
                 let className = "";
-                if (value === "PENDING") className = "PENDIENTE" ;
+                if (value === "PENDING") className = "PENDIENTE";
                 else if (value === "COMPLETED") className = "COMPLETADO";
                 else if (value === "SHIPPED") className = "ENVIADO";
                 else if (value === "CANCELLED") className = "CANCELADO";

@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import ChangePassword from './ChangePassword';
+import { getById,updatePatch } from '../../service/functionsHTTP';
+
 
 
 function ConfigurationUser() {
-
 
     const { user, handleLogout } = useContext(UserContext);
     const [renderConditional, setrRenderConditional] = useState(true);
@@ -31,11 +32,9 @@ function ConfigurationUser() {
 
     async function fetchUserData() {
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${user.sub}`,{
-                headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${user.jwt}`
-                    }
-            })
+            const urlBase= "http://localhost:3000/api/users"
+            const response = await getById(user.sub,urlBase,user.jwt )
+
             if (response.ok) {
                 const data = await response.json();
                 setEmail(data.user_email)
@@ -106,9 +105,8 @@ function ConfigurationUser() {
             }
 
             const result = await response.json();
-            console.log('Archivo subido con éxito:', result);
+            return result;
         } catch (error) {
-            console.log(error, "hola");
             console.error('Error al subir el archivo:', error);
         }
     };
@@ -163,15 +161,10 @@ function ConfigurationUser() {
         if (email == user.email) {
             delete userEdit.user_email
         }
+        const fullUrl = `http://localhost:3000/api/users/${user.sub}`
+        const body = userEdit;
+        const res = await updatePatch(fullUrl,body,user.jwt)
 
-
-        const res = await fetch(`http://localhost:3000/api/users/${user.sub}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json",
-                Authorization:`Bearer ${user.jwt}`
-                },
-            body: JSON.stringify(userEdit),
-        })
         const parsed = await res.json()
 
         if (parsed.status == 409) {
@@ -192,7 +185,6 @@ function ConfigurationUser() {
 
         setTimeout(() => {
             handleLogout()
-            window.location.reload();
             navigateTo("/login");
         }, 2000)
 

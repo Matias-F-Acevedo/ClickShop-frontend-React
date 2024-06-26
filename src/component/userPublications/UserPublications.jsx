@@ -9,6 +9,8 @@ import { MdEditNote } from "react-icons/md";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { getAll,remove } from '../../service/functionsHTTP';
+
 
 function UserPublications() {
 
@@ -16,16 +18,19 @@ function UserPublications() {
     const [publications, setPublications] = useState([])
 
     async function getPublications() {
+        try {
+            const url = `http://localhost:3000/api/products?userId=${user.sub}`;
+            const res = await getAll(url)
 
-        const res = await fetch(`http://localhost:3000/api/products?userId=${user.sub}`)
+            if (!res.ok) {
+                throw new Error('Failed to fetch product of user');
+            }
 
-        if (!res.ok) {
-            console.log("no hay productos");
-            return
+            const parsed = await res.json();
+            setPublications(parsed);
+        } catch (error) {
+            console.error(error);
         }
-
-        const parsed = await res.json();
-        setPublications(parsed);
     }
 
     async function deletePublication(productId) {
@@ -48,12 +53,10 @@ function UserPublications() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            Authorization:`Bearer ${user.jwt}`
-                          },
-                    });
+                    const fullUrl = `http://localhost:3000/api/products/${productId}`;
+
+                    const res = await remove(fullUrl,user.jwt);
+                    
                     if (!res.ok) {
                         throw new Error('No se pudo eliminar el producto');
                     }
@@ -99,7 +102,7 @@ function UserPublications() {
             header: 'Stock',
             accessorKey: 'stock',
             cell: info => `${info.getValue()} Uds.`,
-          },
+        },
         {
             header: "Precio",
             accessorKey: "price",
@@ -144,8 +147,8 @@ function UserPublications() {
                 return <div className='crud-publicationsUser'>
                     <Link onClick={(event) => handleLinkClick(event, productId)}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser crud-publicationsUser-btns' />
                     </Link>
-                
-                        <MdEditNote className='btn-Edit-publicationUser btn-publicationUser crud-publicationsUser-btns' />
+
+                    <MdEditNote className='btn-Edit-publicationUser btn-publicationUser crud-publicationsUser-btns' />
                     <MdOutlineDeleteForever onClick={() => deletePublication(productId)} className='btn-delete-publicationUser btn-publicationUser crud-publicationsUser-btns' />
                 </div>;
             }

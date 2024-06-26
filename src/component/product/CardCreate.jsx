@@ -1,11 +1,16 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
-import { addOne } from "../../service/functionsHTTP";
 import "./cardCreate.css";
+import { post, getAll } from "../../service/functionsHTTP";
+import Swal from 'sweetalert2';
 
 const urlBase = "http://localhost:3000/api/products";
+const urlCategories = "http://localhost:3000/api/categories";
+
 
 function CardCreate({ setCreate, refresh, setRefresh }) {
+
+
   const { user } = useContext(UserContext);
   const [currentProduct, setCurrentProduct] = useState({
     "product_name": "",
@@ -16,10 +21,27 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     "category_id": "",
     "user_id": "",
   });
-
-  const [image, setImage] = useState(null);
+  const [categories, setCategories] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await getAll(urlCategories, user.jwt);
+        if (!res.ok) {
+          throw new Error('Failed to fetch categories');
+        }
+        const data = await res.json();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    }
+
+    fetchCategories();
+  }, [user]);
 
   const handleConditionChange = (event) => {
     const value = event.target.value;
@@ -30,38 +52,32 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
   };
 
   const uploadFile = async (file, id) => {
-    console.log(file, id);
     const url = `http://localhost:3000/api/products/${id}/images`;
     const formData = new FormData();
     formData.append('file', file);
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                Authorization:`Bearer ${user.jwt}`
-                },
-           body: formData,
-        });
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user.jwt}`
+        },
+        body: formData,
+      });
 
-        if (!response.ok) {
-          console.log(await response.json());
-            throw new Error('Network response was not ok');
-        }
-
-        const result = await response.json();
-        console.log('Archivo subido con éxito:', result);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
     } catch (error) {
-      console.log(error);
-        console.error('Error al subir el archivo:', error);
+      console.error('Error al subir el archivo:', error);
     }
-};
+  };
 
-const handleFileChange = async (event) => {
-  const file = event.target.files[0];
-  if (file) {
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
       setSelectedFile(file);
-  }
-};
+    }
+  };
 
   const confirmCreateCard = async (event) => {
     event.preventDefault();
@@ -70,30 +86,63 @@ const handleFileChange = async (event) => {
     currentProduct.stock = parseInt(currentProduct.stock);
     currentProduct.category_id = parseInt(currentProduct.category_id);
     currentProduct.user_id = user.sub;
-    console.log(currentProduct);
+
     try {
-      const response = await fetch(urlBase, {
-        method: 'POST', headers: { "Content-Type": "application/json",
-          Authorization:`Bearer ${user.jwt}`
-          },
-        body: JSON.stringify(currentProduct),
-    });
-    const result= await response.json();
-            
-    if(selectedFile){
-      await uploadFile(selectedFile, result.productId);
-    }
-   
+      const res = await post(urlBase, currentProduct, user.jwt)
+
+      if (!res.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await res.json();
+
+      if (selectedFile) {
+        await uploadFile(selectedFile, result.productId);
+      }
       setCreate(false);
       setRefresh(true);
-  
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Producto creado con éxito',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        customClass: {
+          popup: 'swal2-toast-custom'
+        },
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+
     } catch (error) {
-        console.error('Error:', error);
+      console.error('Error:', error);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'No se pudo crear el producto',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        customClass: {
+          popup: 'swal2-toast-custom'
+        },
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
     } finally {
-        setUploading(false);
+      setUploading(false);
     }
   };
 
+  function capitalizeFirstLetter(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }
   return (
     <div>
       <div className="div-card-creation">
@@ -111,7 +160,12 @@ const handleFileChange = async (event) => {
           <input className="input-cart-creation" type="text" name="description" placeholder="Descripción" value={currentProduct.description} onChange={(e) => setCurrentProduct(prev => ({ ...prev, description: e.target.value }))} required />
 
           <label>Categoria</label>
-          <input className="input-cart-creation" type="number" name="category" placeholder="Categoria" value={currentProduct.category_id} onChange={(e) => setCurrentProduct(prev => ({ ...prev, category_id: e.target.value }))} required />
+          <select className="input-cart-creation" name="category" value={currentProduct.category_id} onChange={(e) => setCurrentProduct(prev => ({ ...prev, category_id: e.target.value }))} required>
+            <option value="">Selecciona una categoría</option>
+            {categories.map(category => (
+              <option key={category.id} value={category.id}>{capitalizeFirstLetter(category.name)}</option>
+            ))}
+          </select>
 
           <fieldset>
             <div>
@@ -128,10 +182,10 @@ const handleFileChange = async (event) => {
           <label>Imagen</label>
 
           <input
-           type="file"
-           onChange={handleFileChange}
+            type="file"
+            onChange={handleFileChange}
             accept="image/*"
-           />
+          />
 
           <div className="container-btns">
             <button className='btn-confirmar-crear' type="submit" disabled={uploading}>

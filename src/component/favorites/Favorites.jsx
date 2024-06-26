@@ -8,21 +8,18 @@ import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
 import { CgDetailsMore } from "react-icons/cg";
 import { Link } from 'react-router-dom';
-
+import { getById, remove } from '../../service/functionsHTTP';
 function Favorites() {
 
     const { user, handleLogout } = useContext(UserContext);
     const [favorites, setFavorites] = useState([])
     const navigate = useNavigate();
+
+
     async function getFavorites() {
         try {
-            const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}`,
-                {
-                    headers:{
-                        Authorization:`Bearer ${user.jwt}`,   
-                       } 
-                }
-            ); 
+            const urlBase = "http://localhost:3000/api/favorites";
+            const res = await getById(user.sub, urlBase, user.jwt)
             if (!res.ok) {
                 throw new Error('Failed to fetch favorites');
             }
@@ -52,7 +49,6 @@ function Favorites() {
         event.stopPropagation();
         Swal.fire({
             title: "¿Estás seguro?",
-            // text: "No podrás revertir esto!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -67,12 +63,9 @@ function Favorites() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const res = await fetch(`http://localhost:3000/api/favorites/${user.sub}/${productId}`, {
-                        method: 'DELETE',
-                        headers: { "Content-Type": "application/json",
-                            Authorization:`Bearer ${user.jwt}`
-                            }
-                    });
+                    const fullUrl = `http://localhost:3000/api/favorites/${user.sub}/${productId}`;
+
+                    const res = await remove(fullUrl, user.jwt)
                     if (!res.ok) {
                         throw new Error('No se pudo eliminar el producto');
                     }
@@ -140,15 +133,11 @@ function Favorites() {
         }
     ];
 
-    const handleRowClick = (favorite) => {
-        const productId = favorite.product_id
-        navigate(`/product/${productId}`);
-    };
-
     useEffect(() => {
-        getFavorites()
+        if(user){
+         getFavorites()   
+        }
     }, [user]);
-
 
     return (
         <TableComponent data={favorites} columns={columns} ></TableComponent>

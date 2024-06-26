@@ -6,11 +6,11 @@ import { UserContext } from '../../context/UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import "./userProduct.css";
+import { getAll } from '../../service/functionsHTTP';
 
 
-const urlBase = "http://localhost:3000/api/products";
+function UserProduct() {
 
-function UserProduct() { 
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [update, setUpdate] = useState(false);
@@ -18,33 +18,24 @@ function UserProduct() {
   const [currentProduct, setCurrentProduct] = useState(null);
   const [state, setState] = useState("");
   const [refresh, setRefresh] = useState(false);
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const jwt = user.jwt;
-  async function getProducts() {
-    if (!user) return; // Si el usuario no está disponible, no intentar obtener productos
+  const [loading, setLoading] = useState(true);
 
+
+  async function getProducts() {
+    if (!user) return;
     try {
-      setLoading(true);
-      const res = await fetch(urlBase, {
-        headers: { "Content-Type": "application/json",
-          Authorization:`Bearer ${jwt}`
-          }
-      }
-      );
+      const url = `http://localhost:3000/api/products?userId=${user.sub}`;
+      const res = await getAll(url)
+
       if (!res.ok) {
-        setState("No hay productos registrados");
-        setProducts([]);
-        setLoading(false);
-        return;
+        throw new Error('Failed to fetch product of user');
       }
+
       const parsed = await res.json();
-      
-      // Filtrar los productos por el usuario actual
-      const userProducts = parsed.filter(product => product.user_id === user.sub);
-      setProducts(userProducts);
+      setProducts(parsed);
       setRefresh(false);
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error(error);
       setState("Ocurrió un error al obtener los productos");
       setProducts([]);
     } finally {
@@ -84,7 +75,7 @@ function UserProduct() {
                 <CardUpdate product={currentProduct} refresh={refresh} setUpdate={setUpdate} setRefresh={setRefresh} />
               ) : (
                 products.map((product, index) => (
-                  <Card key={product.productId} product={product} index={index} setUpdate={setUpdate} setCurrentProduct={setCurrentProduct} />
+                  <Card key={product.productId} product={product} index={index} setUpdate={setUpdate} setCurrentProduct={setCurrentProduct} setPublications={setProducts} products={products} />
                 ))
               )}
             </div>

@@ -11,8 +11,10 @@ import { BsPostcard } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { IoMdTrendingUp } from "react-icons/io";
 import { LiaUserPlusSolid } from "react-icons/lia";
-
+import { getById } from '../../service/functionsHTTP';
 import { PiUserCircle } from "react-icons/pi";
+
+
 function UserPanel() {
 
     const { user, handleLogout } = useContext(UserContext);
@@ -23,16 +25,11 @@ function UserPanel() {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
-    const urlGetImage = "http://localhost:3000/api/users/"
+    const urlGetImage = "http://localhost:3000/api/users"
 
     async function getUserImage(user_id) {
-        const res = await fetch(`${urlGetImage}+${user_id}/profile-image`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                  Authorization:`Bearer ${user.jwt}`
-            },
-        });
+    
+        const res = await getById(`${user_id}/profile-image`,urlGetImage,user.jwt)
         if (!res.ok) return false;
 
         const parsed = await res.json()

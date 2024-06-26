@@ -8,14 +8,13 @@ import { BsCart3 } from "react-icons/bs";
 import { BsBagCheck } from "react-icons/bs";
 import { useParams } from 'react-router-dom';
 import Review from '../../review/Review';
-import RatingForm from '../../ratingForm/RatingForm';
-
-
+import { getAll, getById, post, updatePut } from '../../../service/functionsHTTP';
+import Swal from 'sweetalert2';
 
 function ProductPage() {
 
 
-    const { user, handleLogout } = useContext(UserContext);
+    const { user} = useContext(UserContext);
     const divSelect1 = useRef();
     const divSelect2 = useRef();
     const divSelect3 = useRef();
@@ -36,25 +35,30 @@ function ProductPage() {
 
         async function fetchProductDetails() {
             try {
-                const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
-                });
+                const url = "http://localhost:3000/api/products"
+                const res = await getById(productId,url)
+
                 if (!res.ok) {
-                    throw new Error('No se pudo obtener los detalles del producto');
+                    throw new Error('Failed to fetch details of product');
                 }
                 const data = await res.json();
                 setImagesProduct(data.product_image)
                 setPrincipalImage(data.product_image[0])
                 setProduct(data);
 
-                const reviewsRes = await fetch(`http://localhost:3000/api/review?productId=${productId}`);
+                const urlReview = `http://localhost:3000/api/review?productId=${productId}`
+
+                const reviewsRes = await getAll(urlReview);
+
                 if (!reviewsRes.ok) {
-                    throw new Error('No se pudo obtener las reseñas del producto');
+                    throw new Error('Failed to fetch review of product');
                 }
                 const reviewsData = await reviewsRes.json();
                 setReviews(reviewsData);
 
             } catch (error) {
                 setError(error.message);
+                console.error(error);
             } finally {
                 setLoading(false);
             }
@@ -69,29 +73,93 @@ function ProductPage() {
     const handleAddToCart = async () => {
       
         const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
+        const URLCartItems = `http://localhost:3000/api/cart/${user.sub}/items`
         try {
-          if (user) {
-            const jwt = user.jwt;
-            const newProduct = {
-              product_id: product.productId,
-              quantity: 1,
-              unitPrice: product.price
+            if (user) {
+                const cartItemsRes = await getAll(URLCartItems, user.jwt);
+                if (!cartItemsRes.ok) {
+                    throw new Error('Failed to fetch user cart');
+                }
+                const cartItems = await cartItemsRes.json();
+
+                const existingProduct = cartItems.find(item => item.product_id == productId);
+
+                let res;
+
+                if (existingProduct) {
+                    const updatedProduct = {
+                        quantity: existingProduct.quantity + 1
+                    };
+
+                    res = await updatePut(`${URLCartUser}/items/${existingProduct.cartItem_id}/quantity`, updatedProduct, user.jwt);
+
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title:'Cantidad del producto actualizada en el carrito',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        customClass: {
+                          popup: 'swal2-toast-custom'
+                        },
+                        didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer);
+                          toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                      });
+
+                } else {
+                    const newProduct = {
+                        product_id: product.productId,
+                        quantity: 1,
+                        unitPrice: product.price
+                    };
+                    res = await post(URLCartUser, newProduct, user.jwt);
+                    Swal.fire({
+                        toast: true,
+                        position: 'top-end',
+                        icon: 'success',
+                        title:'Agregado al carrito',
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                        customClass: {
+                          popup: 'swal2-toast-custom'
+                        },
+                        didOpen: (toast) => {
+                          toast.addEventListener('mouseenter', Swal.stopTimer);
+                          toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                      });
+                    
+                }
+                if (!res.ok) {
+                    throw new Error('Error when adding product to cart');
+                }
+                setAddedToCart(true);
+            } else {
+                console.error("The user is not defined");
             }
-            await fetch(URLCartUser, {
-              method: 'POST',
-              headers: { "Content-Type": "application/json",
-                Authorization:`Bearer ${jwt}`
-                },
-              body: JSON.stringify(newProduct ),  
-            });
-            console.log(newProduct)
-            console.log("se agrego el producto al carrito")
-            setAddedToCart(true);
-          } else {
-            console.error("El usuario no está definido.");
-          }
         } catch (error) {
-          console.error("Error al agregar el producto al carrito:", error);
+            console.error("Error when adding product to cart:", error);
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'error',
+                title: 'No se pudo agregar el producto al carrito',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+                customClass: {
+                  popup: 'swal2-toast-custom'
+                },
+                didOpen: (toast) => {
+                  toast.addEventListener('mouseenter', Swal.stopTimer);
+                  toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+              });
         }
       };
 

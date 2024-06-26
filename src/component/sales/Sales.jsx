@@ -5,6 +5,8 @@ import TableComponent from '../tableComponent/TableComponent';
 import { UserContext } from '../../context/UserContext';
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
+import { getById,getAll,updatePatch } from '../../service/functionsHTTP';
+
 
 function Sales() {
     const { user } = useContext(UserContext);
@@ -18,11 +20,9 @@ function Sales() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await fetch(`http://localhost:3000/api/order/product-owner/${user.sub}`,{
-                    headers: { "Content-Type": "application/json",
-                        Authorization:`Bearer ${user.jwt}`
-                        }, 
-                });
+                const url =`http://localhost:3000/api/order/product-owner`;
+                const res = await getById(user.sub,url,user.jwt)
+
                 if (!res.ok) throw new Error('Error fetching data');
                 const data = await res.json();
                 // Mapear sobre cada orden y sus detalles
@@ -30,11 +30,10 @@ function Sales() {
                     const detailPromises = order.orderDetail.map(async (detail) => {
                         // Si hay una imagen de producto
                         if (detail.product && detail.product.product_image) {
-                            const res = await fetch(`http://localhost:3000/api/products/${detail.product_id}/images`,{
-                                headers: { "Content-Type": "application/json",
-                                    Authorization:`Bearer ${user.jwt}`
-                                    }, 
-                            });
+
+                            const url = `http://localhost:3000/api/products/${detail.product_id}/images`;
+
+                            const res = await getAll(url,user.jwt);
 
                             if (!res.ok) throw new Error('Error posting data');
                             const responseData = await res.json();
@@ -102,15 +101,11 @@ function Sales() {
         }
         try {
             setIsLoading(true);
-            const res = await fetch(`http://localhost:3000/api/order/${orderId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization:`Bearer ${user.jwt}`
-                },
-                body: JSON.stringify({ status: newStatus }),
-            });
+            const fullUrl = `http://localhost:3000/api/order/${orderId}`;
+            const body = { status: newStatus };
 
+            const res = await updatePatch(fullUrl,body,user.jwt)
+            
             if (!res.ok) {
                 throw new Error('Error al enviar la petición');
             }

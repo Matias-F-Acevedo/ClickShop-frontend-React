@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useContext } from 'react';
 import "./ratingForm.css"
 import { MdOutlineStarBorder, MdOutlineStar } from "react-icons/md";
 import Swal from 'sweetalert2';
-
+import { post } from '../../service/functionsHTTP';
+import { UserContext } from '../../context/UserContext';
 
 function RatingForm({ userId, productId }) {
+    const { user} = useContext(UserContext);
     const [rating, setRating] = useState(0);
     const [opinion, setOpinion] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
@@ -23,18 +25,16 @@ function RatingForm({ userId, productId }) {
             setErrorMessage('La opinión debe tener entre 10 y 255 caracteres.');
         } else {
             try {
-                const res = await fetch("http://localhost:3000/api/review", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        "product_id": productId,
-                        "user_id": userId,
-                        "score": rating,
-                        "commentary": opinion
-                    }),
-                });
+                const url = "http://localhost:3000/api/review"
+                const body = {
+                    "product_id": productId,
+                    "user_id": userId,
+                    "score": rating,
+                    "commentary": opinion
+                }
+
+                const res = await post(url,body,user.jwt);
+
                 const parsed = await res.json()
                 if (!res.ok || parsed.status == 409 || parsed.status == 400 || parsed.status == 404) {
                     throw new Error('Error al enviar la calificación');
@@ -72,7 +72,6 @@ function RatingForm({ userId, productId }) {
 
     function handleCancel(event) {
         event.preventDefault();
-
         setRating(0);
         setOpinion("");
         setErrorMessage("");

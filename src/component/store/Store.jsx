@@ -1,15 +1,16 @@
 import "./store.css";
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import ProductCard from "./Card";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
+import { getAll } from "../../service/functionsHTTP";
 
 const URL = "http://localhost:3000/api/products";
 
 const PRODUCTS_PER_PAGE = 15;
 
 const Store = () => {
-  const { user, handleLogout } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -26,18 +27,20 @@ const Store = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    if (user){getProducts()};
+    if (user) { getProducts() };
   },
     [currentPage, user]); // Se vuelve a cargar cuando cambia la página
 
+    
   const getProducts = async () => {
     try {
-      const response = await fetch(URL, {
-         headers: {
-          Authorization:`Bearer ${user.jwt}`
-          }
-        });
-        const result= await response.json();
+      const res = await getAll(URL, user.jwt)
+      
+      if (!res.ok) {
+        throw new Error('Failed to fetch products');
+      }
+
+      const result = await res.json();
       setProducts(result);
 
     }

@@ -4,23 +4,19 @@ import "./review.css"
 import { MdOutlineStarBorder, MdOutlineStar } from "react-icons/md";
 import dayjs from 'dayjs';
 import RatingForm from '../ratingForm/RatingForm';
-
+import { getAll } from '../../service/functionsHTTP';
 
 function Review({ productId }) {
 
     const [reviews, setReviews] = useState([]);
-    const { user, handleLogout } = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [showRatingForm, setShowRatingForm] = useState(false);
     const jwt = user.jwt;
 
 
     async function getReviewByProductId(productId) {
-        const res = await fetch(`http://localhost:3000/api/review?productId=${productId}`,{
-            headers: { "Content-Type": "application/json",
-                Authorization:`Bearer ${jwt}`
-                }
-        })
-
+        const url = `http://localhost:3000/api/review?productId=${productId}`;
+        const res = await getAll(url, user.jwt)
         if (!res.ok) {
             console.log("no hay reviews");
             return
@@ -46,11 +42,9 @@ function Review({ productId }) {
 
     async function checkUserOrders(userId) {
         try {
-            const res = await fetch(`http://localhost:3000/api/order?userId=${userId}`, {
-                headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${jwt}`
-                    }
-            });
+            const url = `http://localhost:3000/api/order?userId=${userId}`;
+            const res = await getAll(url, user.jwt)
+
             if (!res.ok) {
                 throw new Error('Failed to fetch orders');
             }

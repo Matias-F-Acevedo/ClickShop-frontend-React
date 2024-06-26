@@ -3,10 +3,9 @@ import "./forgotPassword.css"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate } from 'react-router-dom';
+import { updatePatch } from '../../service/functionsHTTP';
+
 function ForgotPassword() {
-
-
-
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [conditionalRender, setConditionalRender] = useState(true);
@@ -14,21 +13,15 @@ function ForgotPassword() {
 
     const urlRequestResetPassword = "http://localhost:3000/api/auth/request-reset-password"
 
-
     async function sendRequest(email) {
-        const res = await fetch(urlRequestResetPassword, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: email }),
-        });
+
+        const body = { email: email }
+        const res = await updatePatch(urlRequestResetPassword, body)
         if (!res.ok) {
             return false
         };
-
         const parsed = await res.json()
-        return parsed
+        return parsed;
     }
 
 
@@ -36,7 +29,7 @@ function ForgotPassword() {
         event.preventDefault();
 
         if (email === "") {
-            setError("Enter an email.");
+            setError("Ingrese un Email valido");
             return
 
         } else {
