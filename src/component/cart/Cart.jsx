@@ -3,31 +3,22 @@ import { UserContext } from '../../context/UserContext';
 import CardCart from './Card-Cart';
 import "./card-cart.css";
 import BuyProduct from '../adressForm/BuyProduct';
+import { getAll, getById, remove, updatePut } from '../../service/functionsHTTP';
 
 function Cart() {
     const { user } = useContext(UserContext);
-    const [carts, setCarts] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
     const [cart, setCart] = useState([]);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [selectedCartItem, setSelectCartItem] = useState(null);
-    async function getCarts() {
-        try {
-            console.log(user.sub)
-            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}/items`
-                ,{
-                    method: "GET",
-                    headers: { "Content-Type": "application/json",
-                      Authorization:`Bearer ${user.jwt}`
-                      },
-                  }
-                 
-            );
-            console.log("res",res)
-            
 
+
+    async function getCartItems() {
+        try {
+            const fullUrl = `http://localhost:3000/api/cart/${user.sub}/items`;
+            const res = await getAll(fullUrl, user.jwt)
             const parsed = await res.json();
-            console.log("parsed",parsed)
-            setCarts(parsed);
+            setCartItems(parsed);
         } catch (error) {
             console.error("Error al obtener los carritos:", error);
         }
@@ -36,81 +27,72 @@ function Cart() {
 
     async function getCart() {
         try {
-            const res = await fetch(`http://localhost:3000/api/cart/${user.sub}`,
-                {
-                    method: "GET",
-                    headers: { "Content-Type": "application/json",
-                      Authorization:`Bearer ${user.jwt}`
-                      },
-                  }
-            );
-            if (!res.ok) {
-                console.error("Error al obtener el carro");
-                return;
-            }
+            const url = "http://localhost:3000/api/cart"
+            const res = await getById(user.sub, url, user.jwt)
 
+            if (!res.ok) {
+                throw new Error('Failed to fetch cart of user');
+            }
             const parsed = await res.json();
-            console.log("parsed Cart",parsed)
             setCart(parsed);
         } catch (error) {
-            console.error("Error al obtener el carro:", error);
+            console.error("Error al obtener el carrito:", error);
         }
     }
 
     async function deleteProductFromCart(itemId) {
         try {
-            const cartItem = carts.find(item => item.product_id === itemId);
-            if (!cartItem) {
-                throw new Error('Producto no encontrado en el carrito');
+            const fullUrl = `http://localhost:3000/api/cart/${user.sub}/items/${itemId}`;
+            const res = await remove(fullUrl, user.jwt)
+            if (!res.ok) {
+                throw new Error('Failed to delete cartItem');
             }
-
-            const cartItemId = cartItem.cartItem_id;
-            const response = await fetch(`http://localhost:3000/api/cart/${user.sub}/items/${cartItemId}`, {
-                method: 'DELETE',
-                headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${jwt}`
-                    },
-            });
-    
-            if (!response.ok) {
-                throw new Error('Error al eliminar el producto del carrito');
-            }
-    
-            console.log('Producto eliminado exitosamente');
-            getCarts();
-            getCart();
+            setCartItems(cartItems.filter(item => item.cartItem_id !== itemId));
+            getCart()
         } catch (error) {
             console.error('Error al eliminar el producto:', error.message);
         }
     }
 
+
     async function updateProductQuantity(cartItemId, quantity) {
         if (quantity < 1) return;
-        console.log("cantidad", quantity)
-
         try {
-            const response = await fetch(`http://localhost:3000/api/cart/${user.sub}/items/${cartItemId}/quantity`, {
-                method: 'PUT',
-                headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${user.jwt}`
-                    },
-                body: JSON.stringify({ quantity }),
-            });
-        
-            if (!response.ok) {
+            const fullUrl = `http://localhost:3000/api/cart/${user.sub}/items/${cartItemId}/quantity`;
+            const body = { quantity: quantity }
+
+            const res = await updatePut(fullUrl, body, user.jwt)
+
+            if (!res.ok) {
                 throw new Error('Error al actualizar la cantidad del producto');
             }
-    
-            const updatedCartItem = await response.json();
-            console.log('Respuesta de la API al actualizar la cantidad del producto:', updatedCartItem);
-    
+
+            const updatedCartItem = await res.json();
+
             // Verifica si la respuesta contiene la cantidad actualizada
             if (updatedCartItem.quantity !== quantity) {
                 throw new Error('La cantidad no se actualizó correctamente en el backend');
             }
-    
-            getCarts();
-            getCart();
+
+            // actualiza el estado localmente.
+            setCartItems(prevCartItems =>
+                prevCartItems.map(item =>
+                    item.cartItem_id === cartItemId
+                        ? { ...item, quantity: parseFloat(quantity) }
+                        : item
+                )
+            );
+
+            // actualiza el total del carrito.
+            setCart(prevCart => {
+                const previousQuantity = cartItems.find(item => item.cartItem_id === cartItemId).quantity;
+                const newTotal = parseFloat(prevCart.total) + (parseFloat(quantity) - previousQuantity) * updatedCartItem.unitPrice;
+                return {
+                    ...prevCart,
+                    total: newTotal.toFixed(2)
+                };
+            });
+
         } catch (error) {
             console.error('Error al actualizar la cantidad del producto:', error.message);
         }
@@ -118,32 +100,46 @@ function Cart() {
 
     useEffect(() => {
         if (user) {
-            getCarts();
+            getCartItems();
             getCart()
         }
     }, [user]);
 
     return (
-        <div className="CardCart">
-            {carts.map((cartItem, index) => (
-                <CardCart
-                    key={cartItem.cartItem_id}
-                    product={cartItem.product}
-                    index={index}
-                    deleteProductFromCart={() => deleteProductFromCart(cartItem.product_id)}
-                    updateProductQuantity={updateProductQuantity}
-                    cartItem={cartItem}
-                    onSelectProduct={setSelectedProduct}
-                    onSelectCartItem={setSelectCartItem}
-                />
-            ))}
-            <div className='total'>
-                Total: {cart.total}
+        <div className='container-cart-items'>
+            <div className="CardCart">
+                {cartItems.map((cartItem, index) => (
+                    <CardCart
+                        key={cartItem.cartItem_id}
+                        product={cartItem.product}
+                        index={index}
+                        deleteProductFromCart={deleteProductFromCart}
+                        updateProductQuantity={updateProductQuantity}
+                        cartItem={cartItem}
+                        onSelectProduct={setSelectedProduct}
+                        onSelectCartItem={setSelectCartItem}
+                    />
+                ))}
+                {selectedProduct && (
+                    <BuyProduct product={selectedProduct} cartItem={selectedCartItem} /> // Renderizar BuyProduct si hay un producto seleccionado
+                )}
             </div>
 
-            {selectedProduct && (
-                <BuyProduct product={selectedProduct} cartItem={selectedCartItem} /> // Renderizar BuyProduct si hay un producto seleccionado
-            )}
+            <div className='container-resumen'>
+
+                <h2>RESUMEN DEL PEDIDO</h2>
+                <p>5 productos</p>
+                <p>Envio: Gratis</p>
+
+                <div className='total'>
+                    Total: ${cart.total}
+                </div>
+
+                <button>Comprar Carrito</button>
+
+            </div>
+
+
         </div>
     );
 }

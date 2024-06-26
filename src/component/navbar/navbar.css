@@ -21,12 +21,17 @@ header {
 }
 
 .icon-nav {
+    text-decoration: none;
     display: flex;
     gap: 25px;
     margin-right: 24px;
     padding: 6px 10px;
     color: #555555;
+}
 
+.container-nav-desktop .icon-nav a{
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.74);
 }
 
 .icon-cart {
@@ -98,7 +103,6 @@ nav .logo {
     font-weight: 500;
     cursor: pointer;
 }
-
 
 nav .sidebar {
     position: fixed;

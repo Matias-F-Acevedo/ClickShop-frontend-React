@@ -29,7 +29,7 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
 
     const handleBuyProduct = () => {
         onSelectProduct(product)
-        onSelectCartItem(cartItem); // Llama a la función para seleccionar el producto
+        onSelectCartItem(cartItem); 
     };
 
     return (
@@ -57,9 +57,9 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
             </div>
             <div className='cardcart-buttons-container'>
                 <button className='cardcart-btn-delete' onClick={handleDeleteProduct}>Eliminar</button>
-                <button className='cardcart-btn-buy' onClick={handleBuyProduct}>
+                {/* <button className='cardcart-btn-buy' onClick={handleBuyProduct}>
                     Comprar Producto
-                </button>
+                </button> */}
             </div>
         </div>
     );
