@@ -92,7 +92,7 @@ function Cart() {
             const response = await fetch(`http://localhost:3000/api/cart/${user.sub}/items/${cartItemId}/quantity`, {
                 method: 'PUT',
                 headers: { "Content-Type": "application/json",
-                    Authorization:`Bearer ${jwt}`
+                    Authorization:`Bearer ${user.jwt}`
                     },
                 body: JSON.stringify({ quantity }),
             });
