@@ -66,7 +66,8 @@ body {
 
 
 .conditionFilter button,
-.priceRange button {
+.priceRange button,
+.categoryFilter button {
   background: #D0EDA1;
   width: 200px;
   height: 40px;
@@ -76,8 +77,10 @@ body {
   font-size: 15px;
 }
 
-.conditionFilter {
+.conditionFilter,
+.categoryFilter{
   margin-top: 30px;
+  
 }
 
 .searchContainer {
@@ -107,13 +110,15 @@ body {
 
 
 .priceRangeContent,
-.conditionFilterContent {
+.conditionFilterContent,
+.categoryFilter {
   display: flex;
   flex-direction: column;
 }
 
 .priceRangeContent input,
-.conditionFilterContent button {
+.conditionFilterContent button,
+.categoryFilterContent button {
   border-radius: 0px;
   background-color: #efeeee;
   border: none;
@@ -129,7 +134,7 @@ body {
 
 .productsContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction:column;
   align-items: center;
   width: 100%;
 
@@ -223,15 +228,17 @@ body {
   cursor: pointer;
 }
 
-.conditionFilterContent button.active {
+.conditionFilterContent button.active, 
+.categoryFilterContent button.active{
   background-color: #7c7c7c;
   color: #D0EDA1;
 }
 
 .priceRange button:hover,
 .priceRange input:hover,
-.conditionFilter button:hover {
-  border-color: #040201;
+.conditionFilter button:hover,
+.categoryFilter button:hover{
+  border: 1px solid #959595;
 }
 
 .pagination button {
