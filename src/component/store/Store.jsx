@@ -201,7 +201,7 @@ const Store = () => {
                       className={categoryFilter === null ? "active" : ""}
                       onClick={() => handleCategoryFilter(null)}
                     >
-                      Todos los productos
+                      Todas
                     </button>
                     {categories.map((category) => (
                       <button
