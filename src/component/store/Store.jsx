@@ -184,7 +184,7 @@ const Store = () => {
           <div className="productsContainer">
             <div className="products">
               {productsToShow.map((product) => (
-                <ProductCard key={product.product_name} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
+                <ProductCard key={product.productId} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
               ))}
             </div>
             {pageCount > 1 && (

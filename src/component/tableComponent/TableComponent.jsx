@@ -70,7 +70,6 @@ function TableComponent({ data, columns }) {
                     {data.length === 0 ? emptyRow() : (
 
                         table.getRowModel().rows.map(row => (
-
                             <>
                                 <tr key={row.id} className='tr-desktop'>
                                     {row.getVisibleCells().map(cell => (
@@ -81,14 +80,14 @@ function TableComponent({ data, columns }) {
                                     }
                                 </tr>
 
-                                <tr key={row.id} className='tr-mobile'>
+                                <tr key={`mobile-${row.id}`} className='tr-mobile'>
                                     {row.getVisibleCells().map(cell => (
-                                        <div className='container-td-table'>
+                                        <div className='container-td-table' key={`mobilee-${cell.id}`}>
                                             <td key={cell.id} className='td-name-colum'>
                                                 <p className="p-table-tbody-td" id={"cell" + cell.column.columnDef.header}> {cell.column.columnDef.header}: </p>
                                             </td>
 
-                                            <td key={cell.id}>
+                                            <td key={`mobile-${cell.id}`}>
                                                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                             </td>
                                         </div>
@@ -123,7 +122,7 @@ function TableComponent({ data, columns }) {
                     }
                 </tfoot>
             </table>
-            <div className='buttons-table'>
+            <div className='buttons-table' >
                 <button onClick={() => table.setPageIndex(0)}>
                     <BiFirstPage className='icon-page' />
                 </button>

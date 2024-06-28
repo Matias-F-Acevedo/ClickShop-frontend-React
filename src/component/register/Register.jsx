@@ -118,7 +118,7 @@ function Register() {
 
 
                     <label htmlFor="password">Contraseña</label>
-                    <input type="password" id='password-register' value={password} onChange={event => setPassword(event.target.value)} minLength={7} maxLength={30} required />
+                    <input type="password" id='password-register' value={password} onChange={event => setPassword(event.target.value)} minLength={8} maxLength={30} required />
 
                     <div className='doble-inputs'>
 
