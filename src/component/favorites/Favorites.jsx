@@ -24,7 +24,12 @@ function Favorites() {
                 throw new Error('Failed to fetch favorites');
             }
             const parsed = await res.json();
-            setFavorites(parsed);
+            
+            const inactiveFavorites = parsed.filter(favorite => 
+                favorite.product.isActive === undefined || favorite.product.isActive === true
+            );
+            
+            setFavorites(inactiveFavorites);
         } catch (error) {
             console.error(error);
         }
