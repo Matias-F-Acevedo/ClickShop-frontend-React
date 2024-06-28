@@ -25,11 +25,11 @@ function Favorites() {
             }
             const parsed = await res.json();
             
-            const inactiveFavorites = parsed.filter(favorite => 
+            const activeFavorites = parsed.filter(favorite => 
                 favorite.product.isActive === undefined || favorite.product.isActive === true
             );
             
-            setFavorites(inactiveFavorites);
+            setFavorites(activeFavorites);
         } catch (error) {
             console.error(error);
         }
