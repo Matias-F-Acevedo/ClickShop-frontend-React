@@ -124,7 +124,7 @@ function Favorites() {
             header: "Opciones",
             cell: ({ row }) => {
                 const productId = row.original.product_id;
-                return <div className='crud-publicationsUser btn-delete-favorite' >
+                return <div className='crud-publicationsUser btn-delete-favorite' key={row.id}>
                     <Link onClick={(event) => handleLinkClick(event, productId)} className='btn-crud-publicationsUser'><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser btn-crud-publicationsUser' />
                     </Link>
                     <MdOutlineDeleteForever onClick={(event) => removeFavorite(productId, event)} className='btn-delete-publicationUser btn-publicationUser btn-crud-publicationsUser' />

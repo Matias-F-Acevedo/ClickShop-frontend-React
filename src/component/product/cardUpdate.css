@@ -61,3 +61,9 @@
     border-radius: 4px;
     font-size: 14px;
 }
+
+.current-image-item img{
+    width: auto;
+    height: 50px;
+    object-fit: cover;
+}

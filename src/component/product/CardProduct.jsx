@@ -1,4 +1,7 @@
 import "./cardProduct.css";
+import "react-image-gallery/styles/css/image-gallery.css";
+import ImageGallery from "react-image-gallery";
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useContext, useState, useEffect } from "react";
 import { UserContext } from "../../context/UserContext";
 import Swal from 'sweetalert2';
@@ -77,10 +80,36 @@ function Card({ product, index, setUpdate, setCurrentProduct ,setPublications, p
     setCurrentProduct(product)
   }
 
+  const images = product.product_image.map((img) => {
+    return {
+      original: img,
+      thumbnail: img,
+    }
+  })
+
+  const renderLeftNav = (onClick, disabled) => (
+    <IoIosArrowBack
+      className="image-gallery-custom-left-nav"
+      onClick={onClick}
+      disabled={disabled}
+    />
+  );
+
+  const renderRightNav = (onClick, disabled) => (
+    <IoIosArrowForward
+      className="image-gallery-custom-right-nav"
+      onClick={onClick}
+      disabled={disabled}
+    />
+  );
+
   return (
     <div key={index} className="productCard">
       <div className="product-details">
-        <img className="product-imagen" src={product_image} alt="error al cargar imagen" />
+      <div className="slide-var" >
+        <ImageGallery items={images} showFullscreenButton={false} showPlayButton={false} showThumbnails={false} renderLeftNav={renderLeftNav}
+          renderRightNav={renderRightNav}></ImageGallery>
+      </div>
         <h2 className="product-names">{product_name}</h2>
         <p className="product-prices">Price: ${price}</p>
         <p className="product-stocks">Cantidad disponible: {stock}</p>

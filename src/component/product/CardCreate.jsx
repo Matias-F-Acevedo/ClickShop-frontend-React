@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect,useRef } from "react";
 import { UserContext } from "../../context/UserContext";
 import "./cardCreate.css";
 import { post, getAll } from "../../service/functionsHTTP";
@@ -23,9 +23,11 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
   });
   const [categories, setCategories] = useState([]);
   const [uploading, setUploading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null);
-
-
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [coverImage, setCoverImage] = useState(null);
+  const [fileCount, setFileCount] = useState(0);
+  const fileInputRef = useRef(null);
+  
   useEffect(() => {
     async function fetchCategories() {
       try {
@@ -42,6 +44,10 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
 
     fetchCategories();
   }, [user]);
+
+  useEffect(() => {
+    setFileCount(selectedFiles.length);
+  }, [selectedFiles]);
 
   const handleConditionChange = (event) => {
     const value = event.target.value;
@@ -72,12 +78,52 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
     }
   };
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setSelectedFile(file);
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    if (files.length + selectedFiles.length > 3) {
+      fileInputRef.current.value = null;
+      setSelectedFiles([]);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'Puedes subir un máximo de 3 imágenes',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        customClass: {
+          popup: 'swal2-toast-custom'
+        },
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+    } else {
+      setSelectedFiles(prevFiles => [...prevFiles, ...files]);
     }
   };
+  const handleRemoveFile = (index) => {
+    setSelectedFiles(prevFiles => {
+      const newFiles = prevFiles.filter((_, i) => i !== index);
+      if (newFiles.length === 0) {
+        fileInputRef.current.value = null;
+      }
+      return newFiles;
+    });
+
+    if (coverImage === index) {
+      setCoverImage(null);
+    } else if (coverImage > index) {
+      setCoverImage(prevCover => prevCover - 1);
+    }
+  };
+
+  const handleSetCoverImage = (index) => {
+    setCoverImage(index);
+  };
+
+
 
   const confirmCreateCard = async (event) => {
     event.preventDefault();
@@ -95,9 +141,16 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
       }
       const result = await res.json();
 
-      if (selectedFile) {
-        await uploadFile(selectedFile, result.productId);
+      let firstImageUploaded = false;
+
+      for (const [index, file] of selectedFiles.entries()) {
+        await uploadFile(file, result.productId);
+        if (!firstImageUploaded) {
+          setCoverImage(index);
+          firstImageUploaded = true;
+        }
       }
+
       setCreate(false);
       setRefresh(true);
       Swal.fire({
@@ -154,10 +207,12 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
           <input className="input-cart-creation" type="number" name="stock" placeholder="Cantidad" value={currentProduct.stock} onChange={(e) => setCurrentProduct(prev => ({ ...prev, stock: e.target.value }))} required />
 
           <label>Nombre</label>
-          <input className="input-cart-creation" type="text" name="product_name" placeholder="Nombre" minLength="4" value={currentProduct.product_name} onChange={(e) => setCurrentProduct(prev => ({ ...prev, product_name: e.target.value }))} required />
+          <input className="input-cart-creation" type="text" name="product_name" placeholder="Nombre" minLength={"4"}
+            maxLength={"55"} value={currentProduct.product_name} onChange={(e) => setCurrentProduct(prev => ({ ...prev, product_name: e.target.value }))} required />
 
           <label>Descripción</label>
-          <input className="input-cart-creation" type="text" name="description" placeholder="Descripción" value={currentProduct.description} onChange={(e) => setCurrentProduct(prev => ({ ...prev, description: e.target.value }))} required />
+          <input className="input-cart-creation" minLength={"5"}
+            maxLength={"255"} type="text" name="description" placeholder="Descripción" value={currentProduct.description} onChange={(e) => setCurrentProduct(prev => ({ ...prev, description: e.target.value }))} required />
 
           <label>Categoria</label>
           <select className="input-cart-creation" name="category" value={currentProduct.category_id} onChange={(e) => setCurrentProduct(prev => ({ ...prev, category_id: e.target.value }))} required>
@@ -179,13 +234,27 @@ function CardCreate({ setCreate, refresh, setRefresh }) {
             </div>
           </fieldset>
 
-          <label>Imagen</label>
-
+          <label>Imágenes (máximo 3)</label>
           <input
             type="file"
             onChange={handleFileChange}
             accept="image/*"
+            multiple
+            ref={fileInputRef}
           />
+
+          <div className="thumbnail-container">
+            {selectedFiles.map((file, index) => (
+              <div key={index} className="thumbnail">
+                <img src={URL.createObjectURL(file)} alt={`Imagen ${index + 1}`} />
+                <button className="btn-delete-img" type="button" onClick={() => handleRemoveFile(index)}>Eliminar</button>
+                <button className="btn-portada-img" type="button" onClick={() => handleSetCoverImage(index)}>
+                  {coverImage === index ? 'Portada' : 'Hacer portada'}
+                </button>
+              </div>
+            ))}
+          </div>
+
 
           <div className="container-btns">
             <button className='btn-confirmar-crear' type="submit" disabled={uploading}>
