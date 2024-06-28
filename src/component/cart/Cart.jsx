@@ -18,7 +18,10 @@ function Cart() {
             const fullUrl = `http://localhost:3000/api/cart/${user.sub}/items`;
             const res = await getAll(fullUrl, user.jwt)
             const parsed = await res.json();
-            setCartItems(parsed);
+            const activeItems = parsed.filter(item => 
+                item.product.isActive === undefined || item.product.isActive === true
+            );
+            setCartItems(activeItems);
         } catch (error) {
             console.error("Error al obtener los carritos:", error);
         }
