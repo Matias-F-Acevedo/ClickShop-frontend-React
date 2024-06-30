@@ -68,7 +68,7 @@ const Carousel = () => {
             >
               <img src={product.product_image} alt={product.product_name} />
               <h5>{product.product_name}</h5>
-              <p>{product.price}</p>
+              <p>$ {product.price}</p>
               <Link to={`/product/${product.productId}`} className="link-icon">
                 < RiArrowRightSLine/>
               </Link>

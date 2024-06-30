@@ -45,9 +45,12 @@
     border-radius: 10px;
     padding-right: 20px;
     padding-left: 20px;
-    height: auto;
+    width: auto;
     max-width: 100%;
-    max-height: 180px;
+    height: 280px;
+    max-height: 280px;
+    object-fit: cover;
+    margin: 10px;
   }
   
   .card-home > h5,
@@ -64,7 +67,7 @@
   }
   
   .card-home > p {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
   }
   
