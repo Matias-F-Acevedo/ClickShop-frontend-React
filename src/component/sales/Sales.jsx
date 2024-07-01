@@ -18,6 +18,9 @@ function Sales() {
 
 
     useEffect(() => {
+        if(user){
+
+        
         async function fetchData() {
             try {
                 const url =`http://localhost:3000/api/order/product-owner`;
@@ -59,6 +62,7 @@ function Sales() {
         }
 
         fetchData();
+    }
     }, [user]);
 
     function capitalizeFirstLetter(word) {

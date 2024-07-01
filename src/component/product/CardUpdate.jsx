@@ -1,7 +1,7 @@
 import "./cardUpdate.css";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { UserContext } from "../../context/UserContext";
-import { getAll, updatePatch } from "../../service/functionsHTTP";
+import { getAll, remove, updatePatch } from "../../service/functionsHTTP";
 import Swal from 'sweetalert2';
 
 const urlCategories = "http://localhost:3000/api/categories";
@@ -18,30 +18,131 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
     stock: product.stock,
     condition: product.condition,
   });
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [coverImage, setCoverImage] = useState(null);
+  const [fileCount, setFileCount] = useState(0);
+  const fileInputRef = useRef(null);
 
-  async function actualizarProducto(event) {
-    event.preventDefault();
-    currentProduct.price = parseInt(currentProduct.price);
+  useEffect(() => {
+    setFileCount(selectedFiles.length);
+  }, [selectedFiles]);
+
+  const uploadFile = async (file, id) => {
+    const url = `http://localhost:3000/api/products/${id}/images`;
+    const formData = new FormData();
+    formData.append('file', file);
     try {
-      const fullUrl = `http://localhost:3000/api/products/${product.productId}`;
-      currentProduct.price = parseInt(currentProduct.price);
-      currentProduct.stock = parseInt(currentProduct.stock);
-      currentProduct.category_id = parseInt(currentProduct.category_id);
-      if (currentProduct.condition === "Usado") {
-        currentProduct.condition = "USED"
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${user.jwt}`
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
       }
-      else {
-        currentProduct.condition = "NEW"
-      }
-      const res = await updatePatch(fullUrl, currentProduct, user.jwt);
-      if (!res.ok) {
-        throw new Error('Failed to fetch orders');
-      }
+    } catch (error) {
+      console.error('Error al subir el archivo:', error);
+    }
+  };
+
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+    if (files.length + selectedFiles.length > 3) {
+      fileInputRef.current.value = null;
+      setSelectedFiles([]);
       Swal.fire({
         toast: true,
         position: 'top-end',
-        icon:'success',
-        title:'Producto actualizado con éxito',
+        icon: 'error',
+        title: 'Puedes subir un máximo de 3 imágenes',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        customClass: {
+          popup: 'swal2-toast-custom'
+        },
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+    } else {
+      setSelectedFiles(prevFiles => [...prevFiles, ...files]);
+    }
+  };
+  const handleRemoveFile = (index) => {
+    setSelectedFiles(prevFiles => {
+      const newFiles = prevFiles.filter((_, i) => i !== index);
+      if (newFiles.length === 0) {
+        fileInputRef.current.value = null;
+      }
+      return newFiles;
+    });
+
+    if (coverImage === index) {
+      setCoverImage(null);
+    } else if (coverImage > index) {
+      setCoverImage(prevCover => prevCover - 1);
+    }
+  };
+
+  const handleSetCoverImage = (index) => {
+    setCoverImage(index);
+  };
+  async function actualizarProducto(event) {
+    event.preventDefault();
+    try {
+      const fullUrl = `http://localhost:3000/api/products/${product.productId}`;
+
+      currentProduct.price = parseInt(currentProduct.price);
+      currentProduct.stock = parseInt(currentProduct.stock);
+      currentProduct.category_id = parseInt(currentProduct.category_id);
+      if (currentProduct.condition == "Usado") {
+        currentProduct.condition = "USED"
+      }
+      else if(currentProduct.condition == "Nuevo"){
+        currentProduct.condition = "NEW"
+      }
+
+      const res = await updatePatch(fullUrl, currentProduct, user.jwt);
+      if (!res.ok) {
+        throw new Error('Failed to update product');
+      }
+
+      // verificar si hay archivos seleccionados para subir
+      if (selectedFiles.length > 0) {
+        // eliminar imágenes existentes del producto
+        const removeRes = await remove(`http://localhost:3000/api/products/${product.productId}/images`, user.jwt);
+        if (!removeRes.ok) {
+          throw new Error('Failed to delete existing images');
+        }
+
+        setTimeout(async () => {
+          // crear una copia de las imagenes seleccionadas
+          const filesToUpload = [...selectedFiles];
+          
+          // verificar si hay una imagen de portada seleccionada
+          if (coverImage !== null && coverImage !== 0) {
+            // Si hay una imagen de portada, moverla al inicio del array
+            const coverFile = filesToUpload.splice(coverImage, 1)[0];
+            filesToUpload.unshift(coverFile);
+          }
+        
+          // subir las imagenes en el orden correcto, asegurandose de que la imagen de portada sea la primera
+          for (let i = 0; i < filesToUpload.length; i++) {
+            await uploadFile(filesToUpload[i], product.productId);
+          }
+        }, 1000);
+      }
+
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'success',
+        title: 'Producto actualizado con éxito',
         showConfirmButton: false,
         timer: 1500,
         timerProgressBar: true,
@@ -115,6 +216,7 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
             name="date"
             placeholder="Ubicacion"
             minLength={"4"}
+            maxLength={"55"}
             value={currentProduct.product_name}
             onChange={(e) =>
               setCurrentProduct((prev) => ({
@@ -132,6 +234,8 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
             type="text"
             name="description"
             placeholder="descripcion"
+            minLength={"5"}
+            maxLength={"255"}
             value={currentProduct.description}
             onChange={(e) =>
               setCurrentProduct((prev) => ({
@@ -188,6 +292,28 @@ function CardUpdate({ product, setUpdate, refresh, setRefresh }) {
               <label htmlFor="usado">Usado</label>
             </div>
           </fieldset>
+
+          <label>Imágenes (máximo 3)</label>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            accept="image/*"
+            multiple
+            ref={fileInputRef}
+          />
+
+          <div className="thumbnail-container">
+            {selectedFiles.map((file, index) => (
+              <div key={index} className="thumbnail">
+                <img src={URL.createObjectURL(file)} alt={`Imagen ${index + 1}`} />
+                <button className="btn-delete-img" type="button" onClick={() => handleRemoveFile(index)}>Eliminar</button>
+                <button className="btn-portada-img" type="button" onClick={() => handleSetCoverImage(index)}>
+                  {coverImage === index ? 'Portada' : 'Hacer portada'}
+                </button>
+              </div>
+            ))}
+          </div>
+
 
 
           <div className="container-btns">

@@ -9,6 +9,7 @@ const URlCategories = "http://localhost:3000/api/categories";
 const PRODUCTS_PER_PAGE = 15;
 
 const Store = () => {
+
   const { user } = useContext(UserContext);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -46,11 +47,14 @@ const Store = () => {
   const getProducts = async () => {
     try {
       const res = await getAll(URL, user.jwt);
+      const res = await getAll(URL, user.jwt);
       if (!res.ok) {
+        throw new Error("Failed to fetch products");
         throw new Error("Failed to fetch products");
       }
       const result = await res.json();
       setProducts(result);
+    } catch (error) {
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -78,6 +82,7 @@ const Store = () => {
 
   const handleConditionFilter = (condition) => {
     setConditionFilter(condition);
+    setCurrentPage(1);
     setCurrentPage(1);
   };
 
@@ -115,6 +120,7 @@ const Store = () => {
 
   const changePage = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
     window.scrollTo(0, 0);
   };
 
@@ -184,6 +190,7 @@ const Store = () => {
                       onClick={() => handleConditionFilter("USED")}
                     >
                       Usado ({countByCondition("USED")})
+                      Usado ({countByCondition("USED")})
                     </button>
                   </div>
                 )}
@@ -212,6 +219,8 @@ const Store = () => {
                 </button>
               </div>
             </div>
+          </div>
+          <div className="productsContainer">
           </div>
           <div className="productsContainer">
             <div className="products">
