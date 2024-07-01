@@ -3,21 +3,24 @@ import AddressForm from './AddressForm';
 import { UserContext } from '../../context/UserContext';
 import { useContext } from 'react';
 
-function BuyProduct({ product, cartItem }) {
+function BuyProduct({ cartItems }) {
     const { user } = useContext(UserContext);
-    const userId = user.sub; // Reemplaza esto con el ID del usuario actual
-  console.log(cartItem)
+    const userId = user.sub;
+
     return (
         <div>
             <h2>Detalles del Producto:</h2>
-            <p>Nombre: {product.product_name}</p>
-            <p>Precio: ${product.price}</p>
-            <p>Cantidad: {cartItem.quantity}</p>
+            {cartItems.map((cartItem, index) => (
+                <div key={index}>
+                    <p>Nombre: {cartItem.product.product_name}</p>
+                    <p>Precio: ${cartItem.product.price}</p>
+                    <p>Cantidad: {cartItem.quantity}</p>
+                </div>
+            ))}
 
-            <AddressForm 
+            <AddressForm
                 userId={userId}
-                product={product}
-                cartItem={cartItem}
+                cartItems={cartItems}
             />
         </div>
     );

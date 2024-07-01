@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './card-cart.css';
 
-function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem, onSelectProduct, onSelectCartItem }) {
+function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem }) {
 
     
     const { product_name, price, stock, product_image } = product;
@@ -27,10 +27,7 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
         }
     };
 
-    const handleBuyProduct = () => {
-        onSelectProduct(product)
-        onSelectCartItem(cartItem); 
-    };
+   
 
     return (
         <div key={index} className="cardcart-container">
@@ -57,9 +54,6 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
             </div>
             <div className='cardcart-buttons-container'>
                 <button className='cardcart-btn-delete' onClick={handleDeleteProduct}>Eliminar</button>
-                {/* <button className='cardcart-btn-buy' onClick={handleBuyProduct}>
-                    Comprar Producto
-                </button> */}
             </div>
         </div>
     );

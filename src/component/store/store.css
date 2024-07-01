@@ -67,7 +67,8 @@ body {
 
 .conditionFilter button,
 .priceRange button,
-.categoryFilter button {
+.categoryFilter button,
+.clearFilter button {
   background: #D0EDA1;
   width: 200px;
   height: 40px;
@@ -106,19 +107,23 @@ body {
   cursor: pointer;
 }
 
+.clearFilter{
+  padding-top: 10%;
+}
 
 
 
 .priceRangeContent,
 .conditionFilterContent,
-.categoryFilter {
+.categoryFilter,
+.clearFilter {
   display: flex;
   flex-direction: column;
 }
 
 .priceRangeContent input,
 .conditionFilterContent button,
-.categoryFilterContent button {
+.categoryFilterContent button{
   border-radius: 0px;
   background-color: #efeeee;
   border: none;
@@ -237,7 +242,8 @@ body {
 .priceRange button:hover,
 .priceRange input:hover,
 .conditionFilter button:hover,
-.categoryFilter button:hover{
+.categoryFilter button:hover,
+.clearFilter button:hover{
   border: 1px solid #959595;
 }
 
