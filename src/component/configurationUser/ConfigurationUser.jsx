@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
 import ChangePassword from './ChangePassword';
+import { getById,updatePatch } from '../../service/functionsHTTP';
+
 
 
 function ConfigurationUser() {
-
 
     const { user, handleLogout } = useContext(UserContext);
     const [renderConditional, setrRenderConditional] = useState(true);
@@ -31,7 +32,9 @@ function ConfigurationUser() {
 
     async function fetchUserData() {
         try {
-            const response = await fetch(`http://localhost:3000/api/users/${user.sub}`)
+            const urlBase= "http://localhost:3000/api/users"
+            const response = await getById(user.sub,urlBase,user.jwt )
+
             if (response.ok) {
                 const data = await response.json();
                 setEmail(data.user_email)
@@ -91,6 +94,9 @@ function ConfigurationUser() {
         try {
             const response = await fetch(url, {
                 method: 'POST',
+                headers: {
+                    Authorization:`Bearer ${user.jwt}`
+                    },
                 body: formData,
             });
 
@@ -99,7 +105,7 @@ function ConfigurationUser() {
             }
 
             const result = await response.json();
-            console.log('Archivo subido con éxito:', result);
+            return result;
         } catch (error) {
             console.error('Error al subir el archivo:', error);
         }
@@ -155,15 +161,10 @@ function ConfigurationUser() {
         if (email == user.email) {
             delete userEdit.user_email
         }
+        const fullUrl = `http://localhost:3000/api/users/${user.sub}`
+        const body = userEdit;
+        const res = await updatePatch(fullUrl,body,user.jwt)
 
-
-        const res = await fetch(`http://localhost:3000/api/users/${user.sub}`, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userEdit),
-        })
         const parsed = await res.json()
 
         if (parsed.status == 409) {
@@ -184,7 +185,6 @@ function ConfigurationUser() {
 
         setTimeout(() => {
             handleLogout()
-            window.location.reload();
             navigateTo("/login");
         }, 2000)
 
@@ -192,7 +192,7 @@ function ConfigurationUser() {
 
     return (
         <>
-
+ 
             <div className="container">
 
                 <div className="leftbox">
@@ -215,7 +215,7 @@ function ConfigurationUser() {
                            
                         }
 
-                        <p>Matias Acevedo</p>
+                        <p className='text-photoOfProfile'>Foto de perfil</p>
                     </div>
 
                     <div className='menu-options'>
@@ -250,12 +250,12 @@ function ConfigurationUser() {
                             <form onSubmit={event => updateUser(event)}>
                                 <div className='doble-inputs'>
 
-                                    <div>
+                                    <div className='div-doble-input'>
                                         <label htmlFor="name">Nombre</label>
                                         <input type="text" id='name' minLength={3} maxLength={15} value={name} onChange={event => setName(event.target.value)} pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required />
                                     </div>
 
-                                    <div>
+                                    <div className='div-doble-input'>
                                         <label htmlFor="lastname">Apellido</label>
                                         <input type="text" id='lastname' minLength={3} maxLength={15} value={lastname} onChange={event => setLastname(event.target.value)} pattern="[A-Za-záéíóúÁÉÍÓÚñÑ\s]+" required />
                                     </div>
@@ -269,13 +269,13 @@ function ConfigurationUser() {
 
 
                                 <div className='doble-inputs'>
-                                    <div>
+                                    <div className='div-doble-input'>
                                         <label htmlFor="phoneNumber">Número de teléfono</label>
                                         <input type="number" id='phoneNumber' minLength={7} maxLength={15} value={phoneNumber} onChange={event => setPhoneNumber(event.target.value)}
                                             title="El número de teléfono debe tener entre 7 y 9 dígitos" pattern="[0-15]{7,15}"
                                             required />
                                     </div>
-                                    <div>
+                                    <div className='div-doble-input'>
 
                                         <label htmlFor="identificationNumber">Número de documento</label>
                                         <input type="number" id='identificationNumber' value={identificationNumber} onChange={event => setIdentificationNumber(event.target.value)}
@@ -291,7 +291,7 @@ function ConfigurationUser() {
 
 
                                 <div className='buttons'>
-                                    <Link to={"/login"}>
+                                    <Link to={"/login"} className='link-button-cancel-update'>
                                         <button className='button-cancel-update'><RxCross2 /></button>
                                     </Link>
 

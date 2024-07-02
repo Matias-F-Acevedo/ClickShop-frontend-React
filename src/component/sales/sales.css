@@ -1,0 +1,145 @@
+.data-user-order{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 250px;
+}
+
+.data-user-order p{
+  padding: 10px;
+  background-color: rgba(187, 187, 187, 0.13);
+  border-radius: 5px;
+}
+
+.data-user-order span{
+    font-weight:bold;
+  }
+  
+
+
+.scrollable-container {
+    max-height: 130px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.details-order {
+    margin: 10px;
+    background-color: rgba(187, 187, 187, 0.13);
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid #ffffff;
+
+}
+
+.details-order:hover {
+    cursor: pointer;
+}
+
+.container-img-details-order {
+    width: 50px;
+    height: 50px;
+
+}
+
+.container-img-details-order img {
+    width: auto;
+    height: 100%;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.current-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.current-status p {
+    background-color: rgb(240, 240, 240);
+    padding: 5px;
+    border-radius: 5px
+}
+
+.container-select-status {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.container-select-status select {
+    width: 100%;
+    height: 20px;
+    text-align: center;
+}
+
+.container-select-status button {
+    width: 80%;
+    height: 35px;
+    text-align: center;
+    background-color: #006D77;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+}
+
+
+.container-select-status button:hover {
+    background-color: #006d77ce;
+    color: #ffffff;
+    font-size: 15px;
+}
+
+
+.container-select-status button:active {
+    background-color: #ffffff;
+    color: #006d77ce;
+    border: 1px solid #006d77ce;
+}
+
+
+
+
+
+@media (max-width: 1050px) {
+.data-user-order{
+    width: 150px;
+}
+
+}
+@media (max-width: 800px) {
+
+    .data-user-order{
+        width: 100%;
+    }
+
+    .sales-status-order{
+        width: 100%;
+    }
+
+    .container-select-status select {
+        width: 80%;
+        height: 30px;
+        text-align: center;
+    }
+    
+    }
+
+
+@media (max-width: 500px) {
+
+.sales-status-order{
+    width: 100%;
+}
+
+}

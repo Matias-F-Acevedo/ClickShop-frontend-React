@@ -1,11 +1,12 @@
+import "./resetPassword.css"
 import React from 'react'
 import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useNavigate, useLocation } from 'react-router-dom';
-import "./resetPassword.css"
+import { updatePatch } from "../../service/functionsHTTP";
+
 
 function ResetPassword() {
-
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -16,21 +17,15 @@ function ResetPassword() {
     const location = useLocation();
 
 
-
     const urlResetPassword = "http://localhost:3000/api/auth/reset-password"
 
-
     async function sendRequest(resetPasswordToken, password) {
-        const res = await fetch(urlResetPassword, {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ resetPasswordToken: resetPasswordToken, password: password }),
-        });
-        if (!res.ok) { return false };
+        const body = { resetPasswordToken: resetPasswordToken, password: password };
+        const res = await updatePatch(urlResetPassword,body)
 
+        if (!res.ok) { return false };
         const parsed = await res.json()
+        console.log(parsed);
         return parsed
     }
 
@@ -77,7 +72,6 @@ function ResetPassword() {
                 }, 3000);
 
                 setConditionalRender(false)
-
                 return;
             }
 
@@ -97,17 +91,17 @@ function ResetPassword() {
                 <h1>Ingresá tu nueva contraseña.</h1>
                 <p className='menssage-forgot-password'> Utiliza una combinación de letras, números y caracteres especiales para crear contraseñas seguras, evita usar la misma contraseña en múltiples servicios.</p>
             </div>
-            <div className='line'></div>
+            <div className='line-forgot-password'></div>
 
             <div className='container-form-reset-password'>
 
-{
+                {
                     conditionalRender ?
-                <h2 className="title-forgot-password">Restablecer contraseña</h2>
-                : 
-                <div className='container-title-verification'>
-                    <h3 className="title-verification-forgot-password">Lo siento, tu solicitud para cambiar la contraseña ha sido rechazada. Por favor, Intenta nuevamente más tarde! Gracias.</h3>
-                </div>
+                        <h2 className="title-forgot-password">Restablecer contraseña</h2>
+                        :
+                        <div className='container-title-verification'>
+                            <h3 className="title-verification-forgot-password">Lo siento, tu solicitud para cambiar la contraseña ha sido rechazada. Por favor, Intenta nuevamente más tarde! Gracias.</h3>
+                        </div>
                 }
 
                 <p className="p-error">{error}</p>
@@ -119,13 +113,15 @@ function ResetPassword() {
                                 <input type="password" id='new-password' value={password} onChange={event => setPassword(event.target.value)} minLength={7} maxLength={30} required />
 
 
-                                <label htmlFor="confirm-password">Cofirmar contraseña</label>
+                                <label htmlFor="confirm-password">Confirmar contraseña</label>
                                 <input type="password" id='confirm-password' value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} minLength={7} maxLength={30} required />
 
+                                <div className='container-btns-resetpassword'>
+                                    <button className='btn-form-reset-password' type="submit">Enviar</button>
+                                    <Link to={"/login"}>
+                                        <button id='btn-cancel-reset-password'>Cancelar</button></Link>
+                                </div>
 
-                                <button className='btn-form-reset-password' type="submit">Enviar</button>
-                                <Link to={"/login"}>
-                                    <button id='btn-cancel-reset-password'>Cancelar</button></Link>
                             </>
                             : <></>
                     }
@@ -133,6 +129,6 @@ function ResetPassword() {
             </div>
         </div>
     )
-}
+}  
 
 export default ResetPassword;

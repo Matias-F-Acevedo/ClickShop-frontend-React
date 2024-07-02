@@ -53,13 +53,16 @@
 }
 
 .img-container{
-    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 350px;
     margin: 0 auto;
-    height: 220px;
 }
 
 .img-container img {
-    width: 100%;
+    width: auto;
     height: auto;
     margin: 0 auto;
     max-height: 100%;
@@ -90,15 +93,15 @@
 
 
 .active {
-    border-color: rgb(189, 189, 189) !important;
+    border-color: rgb(189, 189, 189);
 }
 
 .hover-container div:hover {
-    border-color:  rgb(189, 189, 189) !important;
+    border-color:  rgb(189, 189, 189);
 }
 
 .hover-container div img {
-    width: 100%;
+    width: auto;
     height: auto;
     cursor: pointer;
     max-height: 100%;

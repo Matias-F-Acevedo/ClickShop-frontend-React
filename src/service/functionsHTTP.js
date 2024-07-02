@@ -1,33 +1,110 @@
-export async function addOne(body, url) {
 
-    await fetch(url, {
+export async function getAll(url, jwt) {
+  try {
+    const headers = {};
+    if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
+    }
+
+    const res = await fetch(url, {
+      method: 'GET',
+      headers: headers,
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function getById(id, url, jwt) {
+  try {
+    const headers = {};
+    if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
+    }
+
+    const res = await fetch(`${url}/${id}`, {
+      method: 'GET',
+      headers: headers,
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function post(url, body, jwt) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
+    }
+
+    const res = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json"
-    },
+      headers: headers,
       body: JSON.stringify(body),
-    })
-  
-      .then((res) => res.json()).then((parsed)=>console.log(parsed)).catch((err) => console.error(err));
-  
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
   }
-  
-  
-  
-  export async function updateOne(id, body, url) {
-    await fetch(`${url}/${id}`, {
+}
+
+export async function updatePut(fullUrl, body, jwt) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
+    }
+
+    const res = await fetch(fullUrl, {
+      method: "PUT",
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export async function updatePatch(fullUrl, body, jwt) {
+  try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
+    }
+    const res = await fetch(fullUrl, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json"},
+      headers: headers,
       body: JSON.stringify(body),
-    })
-      .then((res) => res.json()).then((parsed)=>console.log(parsed)).catch((err) => console.error(err));
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
   }
-  
-  
-  
-  
-  export function deleteOne(id, url) {
-    fetch(`${url}/${id}`, {
-        method: 'DELETE',
-    })
-      .then((res) => res.json()).then((parsed)=>console.log(parsed)).catch((err) => console.error(err));
+}
+
+export async function remove(fullUrl, jwt) {
+  try {
+    const headers = {};
+    if (jwt) {
+      headers.Authorization = `Bearer ${jwt}`;
+    }
+    const res = await fetch(fullUrl, {
+      method: 'DELETE',
+      headers: headers,
+    });
+    return res;
+  } catch (err) {
+    console.error(err);
   }
+}
+

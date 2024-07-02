@@ -13,7 +13,16 @@ import UserPublications from "./component/userPublications/UserPublications";
 import UserOrder from "./component/userOrder/UserOrder";
 import Store from "./component/store/Store";
 import UserProduct from "./component/product/userProduct";
+import Cart from "./component/cart/Cart";
 import ProductPage from "./component/userPublications/productPage/ProductPage";
+import AddressForm from "./component/adressForm/AddressForm";
+import BuyProduct from "./component/adressForm/BuyProduct";
+import Favorites from "./component/favorites/Favorites";
+import RatingForm from "./component/ratingForm/RatingForm";
+import Footer from "./component/footer/Footer";
+import Sales from "./component/sales/Sales";
+import Ourteam from "./component/team/OurTeam";
+import Form from "./component/form/Form";
 
 function App() {
   return (
@@ -24,11 +33,10 @@ function App() {
 
           <Route path="/" element={<HomePage />} />
           <Route path="/store" element={<Store></Store>} />
-          <Route path="/contact" element={<h1>contact</h1>} />
-          <Route path="/team" element={<h1>team</h1>} />
-
+          <Route path="/contact" element={<Form />} />
+          <Route path="/team" element={<Ourteam />} />
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
-          <Route path="/vender" element={<UserProduct />} />
+
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
@@ -41,14 +49,18 @@ function App() {
 
 
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-            {/* <Route path="/vender" element={<UserProduct />} /> */}
-
+          <Route path="/favorites" element={<Favorites />} />
+            <Route path="/sales" element={<Sales/>} />
+            <Route path="/buyProduct" element={<BuyProduct />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/sell" element={<UserProduct />} />
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
             <Route path="/orders-user" element={<UserOrder></UserOrder>} />
           </Route>
 
         </Routes>
+        <Footer></Footer>
       </BrowserRouter>
     </UserProvider>
   );

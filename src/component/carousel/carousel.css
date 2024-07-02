@@ -1,44 +1,160 @@
-.carousel{
-    padding: 80px 0px 80px 0px;
-}
-.latest{
+.carousel-home {
+    padding: 50px 0 10px;
+    text-align: center;
+  }
+  
+  .latest-home {
     font-weight: 700;
-    font-size: 42px;
-    padding-left: 210px
-}
-
-.card-wrapper{
-    width: 100%;
-    padding: 120px 0px 120px 0px;
+    font-size: 32px;
+    margin-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-wrapper-home {
     display: flex;
-    justify-content: space-between;
-}
-
-.card{
-    width: 305px;
-    background-color: #F6F6F6;
-    border: 1px solid #C3C3C3;
-    border-radius: 15px;
+    gap: 40px;
+    padding: 50px 0;
+    justify-content: center;
+    overflow-x: hidden;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .card-home {
+    flex: 0 0 auto;
+    height: 330px;
+    height: auto;
+    padding-top: 20px;
+    max-width: 21%;
+    background-color: #f6f6f6;
+    border: 1px solid #c3c3c3;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding-bottom: 15px;
-}
-.card > img {
-    max-width: 305px;
-    height: 188px;
-}
-.card > h5, .card > p {
-    padding-left: 15px;
-}
-.card > h5{
-    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative; 
+  }
+  
+  .card-home > img {
+    border-radius: 10px;
+    padding-right: 20px;
+    padding-left: 20px;
+    width: auto;
+    max-width: 100%;
+    height: 280px;
+    max-height: 280px;
+    object-fit: cover;
+    margin: 10px;
+  }
+  
+  .card-home > h5,
+  .card-home > p {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px 0;
+  }
+  
+  .card-home > h5 {
     font-size: 18px;
     font-weight: normal;
-    opacity: 0.7;
-}
-
-.card > p {
+    opacity: 0.6;
+  }
+  
+  .card-home > p {
     font-size: 18px;
     font-weight: bold;
-}
+  }
+  
+  .link-icon {
+    position: absolute;
+    bottom: 5px;
+    right: 15px; 
+    font-size: 24px; /* Tamaño del ícono */
+    color: #000000; 
+  }
+  
+  /* Media queries para diferentes tamaños de pantalla */
+  
+  @media (max-width: 992px) {
+    .latest-home {
+      font-size: 28px;
+    }
+  
+    .card-home {
+      max-height: 270px;
+      max-width: 160px;
+    }
+  
+    .card-home > img {
+      max-height: 120px;
+    }
+  
+    .card-home > h5,
+    .card-home > p {
+      font-size: 14px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .latest-home {
+      font-size: 24px;
+    }
+  
+    .card-wrapper-home {
+      padding: 20px 5px;
+      gap: 10px;
+    }
+  
+    .card-home {
+      max-width: 170px;
+      max-height: 230px;
+    }
+  
+    .card-home > img {
+      max-height: 90px;
+    }
+  
+    .card-home > h5,
+    .card-home > p {
+      font-size: 12px;
+    }
+  
+    .link-icon {
+      font-size: 20px; 
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .latest-home {
+      font-size: 20px;
+    }
+  
+    .card-wrapper-home {
+      padding: 20px 5px;
+      gap: 5px;
+    }
+  
+    .card-home {
+      max-width: 120px;
+      max-height: 180px;
+    }
+  
+    .card-home > img {
+      max-height: 60px;
+    }
+  
+    .card-home > h5,
+    .card-home > p {
+      font-size: 10px;
+    }
+  
+    .link-icon {
+      font-size: 16px; /* Ajustar el tamaño del ícono para pantallas más pequeñas */
+    }
+  }

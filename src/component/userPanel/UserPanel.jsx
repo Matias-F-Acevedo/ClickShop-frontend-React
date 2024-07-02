@@ -9,10 +9,12 @@ import { TbShoppingBagCheck } from "react-icons/tb";
 import { MdOutlineLogout } from "react-icons/md";
 import { BsPostcard } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
-
+import { IoMdTrendingUp } from "react-icons/io";
 import { LiaUserPlusSolid } from "react-icons/lia";
-
+import { getById } from '../../service/functionsHTTP';
 import { PiUserCircle } from "react-icons/pi";
+
+
 function UserPanel() {
 
     const { user, handleLogout } = useContext(UserContext);
@@ -23,15 +25,11 @@ function UserPanel() {
         return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }
 
-    const urlGetImage = "http://localhost:3000/api/users/"
+    const urlGetImage = "http://localhost:3000/api/users"
 
     async function getUserImage(user_id) {
-        const res = await fetch(`${urlGetImage}+${user_id}/profile-image`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+    
+        const res = await getById(`${user_id}/profile-image`,urlGetImage,user.jwt)
         if (!res.ok) return false;
 
         const parsed = await res.json()
@@ -100,7 +98,7 @@ function UserPanel() {
                         <p>Editar perfil</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
-                    <Link to={"/"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
+                    <Link to={"/favorites"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <IoMdHeartEmpty className='icon-userPanel' />
                         <p>Favoritos</p>
                         <span><IoIosArrowForward /></span>
@@ -108,6 +106,11 @@ function UserPanel() {
                     <Link to={"/orders-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
                         <TbShoppingBagCheck className='icon-userPanel' />
                         <p>Mis compras</p>
+                        <span><IoIosArrowForward /></span>
+                    </Link>
+                    <Link to={"/sales"} onClick={toggleMenuUserPanel} className='sub-menu-link'>
+                        <IoMdTrendingUp className='icon-userPanel' />
+                        <p>Mis ventas</p>
                         <span><IoIosArrowForward /></span>
                     </Link>
                     <Link to={"/publications-user"} onClick={toggleMenuUserPanel} className='sub-menu-link'>

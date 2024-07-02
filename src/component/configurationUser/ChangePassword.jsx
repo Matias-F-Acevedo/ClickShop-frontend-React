@@ -1,16 +1,14 @@
 import React from 'react'
 import "./configurationUser.css"
 import { Link } from "react-router-dom"
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState} from "react";
 import { UserContext } from '../../context/UserContext';
 import { useNavigate } from 'react-router-dom';
 import { FaCheck } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
-
-
+import { updatePatch } from '../../service/functionsHTTP';
 
 function ChangePassword({setErrorProp}) {
-
 
     const { user, handleLogout } = useContext(UserContext);
     const [oldPassword, setOldPassword] = useState("");
@@ -50,16 +48,9 @@ function ChangePassword({setErrorProp}) {
             "newPassword": newPassword
         };
 
-        const res = await fetch(urlChangePassword, {
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${user.jwt}`
-            },
-            body: JSON.stringify(newPasswordObject),
-        })
+        const body = newPasswordObject;
+        const res = await updatePatch(urlChangePassword, body,user.jwt)
         const parsed = await res.json()
-        console.log(parsed);
 
         if (parsed.statusCode == 400) {
             setErrorProp("La contraseña anterior es incorrecta");
@@ -108,7 +99,7 @@ function ChangePassword({setErrorProp}) {
             </div>
 
             <div className='buttons'>
-                <Link to={"/login"}>
+                <Link to={"/login"} className='link-button-cancel-update'>
                     <button className='button-cancel-update'><RxCross2 /></button>
                 </Link>
 

@@ -37,17 +37,18 @@ const Ourteam = () => {
     },
   ];
   return (
+
     <div className="team-wrapper">
       <section className="team-title">
         <h2 className="title">Nuestro equipo</h2>
         <p className="subtitle">
           Siguenos en Github para enterarte de las novedades y herramientas que
-          añadimos en la plataforma.
+
         </p>
       </section>
-      <section className="member-wrapper">
+      <section className="member-wrapper-home">
         {members?.map((member, index) => (
-          <article className="member-card" key={index}>
+          <article className="member-card-home" key={index}>
             <img src={member.img} alt="team-members" />
             <h3>{member.name}</h3>
             <div>
