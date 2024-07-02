@@ -1,0 +1,182 @@
+.container-table {
+    padding-left: 40px;
+    padding-right: 40px;
+    padding-top: 30px;
+
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.container-table input {
+    width: 400px;
+    height: 30px;
+    margin-bottom: 20px;
+    height: 35px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.212);
+    padding-left: 5px;
+    font-size: 15px;
+    
+}
+
+table {
+     /* border-collapse: collapse; */
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid rgba(224, 224, 224, 0.966);
+}
+
+.buttons-table {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 40px;
+    
+}
+
+.buttons-table button {
+    width: 60px;
+    height: 30px;
+    border: none;
+    border-radius: 2px;
+    background-color:#006d779a;
+    color: white;
+    font-size: 15px;
+}
+
+.buttons-table button:hover {
+    background-color:#006d773f;
+}
+.icon-page{
+    font-size: 20px;
+}
+
+
+
+.thead,
+.tfoot {
+    background-color: #F6F6F6;
+    color: black;
+}
+
+
+th,
+td {
+    text-align: left;
+    padding: 16px;
+}
+
+
+.thead th:hover{
+    cursor: pointer;
+    background-color: rgba(189, 189, 189, 0.411);
+   
+  }
+
+  .icon-th{
+    font-size: 15px;
+    margin-right: 5px;
+    color: rgba(189, 189, 189, 0.795);
+  }
+
+  table th:first-child .icon-th{
+   display: none;
+}
+
+
+/* tbody tr:nth-child(even) {
+    background-color: #f7f7f79f;
+}  */
+
+
+ tbody tr {
+    border: 1px solid rgba(224, 224, 224, 0.966);
+    background-color: #FFFFFF
+} 
+
+tbody tr:hover {
+    background-color:#006d773f;
+    
+}
+
+.tr-mobile{
+    display: none;
+}
+
+
+
+
+
+@media (max-width: 800px) {
+
+    .tr-desktop{
+        display: none;
+    }
+
+    .tr-mobile{
+        display: block;
+    }
+    
+
+    .p-table-tbody-td{
+        display: block;
+        padding: 5px;
+    }
+
+    .container-table input {
+        width: 100%;
+    }
+
+    .thead tr {
+        display: none;
+    }
+
+    tbody  {
+        width: 100%;
+    }
+
+    tbody tr {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .container-td-table{
+        display: flex;
+        width: 100%;
+        border: 1px solid rgba(134, 134, 134, 0.089);
+    }
+
+    .td-name-colum{
+        width: 50%;
+        border-right: 1px solid rgba(134, 134, 134, 0.089);
+        font-weight:600;
+    }
+
+    tbody tr td {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        width: 100%;
+    }
+
+
+
+    th{
+        text-align: left;
+        padding: 16px 0px;
+    }
+}
+
+
+
+@media (max-width: 480px) {
+    tbody tr td {
+        font-size: 15px;
+    }
+
+}

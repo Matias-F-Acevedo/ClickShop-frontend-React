@@ -1,0 +1,12 @@
+#PENDIENTE{
+    color: rgb(255, 102, 0);
+}
+#COMPLETADO{
+    color: green;
+}
+#ENVIADO{
+    color:rgb(18, 121, 255);
+}
+#CANCELADO{
+    color: rgb(255, 0, 0);
+}
