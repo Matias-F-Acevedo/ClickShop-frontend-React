@@ -60,8 +60,6 @@ function Sales() {
                     order.orderDetail.every(detail => detail.product.isActive === true)
                 );
                 
-                console.log(activeOrders);
-
                 setOrders(data);
                 setStatusMap(initialStatusMap);
             

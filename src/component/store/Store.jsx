@@ -26,10 +26,8 @@ const Store = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      getProducts();
-      getCategories();
-    }
+    getProducts();
+    getCategories();
   }, [user]);
 
   const getCategories = async () => {
@@ -46,9 +44,8 @@ const Store = () => {
 
   const getProducts = async () => {
     try {
-      const res = await getAll(URL, user.jwt);
+      const res = await getAll(URL);
       if (!res.ok) {
-        throw new Error("Failed to fetch products");
         throw new Error("Failed to fetch products");
       }
       const result = await res.json();
@@ -213,9 +210,13 @@ const Store = () => {
           </div>
           <div className="productsContainer">
             <div className="products">
-              {productsToShow.map((product) => (
-                <ProductCard key={product.productId} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
-              ))}
+              {productsToShow.length ?
+                productsToShow.map((product) => (
+                  <ProductCard key={product.productId} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
+                ))
+                :
+                <p>No hay productos disponibles...</p>
+              }
             </div>
             {pageCount > 1 && (
               <div className="pagination">

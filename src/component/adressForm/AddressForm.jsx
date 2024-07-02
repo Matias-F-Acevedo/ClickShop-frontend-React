@@ -13,7 +13,7 @@ const AddressForm = ({ userId, cartItems }) => {
     });
     const [preferenceId, setPreferenceId] = useState(null);
     const [message, setMessage] = useState('');
-    
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -24,42 +24,65 @@ const AddressForm = ({ userId, cartItems }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.jwt}`
-                },
-                body: JSON.stringify(formData)
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (Array.isArray(cartItems)) {
+                const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.jwt}`
+                    },
+                    body: JSON.stringify(formData)
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setMessage(data.message);
+
+            } else {
+                const order = {
+                    user_id: user.sub,
+                    ...formData,
+                    status: "PENDING",
+                    total: parseFloat(cartItems.price)
+                }
+                const responseOrder = await fetch(`http://localhost:3000/api/order`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.jwt}`
+                    },
+                    body: JSON.stringify(order)
+                });
+
+
+                if (!responseOrder.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const orderParsed = await responseOrder.json()
+
+                    const createOrderDetail = {
+                    order_id: await orderParsed.order_id,
+                    product_id: parseFloat(cartItems.productId),
+                    quantity: 1,
+                    unitPrice: parseFloat(cartItems.price),
+                };
+                const responseOrderDetail = await fetch(`http://localhost:3000/api/order-details`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.jwt}`
+                    },
+                    body: JSON.stringify(createOrderDetail)
+                });
+                if (!responseOrderDetail.ok) {
+                    throw new Error('Network response was not ok');
+                }
             }
 
-            const data = await response.json();
-            setMessage(data.message);
-
-            const createOrderDetail = {
-                order_id: data.order.order_id,
-                product_id: parseFloat(cartItems[0].product_id),
-                quantity: 1,
-                unitPrice: parseFloat(cartItems[0].unitPrice),
-            };
-
-            const responseOrderDetail = await fetch(`http://localhost:3000/api/order-details`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${user.jwt}`
-                },
-                body: JSON.stringify(createOrderDetail)
-            });
-            console.log(createOrderDetail);
-            if (!responseOrderDetail.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const items = Array.isArray(cartItems) 
+            const items = Array.isArray(cartItems)
                 ? cartItems.map(cartItem => ({
                     id: String(cartItem.product_id),
                     title: cartItem.product.product_name,
@@ -67,7 +90,7 @@ const AddressForm = ({ userId, cartItems }) => {
                     unit_price: parseFloat(cartItem.unitPrice),
                 }))
                 : [{
-                    id: String(cartItems.product_id),
+                    id: String(cartItems.productId),
                     title: cartItems.product_name,
                     quantity: 1,
                     unit_price: parseFloat(cartItems.price),

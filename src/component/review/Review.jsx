@@ -11,12 +11,11 @@ function Review({ productId }) {
     const [reviews, setReviews] = useState([]);
     const { user } = useContext(UserContext);
     const [showRatingForm, setShowRatingForm] = useState(false);
-    const jwt = user.jwt;
 
 
     async function getReviewByProductId(productId) {
         const url = `http://localhost:3000/api/review?productId=${productId}`;
-        const res = await getAll(url, user.jwt)
+        const res = await getAll(url)
         if (!res.ok) {
             console.log("no hay reviews");
             return
@@ -33,8 +32,9 @@ function Review({ productId }) {
     }
 
     useEffect(() => {
+        getReviewByProductId(productId);
+        
         if (user) {
-            getReviewByProductId(productId);
             checkUserOrders(user.sub);
         }
     }, [user, productId, reviews]);

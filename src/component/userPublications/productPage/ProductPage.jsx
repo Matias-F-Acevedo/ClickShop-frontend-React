@@ -11,7 +11,7 @@ import Review from '../../review/Review';
 import { getAll, getById, post, updatePut } from '../../../service/functionsHTTP';
 import Swal from 'sweetalert2';
 import BuyProduct from '../../adressForm/BuyProduct';
-
+import { useNavigate } from "react-router-dom";
 function ProductPage() {
 
 
@@ -29,7 +29,7 @@ function ProductPage() {
     const [addedToCart, setAddedToCart] = useState(false);
     const [isBuying, setIsBuying] = useState(false);
     const [cartItems, setCartItems] = useState([])
-
+    const navigate = useNavigate();
 
     
 
@@ -72,13 +72,17 @@ function ProductPage() {
     }, [productId, user]);
   
     const handleBuyProduct = () => {
-        setIsBuying(true);
-        console.log(product)
-         
+        if(!user){
+            navigate(`/login`);
+            return
+          }
+        setIsBuying(true);    
     };
     
     const handleAddToCart = async () => {
-      
+        if(!user){
+            navigate(`/login`);
+          }
         const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
         const URLCartItems = `http://localhost:3000/api/cart/${user.sub}/items`
         try {
@@ -201,10 +205,12 @@ function ProductPage() {
 
     return (
         <>
+        {isBuying ? (
+            <BuyProduct cartItems={product} />
+                   ):(
+                    <>
             <div className='main-wrapper'>
-            {isBuying ? (
-                          <BuyProduct cartItems={product} />
-                                 ):(
+            
                 <div className='container-products'>
                     <div className='product-div'>
                         <div className='product-div-left'>
@@ -245,9 +251,11 @@ function ProductPage() {
                         </div>
                     </div>
                 </div>
-                                 )}
+                                 
             </div>
             <Review productId={product.productId}></Review>
+            </>
+        )}
         </>
     )
 

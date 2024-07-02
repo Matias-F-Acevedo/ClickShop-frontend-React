@@ -34,14 +34,9 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/store" element={<Store></Store>} />
           <Route path="/contact" element={<Form />} />
-          <Route path="/team" element={<Ourteam/>} />
-          <Route path="/favorites" element={<Favorites />} />
-
-          <Route path="/sales" element={<Sales />} />
-
+          <Route path="/team" element={<Ourteam />} />
           <Route path="/product/:productId" element={<ProductPage></ProductPage>} />
 
-          <Route path="/comment" element={<RatingForm></RatingForm>} />
 
           <Route element={<ProtectedRouterIfUser redirectPath="/" />}>
             <Route path="/login" element={<Login></Login>} />
@@ -54,9 +49,11 @@ function App() {
 
 
           <Route element={<ProtectedRouterIfNotUser redirectPath="/login" />}>
-          <Route path="/buyProduct" element={<BuyProduct />} />
+          <Route path="/favorites" element={<Favorites />} />
+            <Route path="/sales" element={<Sales/>} />
+            <Route path="/buyProduct" element={<BuyProduct />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/sell" element={<UserProduct/>} />
+            <Route path="/sell" element={<UserProduct />} />
             <Route path="/configuration-user" element={<ConfigurationUser></ConfigurationUser>} />
             <Route path="/publications-user" element={<UserPublications></UserPublications>} />
             <Route path="/orders-user" element={<UserOrder></UserOrder>} />

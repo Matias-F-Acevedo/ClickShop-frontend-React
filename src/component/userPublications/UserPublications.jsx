@@ -147,8 +147,6 @@ function UserPublications() {
                 return <div className='crud-publicationsUser'>
                     <Link onClick={(event) => handleLinkClick(event, productId)}><CgDetailsMore className='btn-Details-publicationUser  btn-publicationUser crud-publicationsUser-btns' />
                     </Link>
-
-                    <MdEditNote className='btn-Edit-publicationUser btn-publicationUser crud-publicationsUser-btns' />
                     <MdOutlineDeleteForever onClick={() => deletePublication(productId)} className='btn-delete-publicationUser btn-publicationUser crud-publicationsUser-btns' />
                 </div>;
             }

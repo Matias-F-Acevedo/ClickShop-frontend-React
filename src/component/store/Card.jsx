@@ -10,7 +10,7 @@ import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { FiEye } from "react-icons/fi";
 import { getAll, getById, post, updatePut } from "../../service/functionsHTTP";
 import Swal from 'sweetalert2';
-
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = (props) => {
 
@@ -18,11 +18,13 @@ const ProductCard = (props) => {
   const { user } = useContext(UserContext);
   const [addedToCart, setAddedToCart] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-
+  const navigate = useNavigate();
 
 
   const handleAddToCart = async () => {
-
+    if(!user){
+      navigate(`/login`);
+    }
     const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
     const URLCartItems = `http://localhost:3000/api/cart/${user.sub}/items`
     try {
@@ -135,6 +137,9 @@ const ProductCard = (props) => {
   };
 
   const handleToggleFavorite = async (productId) => {
+    if(!user){
+      navigate(`/login`);
+    }
     try {
       if (user) {
         const url = `http://localhost:3000/api/favorites/${user.sub}/${productId}`;

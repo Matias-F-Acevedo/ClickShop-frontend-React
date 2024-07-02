@@ -37,7 +37,7 @@ function Navbar() {
                 <div className="container-nav-desktop">
                     <div className="logo">
                         <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
-                        <span className="logo-name" onClick={()=> navigate(`/`)}>ClickShop</span>
+                        <span className="logo-name" onClick={() => navigate(`/`)}>ClickShop</span>
                     </div>
                     <div className="nav-desktop">
                         <ul>
@@ -45,13 +45,19 @@ function Navbar() {
                             <li><Link to={"/store"}>Tienda</Link> </li>
                             <li><Link to={"/contact"}>Contacto</Link> </li>
                             <li><Link to={"/team"}>Nosotros</Link> </li>
-                            <li><Link to={"/sell"}>Vender</Link> </li>
+
+                            {user ?
+                                <li><Link to={"/sell"}>Vender</Link> </li>
+                                : <></>
+                            }
+
                         </ul>
                     </div>
                     <div className="icon-nav">
                         <UserPanel className="icon-userProfile" />
-                        <Link to={"/cart"}><BsCart3 className="icon-cart" /></Link>
-
+                        {user ?
+                            <Link to={"/cart"}><BsCart3 className="icon-cart" /></Link>
+                            : <></>}
                     </div>
                 </div>
 
