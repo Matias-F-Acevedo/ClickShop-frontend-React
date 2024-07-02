@@ -30,7 +30,7 @@ const Form = () => {
   return (
     <div className="contact-wrapper-home">
       <section className="contact-title-home">
-        <h2 className="contact-home">Contact</h2>
+        <h2 className="contact-home">Contacto</h2>
         <p className="contact-subtitle-home">
           Ante cualquier duda o consulta, envíanos un mensaje por este medio
           de contacto, nuestro soporte de trabajo te respondera lo antes posible.
@@ -38,21 +38,21 @@ const Form = () => {
       </section>
       
       <form className="contact-form-home" ref={refForm} onSubmit={handleSubmit}>
-        <label htmlFor="username">Name</label>
+        <label htmlFor="username">Nombre</label>
         <input className="form-inputs-home" name='username' type="text" placeholder='Ej: Belocchi Sofia' required/>
 
         <label htmlFor="email">Email</label>
         <input className="form-inputs-home" name='email' type="email" placeholder='Ej: sofiabelocchi@gmail.com' required/>
 
-        <label htmlFor="phone">Phone</label>
+        <label htmlFor="phone">Telefono</label>
         <input className="form-inputs-home" name='phone' type="phone" placeholder='Ej: 2281-224466' required/>
 
-        <label>Message</label>
-        <textarea rows={5} className="textarea-form-home" placeholder='type your message' name="message"/>
+        <label>Mensaje</label>
+        <textarea rows={5} className="textarea-form-home" placeholder='Escribi tu mensaje' name="message"/>
         
 
         <div className="button-wrapper-home">
-          <button className="button-form-home">Send</button>
+          <button className="button-form-home">Enviar</button>
         </div>
       </form>
 
