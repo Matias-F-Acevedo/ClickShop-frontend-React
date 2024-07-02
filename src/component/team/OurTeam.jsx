@@ -42,8 +42,8 @@ const Ourteam = () => {
       <section className="team-title">
         <h2 className="title">Nuestro equipo</h2>
         <p className="subtitle">
-          Siguenos en Github para enterarte de las novedades y herramientas que
-
+        Siguenos en Github para enterarte de las novedades y herramientas
+          que añadimos en la plataforma o podes contactarnos a traves de LinkedIn
         </p>
       </section>
       <section className="member-wrapper-home">
@@ -52,10 +52,10 @@ const Ourteam = () => {
             <img src={member.img} alt="team-members" />
             <h3>{member.name}</h3>
             <div>
-              <Link to={member.Github} target="_blank">
+              <Link to={member.Github} className="icon" target="_blank">
                 <img src={Github} alt="github-icon" />
               </Link>
-              <Link to={member.Linkedin} target="_blank">
+              <Link to={member.Linkedin} className="icon" target="_blank">
                 <img src={Linkedin} alt="github-icon" />
               </Link>
             </div>

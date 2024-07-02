@@ -1,4 +1,4 @@
-.team-wrapper-home {
+.team-wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -7,25 +7,26 @@
     padding: 0 20px;
 }
 
-.team-title-home {
+.team-title {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.title-home {
+.title {
     margin-top: 35px;
     text-align: center;
     font-size: 42px;
     font-weight: 600;
 }
 
-.subtitle-home {
+.subtitle {
     text-align: center;
     width: 530px;
     font-size: 16px;
     font-weight: 300;
     opacity: 0.7;
+    padding-top: 10px;
 }
 
 .member-wrapper-home {
@@ -47,14 +48,30 @@
     max-width: 200px;
 }
 
+.icon {
+    display: inline-block;
+    margin: 0 5px;
+  }
+  
+  .icon img {
+    width: 34px; 
+    height: 34px; 
+  }
+
 
 @media (max-width: 992px) {
-    .team-title-home {
+    .team-title {
         text-align: center;
         margin-bottom: 40px;
     }
 
-    .subtitle-home {
+
+      .icon img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .subtitle {
         width: 100%;
         max-width: 530px;
         font-size: 16px;
@@ -81,12 +98,17 @@
 }
 
 @media (max-width: 768px) {
-    .team-title-home {
+    .team-title {
         margin-bottom: 60px;
     }
 
     .member-wrapper-home {
         gap: 30px;
+    }
+
+    .icon img {
+        width: 22px; 
+        height: 22px;
     }
 
     .member-card-home img {
@@ -95,11 +117,11 @@
 }
 
 @media (max-width: 576px) {
-    .title-home {
+    .title {
         font-size: 32px;
     }
 
-    .subtitle-home {
+    .subtitle {
         font-size: 14px;
     }
 
@@ -114,5 +136,10 @@
 
     .member-card-home img {
         max-width: 100px;
+    }
+
+    .icon img {
+        width: 20px; 
+        height: 20px;
     }
 }
