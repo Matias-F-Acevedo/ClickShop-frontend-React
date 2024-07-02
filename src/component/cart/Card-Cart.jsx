@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import './card-cart.css';
+import './card-cart.css'; // Importa el archivo CSS con los estilos personalizados
 
 function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem }) {
-
-    
     const { product_name, price, stock, product_image } = product;
     const [quantity, setQuantity] = useState(cartItem.quantity);
 
@@ -26,8 +24,6 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
             updateProductQuantity(cartItem.cartItem_id, newQuantity);
         }
     };
-
-   
 
     return (
         <div key={index} className="cardcart-container">
@@ -53,7 +49,10 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
                 </div>
             </div>
             <div className='cardcart-buttons-container'>
-                <button className='cardcart-btn-delete' onClick={handleDeleteProduct}>Eliminar</button>
+                <button className='cardcart-btn-delete' onClick={handleDeleteProduct}>
+                    <span role="img" aria-label="Eliminar producto">&#10006;</span>
+                </button>
+
             </div>
         </div>
     );

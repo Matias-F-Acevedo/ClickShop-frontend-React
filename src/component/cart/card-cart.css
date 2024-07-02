@@ -19,10 +19,9 @@
     flex-direction: column;
     margin: 0px 40px;
     width: 100%;
-
+    border:transparent;
     max-height: 700px; 
     overflow-y: scroll;
-    border: 1px solid #ccc;
     padding: 10px;
     margin-top: 30px;
 }
@@ -114,19 +113,22 @@
 }
 
 .cardcart-btn-delete {
-    background-color: #ff0000;
-    color: white;
+    border: transparent;
+    background-color: #ff0000; /* Fondo rojo */
+    color: white; /* Texto blanco */
     border: none;
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: 7px;
+    padding: 8px; /* Ajusta el padding según el tamaño deseado */
     cursor: pointer;
-    margin-top: 10px;
-    font-size: 16px;
+    margin-top: 5px;
+    font-size: 12px; /* Tamaño de fuente general del botón */
 }
 
 .cardcart-btn-delete:hover {
-    background-color: #cc0000;
+    background-color: #cc0000; /* Rojo más oscuro al hacer hover */
 }
+
+
 
 .cardcart-btn-buy {
     background-color: #3483fa;

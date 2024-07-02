@@ -133,8 +133,8 @@ function Cart() {
 
                     <div className='container-resumen'>
                         <h2>RESUMEN DEL PEDIDO</h2>
-                        <p>{cart.quantityTotal}</p>
-                        <p>Envio: Gratis</p>
+                        <p> Cantidad: {cart.quantityTotal}</p>
+                        <p> Envio: Gratis</p>
                         <div className='total'>
                             Total: ${cart.total}
                         </div>

@@ -1,7 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
+import "./addressForm.css"
 
-function AddressForm({ userId, cartItems }) {
+const AddressForm = ({ userId, cartItems }) => {
+    const { user } = useContext(UserContext);
     const [formData, setFormData] = useState({
         shippingAddress: '',
         city: '',
@@ -9,12 +11,9 @@ function AddressForm({ userId, cartItems }) {
         postalCode: '',
         country: ''
     });
-    const [datas, setData] = useState([])
-
     const [preferenceId, setPreferenceId] = useState(null);
     const [message, setMessage] = useState('');
-    const { user } = useContext(UserContext);
-
+    
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -33,56 +32,46 @@ function AddressForm({ userId, cartItems }) {
                 },
                 body: JSON.stringify(formData)
             });
-            console.log("response",response)
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
 
             const data = await response.json();
-            setData(data)
             setMessage(data.message);
-            console.log("handleSubmitCheckout",data);
-            console.log(cartItems)
+
             const createOrderDetail = {
- 
                 order_id: data.order.order_id,
-            
                 product_id: cartItems.productId,
-           
                 quantity: 1,
-            
                 unitPrice: cartItems.price,
-            }
+            };
+
             const responseOrderDetail = await fetch(`http://localhost:3000/api/order-details`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${user.jwt}`
-                    },
-                    body: JSON.stringify(createOrderDetail)
-             });
-             console.log("response",responseOrderDetail)
-             if (!response.ok) {
-                 throw new Error('Network response was not ok');
-             }
- 
-        
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.jwt}`
+                },
+                body: JSON.stringify(createOrderDetail)
+            });
+
+            if (!responseOrderDetail.ok) {
+                throw new Error('Network response was not ok');
+            }
+
             const items = Array.isArray(cartItems) 
-            ? cartItems.map(cartItem => ({
-                id: String(cartItem.product_id), // Verifica que sea product_id
-                title: cartItem.product.product_name, // Asegúrate de que el nombre del producto sea correcto
-                quantity: cartItem.quantity,
-                unit_price: parseFloat(cartItem.unitPrice), // Asegúrate de que el precio unitario sea un número
-            }))
-            : [{
-                id: String(cartItems.product_id), // Verifica que sea product_id
-                title: cartItems.product_name, // Asegúrate de que el nombre del producto sea correcto
-                quantity: 1,
-                unit_price: parseFloat(cartItems.price), // Asegúrate de que el precio unitario sea un número
-            }];
-        
-        console.log('Items to be sent:', items);
-        
+                ? cartItems.map(cartItem => ({
+                    id: String(cartItem.product_id),
+                    title: cartItem.product.product_name,
+                    quantity: cartItem.quantity,
+                    unit_price: parseFloat(cartItem.unitPrice),
+                }))
+                : [{
+                    id: String(cartItems.product_id),
+                    title: cartItems.product_name,
+                    quantity: 1,
+                    unit_price: parseFloat(cartItems.price),
+                }];
 
             const preferenceResponse = await fetch('http://localhost:3000/api/mercado-pago/create-preference', {
                 method: 'POST',
@@ -94,7 +83,6 @@ function AddressForm({ userId, cartItems }) {
             });
 
             const preferenceData = await preferenceResponse.json();
-            console.log('Preference data:', preferenceData);
             if (preferenceData && preferenceData.preference && preferenceData.preference.id) {
                 setPreferenceId(preferenceData.preference.id);
                 const mp = new window.MercadoPago('APP_USR-1c73e37b-3196-4cd2-a5ad-cbf5cc52feec', {
@@ -115,26 +103,12 @@ function AddressForm({ userId, cartItems }) {
         }
     };
 
-    useEffect(() => {
-        if (preferenceId) {
-            const mp = new window.MercadoPago('TEST-fbb21b25-5a77-4f05-8c57-7eb3b13c5bda', {
-                locale: 'es-AR'
-            });
-
-            mp.bricks().create("wallet", "wallet_container", {
-                initialization: {
-                    preferenceId,
-                },
-            });
-        }
-    }, [preferenceId]);
-
     return (
-        <div>
-            <h2>Enter Shipping Address</h2>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Shipping Address:</label>
+        <div className="address-form-container">
+            <h2>Ingrese su domicilio</h2>
+            <form onSubmit={handleSubmit} className="address-form">
+                <div className="form-group">
+                    <label>Calle:</label>
                     <input
                         type="text"
                         name="shippingAddress"
@@ -145,8 +119,8 @@ function AddressForm({ userId, cartItems }) {
                         required
                     />
                 </div>
-                <div>
-                    <label>City:</label>
+                <div className="form-group">
+                    <label>Ciudad:</label>
                     <input
                         type="text"
                         name="city"
@@ -157,8 +131,8 @@ function AddressForm({ userId, cartItems }) {
                         required
                     />
                 </div>
-                <div>
-                    <label>Province:</label>
+                <div className="form-group">
+                    <label>Provincia:</label>
                     <input
                         type="text"
                         name="province"
@@ -169,8 +143,8 @@ function AddressForm({ userId, cartItems }) {
                         required
                     />
                 </div>
-                <div>
-                    <label>Postal Code:</label>
+                <div className="form-group">
+                    <label>Codigo Postal:</label>
                     <input
                         type="text"
                         name="postalCode"
@@ -181,8 +155,8 @@ function AddressForm({ userId, cartItems }) {
                         required
                     />
                 </div>
-                <div>
-                    <label>Country:</label>
+                <div className="form-group">
+                    <label>Pais:</label>
                     <input
                         type="text"
                         name="country"
@@ -193,12 +167,12 @@ function AddressForm({ userId, cartItems }) {
                         required
                     />
                 </div>
-                <button type="submit">Comprar Producto</button>
+                <button type="submit" className="submit-button">Comprar Producto</button>
             </form>
-            {message && <p>{message}</p>}
+            {message && <p className="message">{message}</p>}
             <div id="wallet_container"></div>
         </div>
     );
-}
+};
 
 export default AddressForm;
