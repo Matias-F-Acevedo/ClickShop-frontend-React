@@ -41,9 +41,9 @@ const AddressForm = ({ userId, cartItems }) => {
 
             const createOrderDetail = {
                 order_id: data.order.order_id,
-                product_id: cartItems.productId,
+                product_id: parseFloat(cartItems[0].product_id),
                 quantity: 1,
-                unitPrice: cartItems.price,
+                unitPrice: parseFloat(cartItems[0].unitPrice),
             };
 
             const responseOrderDetail = await fetch(`http://localhost:3000/api/order-details`, {
@@ -54,7 +54,7 @@ const AddressForm = ({ userId, cartItems }) => {
                 },
                 body: JSON.stringify(createOrderDetail)
             });
-
+            console.log(createOrderDetail);
             if (!responseOrderDetail.ok) {
                 throw new Error('Network response was not ok');
             }

@@ -66,7 +66,6 @@ function Sales() {
                 setStatusMap(initialStatusMap);
             
             } catch (error) {
-                console.log(error)
                 console.error(error.message);
             } finally {
                 setLoading(false);
