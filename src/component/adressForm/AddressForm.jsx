@@ -9,6 +9,7 @@ function AddressForm({ userId, cartItems }) {
         postalCode: '',
         country: ''
     });
+    const [datas, setData] = useState([])
 
     const [preferenceId, setPreferenceId] = useState(null);
     const [message, setMessage] = useState('');
@@ -32,22 +33,56 @@ function AddressForm({ userId, cartItems }) {
                 },
                 body: JSON.stringify(formData)
             });
+            console.log("response",response)
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
 
             const data = await response.json();
+            setData(data)
             setMessage(data.message);
-            console.log(cartItems);
-
-            const items = cartItems.map(cartItem => ({
+            console.log("handleSubmitCheckout",data);
+            console.log(cartItems)
+            const createOrderDetail = {
+ 
+                order_id: data.order.order_id,
+            
+                product_id: cartItems.productId,
+           
+                quantity: 1,
+            
+                unitPrice: cartItems.price,
+            }
+            const responseOrderDetail = await fetch(`http://localhost:3000/api/order-details`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${user.jwt}`
+                    },
+                    body: JSON.stringify(createOrderDetail)
+             });
+             console.log("response",responseOrderDetail)
+             if (!response.ok) {
+                 throw new Error('Network response was not ok');
+             }
+ 
+        
+            const items = Array.isArray(cartItems) 
+            ? cartItems.map(cartItem => ({
                 id: String(cartItem.product_id), // Verifica que sea product_id
                 title: cartItem.product.product_name, // Asegúrate de que el nombre del producto sea correcto
                 quantity: cartItem.quantity,
-                // currency_id: "ARS", // O la moneda que estés usando
                 unit_price: parseFloat(cartItem.unitPrice), // Asegúrate de que el precio unitario sea un número
-            }));
-            console.log('Items to be sent:', items);
+            }))
+            : [{
+                id: String(cartItems.product_id), // Verifica que sea product_id
+                title: cartItems.product_name, // Asegúrate de que el nombre del producto sea correcto
+                quantity: 1,
+                unit_price: parseFloat(cartItems.price), // Asegúrate de que el precio unitario sea un número
+            }];
+        
+        console.log('Items to be sent:', items);
+        
 
             const preferenceResponse = await fetch('http://localhost:3000/api/mercado-pago/create-preference', {
                 method: 'POST',
@@ -62,7 +97,7 @@ function AddressForm({ userId, cartItems }) {
             console.log('Preference data:', preferenceData);
             if (preferenceData && preferenceData.preference && preferenceData.preference.id) {
                 setPreferenceId(preferenceData.preference.id);
-                const mp = new window.MercadoPago('TEST-fbb21b25-5a77-4f05-8c57-7eb3b13c5bda', {
+                const mp = new window.MercadoPago('APP_USR-1c73e37b-3196-4cd2-a5ad-cbf5cc52feec', {
                     locale: 'es-AR'
                 });
 

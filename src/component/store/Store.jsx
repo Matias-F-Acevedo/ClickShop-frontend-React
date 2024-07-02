@@ -47,14 +47,12 @@ const Store = () => {
   const getProducts = async () => {
     try {
       const res = await getAll(URL, user.jwt);
-      const res = await getAll(URL, user.jwt);
       if (!res.ok) {
         throw new Error("Failed to fetch products");
         throw new Error("Failed to fetch products");
       }
       const result = await res.json();
       setProducts(result);
-    } catch (error) {
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -188,9 +186,7 @@ const Store = () => {
                     <button
                       className={conditionFilter === "USED" ? "active" : ""}
                       onClick={() => handleConditionFilter("USED")}
-                    >
-                      Usado ({countByCondition("USED")})
-                      Usado ({countByCondition("USED")})
+                    >Usado ({countByCondition("USED")})
                     </button>
                   </div>
                 )}
@@ -213,23 +209,12 @@ const Store = () => {
                   </div>
                 )}
               </div>
-              <div className="clearFilter">
-              <button onClick={clearFilter}>
-                    Limpiar Filtros
-                </button>
-              </div>
             </div>
-          </div>
-          <div className="productsContainer">
           </div>
           <div className="productsContainer">
             <div className="products">
               {productsToShow.map((product) => (
-                <ProductCard
-                  key={product.productId}
-                  handleLinkClickProduct={() => handleLinkClick(product.productId)}
-                  data={product}
-                />
+                <ProductCard key={product.product_name} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
               ))}
             </div>
             {pageCount > 1 && (
