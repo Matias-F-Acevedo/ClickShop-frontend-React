@@ -22,7 +22,7 @@ function Cart() {
             const fullUrl = `http://localhost:3000/api/cart/${user.sub}/items`;
             const res = await getAll(fullUrl, user.jwt);
             const parsed = await res.json();
-            const activeItems = parsed.filter(item => 
+            const activeItems = parsed.filter(item =>
                 item.product.isActive === undefined || item.product.isActive === true
             );
             setCartItems(activeItems);
@@ -119,16 +119,19 @@ function Cart() {
             ) : (
                 <>
                     <div className="CardCart">
-                        {cartItems.map((cartItem, index) => (
-                            <CardCart
-                                key={cartItem.cartItem_id}
-                                product={cartItem.product}
-                                index={index}
-                                deleteProductFromCart={deleteProductFromCart}
-                                updateProductQuantity={updateProductQuantity}
-                                cartItem={cartItem}
-                            />
-                        ))}
+                        {cartItems.length > 0 ? (
+                            cartItems.map((cartItem, index) => (
+                                <CardCart
+                                    key={cartItem.cartItem_id}
+                                    product={cartItem.product}
+                                    index={index}
+                                    deleteProductFromCart={deleteProductFromCart}
+                                    updateProductQuantity={updateProductQuantity}
+                                    cartItem={cartItem}
+                                />
+                            ))
+                        ) : (
+                            <p>No hay productos en el carrito...</p>)}
                     </div>
 
                     <div className='container-resumen'>
