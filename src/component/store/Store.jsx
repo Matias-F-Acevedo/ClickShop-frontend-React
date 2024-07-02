@@ -1,4 +1,3 @@
-import "./store.css";
 import React, { useEffect, useState, useContext } from "react";
 import ProductCard from "./Card";
 import { useNavigate } from "react-router-dom";
@@ -7,32 +6,23 @@ import { getAll } from "../../service/functionsHTTP";
 
 const URL = "http://localhost:3000/api/products";
 const URlCategories = "http://localhost:3000/api/categories";
-
 const PRODUCTS_PER_PAGE = 15;
 
 const Store = () => {
 
   const { user } = useContext(UserContext);
-
   const [products, setProducts] = useState([]);
-
   const [categories, setCategories] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState("");
-
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-
   const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
-
   const [isConditionOpen, setIsConditionOpen] = useState(false);
   const [conditionFilter, setConditionFilter] = useState("");
-
   const [categoryFilter, setCategoryFilter] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,7 +38,7 @@ const Store = () => {
         method: "GET",
       });
       const result = await res.json();
-      setCategories(result);
+      setCategories([{ id: null, name: "Todas" }, ...result]);
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -58,6 +48,7 @@ const Store = () => {
     try {
       const res = await getAll(URL, user.jwt);
       if (!res.ok) {
+        throw new Error("Failed to fetch products");
         throw new Error("Failed to fetch products");
       }
       const result = await res.json();
@@ -90,10 +81,19 @@ const Store = () => {
   const handleConditionFilter = (condition) => {
     setConditionFilter(condition);
     setCurrentPage(1);
+    setCurrentPage(1);
   };
 
   const handleCategoryFilter = (category) => {
-    setCategoryFilter(category ? category.id : null);
+    setCategoryFilter(category.id);
+    setCurrentPage(1);
+  };
+
+  const clearFilter = () => {
+    setConditionFilter(null)
+    setCategoryFilter(null);
+    setMaxPrice("")
+    setMinPrice("")
     setCurrentPage(1);
   };
 
@@ -103,7 +103,7 @@ const Store = () => {
       (!minPrice || product.price >= parseFloat(minPrice)) &&
       (!maxPrice || product.price <= parseFloat(maxPrice));
     const conditionMatch = !conditionFilter || product.condition === conditionFilter;
-    const categoryMatch = !categoryFilter || product.category_id === categoryFilter;
+    const categoryMatch = categoryFilter === null || product.category_id === categoryFilter;
     return nameMatch && priceMatch && conditionMatch && categoryMatch;
   });
 
@@ -118,6 +118,7 @@ const Store = () => {
 
   const changePage = (page) => {
     setCurrentPage(page);
+    window.scrollTo(0, 0);
     window.scrollTo(0, 0);
   };
 
@@ -185,8 +186,7 @@ const Store = () => {
                     <button
                       className={conditionFilter === "USED" ? "active" : ""}
                       onClick={() => handleConditionFilter("USED")}
-                    >
-                      Usado ({countByCondition("USED")})
+                    >Usado ({countByCondition("USED")})
                     </button>
                   </div>
                 )}
@@ -197,12 +197,6 @@ const Store = () => {
                 </button>
                 {isCategoryOpen && (
                   <div className="categoryFilterContent">
-                    <button
-                      className={categoryFilter === null ? "active" : ""}
-                      onClick={() => handleCategoryFilter(null)}
-                    >
-                      Todas
-                    </button>
                     {categories.map((category) => (
                       <button
                         key={category.id}
@@ -220,7 +214,7 @@ const Store = () => {
           <div className="productsContainer">
             <div className="products">
               {productsToShow.map((product) => (
-                <ProductCard key={product.productId} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
+                <ProductCard key={product.product_name} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
               ))}
             </div>
             {pageCount > 1 && (

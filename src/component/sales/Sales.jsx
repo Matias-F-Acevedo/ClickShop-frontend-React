@@ -29,7 +29,7 @@ function Sales() {
                 if (!res.ok) throw new Error('Error fetching data');
                 const data = await res.json();
                 // Mapear sobre cada orden y sus detalles
-                const promises = data.map(async (order) => {
+                const promises = await data.map(async (order) => {
                     const detailPromises = order.orderDetail.map(async (detail) => {
                         // Si hay una imagen de producto
                         if (detail.product && detail.product.product_image) {
@@ -37,10 +37,14 @@ function Sales() {
                             const url = `http://localhost:3000/api/products/${detail.product_id}/images`;
 
                             const res = await getAll(url,user.jwt);
-
                             if (!res.ok) throw new Error('Error posting data');
                             const responseData = await res.json();
-                            detail.product.product_image = responseData.urlImage[0]
+                            if (Array.isArray(responseData.urlImage)) {
+                                detail.product.product_image = await responseData.urlImage[0];
+                            } else {
+                                // Si no es un array, asignar el valor directamente
+                                detail.product.product_image = await responseData.urlImage;
+                            }
                         }
                     });
                     return Promise.all(detailPromises);
@@ -51,10 +55,18 @@ function Sales() {
                 data.forEach(order => {
                     initialStatusMap[order.order_id] = order.status;
                 });
+                
+                const activeOrders = data.filter(order => 
+                    order.orderDetail.every(detail => detail.product.isActive === true)
+                );
+                
+                console.log(activeOrders);
 
                 setOrders(data);
                 setStatusMap(initialStatusMap);
+            
             } catch (error) {
+                console.log(error)
                 console.error(error.message);
             } finally {
                 setLoading(false);

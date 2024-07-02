@@ -1,162 +1,178 @@
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
-function AddressForm({ userId, product, cartItem }) {
-  
+import "./addressForm.css"
 
-  
-  const [formData, setFormData] = useState({
-    shippingAddress: '',
-    city: '',
-    province: '',
-    postalCode: '',
-    country: ''
-  });
-
-  
-  // const [order, setOrder] = useState([])
-  const [preferenceId, setPreferenceId] = useState(null);
-  
-  const [message, setMessage] = useState('');
-  const {user} = useContext(UserContext)  
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+const AddressForm = ({ userId, cartItems }) => {
+    const { user } = useContext(UserContext);
+    const [formData, setFormData] = useState({
+        shippingAddress: '',
+        city: '',
+        province: '',
+        postalCode: '',
+        country: ''
     });
-  };
-  // const checkout = formData
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
-        method: 'POST',
-        headers: { "Content-Type": "application/json",
-          Authorization:`Bearer ${user.jwt}`
-          },
-        body: JSON.stringify(formData)
-      });
-      console.log(response)
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
-      const data = await response.json();
-      // setOrder(data)
-      setMessage(data.message);
-      console.log(data)
-
-      const item = [
-        {
-          title: product.product_name,
-          quantity: cartItem.quantity,
-          unit_price: product.price,
-        }
-      ];
-      console.log("item product, is here?",item)
-
-      const preferenceResponse = await fetch('http://localhost:3000/api/mercado-pago/create-preference', {
-        method: 'POST',
-        headers: { "Content-Type": "application/json",
-          Authorization:`Bearer ${user.jwt}`
-          },
-        body: JSON.stringify(item),
-      });
-
-      const preferenceData = await preferenceResponse.json();
-      console.log(preferenceData)
-      if (preferenceData) {
-        setPreferenceId(preferenceData);
-        // Redirigir al usuario al checkout de Mercado Pago
-       console.log(window.MercadoPago)
-        const mp = await new window.MercadoPago('TEST-fbb21b25-5a77-4f05-8c57-7eb3b13c5bda', {
-          locale: 'es-AR'
-        });
+    const [preferenceId, setPreferenceId] = useState(null);
+    const [message, setMessage] = useState('');
     
-        mp.bricks().create("wallet", "wallet_container", {
-          initialization: {
-            preferenceId: preferenceData.id,
-          },
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
         });
-      } else {
-        console.error('Error al crear la preferencia de pago:', preferenceData);
-      }
-    } catch (error) {
-      console.error('Error during checkout:', error);
-      setMessage('Error placing order');
-    }
-  };
+    };
 
-  return (
-    <div>
-      <h2>Enter Shipping Address</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Shipping Address:</label>
-          <input
-            type="text"
-            name="shippingAddress"
-            value={formData.shippingAddress}
-            onChange={handleChange}
-            minLength={4}
-            maxLength={60}
-            required
-          />
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.jwt}`
+                },
+                body: JSON.stringify(formData)
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            setMessage(data.message);
+
+            const createOrderDetail = {
+                order_id: data.order.order_id,
+                product_id: cartItems.productId,
+                quantity: 1,
+                unitPrice: cartItems.price,
+            };
+
+            const responseOrderDetail = await fetch(`http://localhost:3000/api/order-details`, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.jwt}`
+                },
+                body: JSON.stringify(createOrderDetail)
+            });
+
+            if (!responseOrderDetail.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const items = Array.isArray(cartItems) 
+                ? cartItems.map(cartItem => ({
+                    id: String(cartItem.product_id),
+                    title: cartItem.product.product_name,
+                    quantity: cartItem.quantity,
+                    unit_price: parseFloat(cartItem.unitPrice),
+                }))
+                : [{
+                    id: String(cartItems.product_id),
+                    title: cartItems.product_name,
+                    quantity: 1,
+                    unit_price: parseFloat(cartItems.price),
+                }];
+
+            const preferenceResponse = await fetch('http://localhost:3000/api/mercado-pago/create-preference', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${user.jwt}`
+                },
+                body: JSON.stringify({ items }),
+            });
+
+            const preferenceData = await preferenceResponse.json();
+            if (preferenceData && preferenceData.preference && preferenceData.preference.id) {
+                setPreferenceId(preferenceData.preference.id);
+                const mp = new window.MercadoPago('APP_USR-1c73e37b-3196-4cd2-a5ad-cbf5cc52feec', {
+                    locale: 'es-AR'
+                });
+
+                mp.bricks().create("wallet", "wallet_container", {
+                    initialization: {
+                        preferenceId: preferenceData.preference.id,
+                    },
+                });
+            } else {
+                throw new Error('Error al crear la preferencia de pago');
+            }
+        } catch (error) {
+            console.error('Error during checkout:', error);
+            setMessage('Error placing order');
+        }
+    };
+
+    return (
+        <div className="address-form-container">
+            <h2>Ingrese su domicilio</h2>
+            <form onSubmit={handleSubmit} className="address-form">
+                <div className="form-group">
+                    <label>Calle:</label>
+                    <input
+                        type="text"
+                        name="shippingAddress"
+                        value={formData.shippingAddress}
+                        onChange={handleChange}
+                        minLength={4}
+                        maxLength={60}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Ciudad:</label>
+                    <input
+                        type="text"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        minLength={4}
+                        maxLength={60}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Provincia:</label>
+                    <input
+                        type="text"
+                        name="province"
+                        value={formData.province}
+                        onChange={handleChange}
+                        minLength={4}
+                        maxLength={60}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Codigo Postal:</label>
+                    <input
+                        type="text"
+                        name="postalCode"
+                        value={formData.postalCode}
+                        onChange={handleChange}
+                        minLength={4}
+                        maxLength={60}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Pais:</label>
+                    <input
+                        type="text"
+                        name="country"
+                        value={formData.country}
+                        onChange={handleChange}
+                        minLength={4}
+                        maxLength={60}
+                        required
+                    />
+                </div>
+                <button type="submit" className="submit-button">Comprar Producto</button>
+            </form>
+            {message && <p className="message">{message}</p>}
+            <div id="wallet_container"></div>
         </div>
-        <div>
-          <label>City:</label>
-          <input
-            type="text"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            minLength={4}
-            maxLength={60}
-            required
-          />
-        </div>
-        <div>
-          <label>Province:</label>
-          <input
-            type="text"
-            name="province"
-            value={formData.province}
-            onChange={handleChange}
-            minLength={4}
-            maxLength={60}
-            required
-          />
-        </div>
-        <div>
-          <label>Postal Code:</label>
-          <input
-            type="text"
-            name="postalCode"
-            value={formData.postalCode}
-            onChange={handleChange}
-            minLength={4}
-            maxLength={60}
-            required
-          />
-        </div>
-        <div>
-          <label>Country:</label>
-          <input
-            type="text"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            minLength={4}
-            maxLength={60}
-            required
-          />
-        </div>
-        <button type="submit">Comprar Producto</button>
-      </form>
-      {message && <p>{message}</p>}
-      <div id="wallet_container"></div>
-    </div>
-  );
-}
+    );
+};
 
 export default AddressForm;

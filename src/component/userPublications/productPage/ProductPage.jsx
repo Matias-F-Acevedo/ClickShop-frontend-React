@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import Review from '../../review/Review';
 import { getAll, getById, post, updatePut } from '../../../service/functionsHTTP';
 import Swal from 'sweetalert2';
+import BuyProduct from '../../adressForm/BuyProduct';
 
 function ProductPage() {
 
@@ -26,6 +27,8 @@ function ProductPage() {
     const [principalImage, setPrincipalImage] = useState(imagesProduct[0])
     const [reviews, setReviews] = useState([]);
     const [addedToCart, setAddedToCart] = useState(false);
+    const [isBuying, setIsBuying] = useState(false);
+    const [cartItems, setCartItems] = useState([])
 
 
     
@@ -68,7 +71,11 @@ function ProductPage() {
 
     }, [productId, user]);
   
-    
+    const handleBuyProduct = () => {
+        setIsBuying(true);
+        console.log(product)
+         
+    };
     
     const handleAddToCart = async () => {
       
@@ -194,8 +201,10 @@ function ProductPage() {
 
     return (
         <>
-
             <div className='main-wrapper'>
+            {isBuying ? (
+                          <BuyProduct cartItems={product} />
+                                 ):(
                 <div className='container-products'>
                     <div className='product-div'>
                         <div className='product-div-left'>
@@ -231,14 +240,12 @@ function ProductPage() {
                             <p className='product-description'> {product.description}</p>
                             <div className='btn-groups'>
                                 <button className='add-cart-btn' onClick={() => handleAddToCart(productId)}> <BsCart3 className='icon-add-cart' /> Agregar al carrito</button>
-                                <button className='buy-now-btn'><BsBagCheck className='icon-buy' />  Comprar ahora</button>
-
+                                <button className='buy-now-btn' onClick={handleBuyProduct}><BsBagCheck className='icon-buy'/>  Comprar ahora</button>
                             </div>
                         </div>
-
-
                     </div>
                 </div>
+                                 )}
             </div>
             <Review productId={product.productId}></Review>
         </>
