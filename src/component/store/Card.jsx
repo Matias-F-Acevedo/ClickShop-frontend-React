@@ -11,9 +11,10 @@ import { FiEye } from "react-icons/fi";
 import { getAll, getById, post, updatePut } from "../../service/functionsHTTP";
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 
 const ProductCard = (props) => {
-
+  const { addToCart } = useContext(CartContext);
   const { data, handleLinkClickProduct } = props
   const { user } = useContext(UserContext);
   const [addedToCart, setAddedToCart] = useState(false);
@@ -28,6 +29,7 @@ const ProductCard = (props) => {
     const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
     const URLCartItems = `http://localhost:3000/api/cart/${user.sub}/items`
     try {
+      addToCart()
       if (user) {
         const cartItemsRes = await getAll(URLCartItems, user.jwt);
         if (!cartItemsRes.ok) {

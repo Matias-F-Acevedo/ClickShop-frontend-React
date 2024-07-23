@@ -1,9 +1,11 @@
+import "./addressForm.css"
 import React, { useContext, useState } from 'react';
 import { UserContext } from '../../context/UserContext';
-import "./addressForm.css"
+import { CartContext } from "../../context/CartContext";
 
 const AddressForm = ({ userId, cartItems }) => {
     const { user } = useContext(UserContext);
+    const { removeFromCartByAmount} = useContext(CartContext);
     const [formData, setFormData] = useState({
         shippingAddress: '',
         city: '',
@@ -24,6 +26,7 @@ const AddressForm = ({ userId, cartItems }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            removeFromCartByAmount(9999999999999999999999)
             if (Array.isArray(cartItems)) {
                 const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
                     method: 'POST',

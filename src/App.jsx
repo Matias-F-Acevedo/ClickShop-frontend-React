@@ -23,9 +23,10 @@ import Footer from "./component/footer/Footer";
 import Sales from "./component/sales/Sales";
 import Ourteam from "./component/team/OurTeam";
 import Form from "./component/form/Form";
-
+import { CartProvider } from "./context/CartContext";
 function App() {
   return (
+    <CartProvider>
     <UserProvider>
       <BrowserRouter>
         <Navbar></Navbar>
@@ -63,6 +64,7 @@ function App() {
         <Footer></Footer>
       </BrowserRouter>
     </UserProvider>
+    </CartProvider>
   );
 }
 

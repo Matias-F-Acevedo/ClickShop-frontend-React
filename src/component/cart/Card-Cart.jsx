@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import './card-cart.css'; // Importa el archivo CSS con los estilos personalizados
+import { CartContext } from '../../context/CartContext';
 
 function CardCart({ product, index, deleteProductFromCart, updateProductQuantity, cartItem }) {
     const { product_name, price, stock, product_image } = product;
     const [quantity, setQuantity] = useState(cartItem.quantity);
+    const { addToCart, removeFromCart,removeFromCartByAmount } = useContext(CartContext);
 
     const handleDeleteProduct = () => {
         deleteProductFromCart(cartItem.cartItem_id);
+        removeFromCartByAmount(quantity)
     };
 
     const handleIncreaseQuantity = () => {
@@ -14,6 +17,7 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
             const newQuantity = quantity + 1;
             setQuantity(newQuantity);
             updateProductQuantity(cartItem.cartItem_id, newQuantity);
+            addToCart()
         }
     };
 
@@ -22,6 +26,7 @@ function CardCart({ product, index, deleteProductFromCart, updateProductQuantity
             const newQuantity = quantity - 1;
             setQuantity(newQuantity);
             updateProductQuantity(cartItem.cartItem_id, newQuantity);
+            removeFromCart()
         }
     };
 

@@ -6,7 +6,7 @@ import { PiStorefrontLight } from "react-icons/pi";
 import { TiMessage } from "react-icons/ti";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { useRef, useContext } from "react";
+import { useRef, useContext,useState} from "react";
 import { BsCart3 } from "react-icons/bs";
 import UserPanel from "../userPanel/UserPanel";
 import { CiSettings } from "react-icons/ci";
@@ -14,8 +14,9 @@ import { MdOutlineLogout } from "react-icons/md";
 import { UserContext } from '../../context/UserContext';
 import { MdOutlineLogin } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 function Navbar() {
-
+    const { cartQuantity } = useContext(CartContext);
     const { user, handleLogout } = useContext(UserContext);
     const navigate = useNavigate();
     const navbar = useRef();
@@ -37,9 +38,9 @@ function Navbar() {
                 <div className="container-nav-desktop">
                     <div className="logo">
                         <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
-                        <img src="src\assets\logo.png" alt="sdsd" onClick={() => navigate(`/`)}/>
+                        <img src="src\assets\logo.png" alt="sdsd" onClick={() => navigate(`/`)} />
                         <span className="logo-name" onClick={() => navigate(`/`)}>ClickShop</span>
-                        
+
                     </div>
                     <div className="nav-desktop">
                         <ul>
@@ -58,7 +59,12 @@ function Navbar() {
                     <div className="icon-nav">
                         <UserPanel className="icon-userProfile" />
                         {user ?
-                            <Link to={"/cart"}><BsCart3 className="icon-cart" /></Link>
+                            <>
+                                <Link to={"/cart"}><BsCart3 className="icon-cart" /></Link>
+                                <div className="container-cant-cart">
+                                    <p className="cant-cart">{cartQuantity}</p>
+                                </div>
+                            </>
                             : <></>}
                     </div>
                 </div>

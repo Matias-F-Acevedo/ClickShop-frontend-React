@@ -28,12 +28,14 @@ header {
     padding: 6px 10px;
     color: #555555;
 }
-.logo img{
+
+.logo img {
     width: 50px;
     height: auto;
     cursor: pointer;
 }
-.container-nav-desktop .icon-nav a{
+
+.container-nav-desktop .icon-nav a {
     text-decoration: none;
     color: rgba(0, 0, 0, 0.74);
 }
@@ -42,7 +44,7 @@ header {
     font-size: 23px;
 }
 
-.icon-userProfile{
+.icon-userProfile {
     font-size: 27px;
 }
 
@@ -192,6 +194,23 @@ nav.open~.overlay {
 
 }
 
+.container-cant-cart {
+    background-color: #D0EDA1;
+    border-radius: 100%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    right: 20px;
+    top: 6px;
+}
+
+.cant-cart {
+    font-size: 13px;
+    color: rgb(163, 163, 163);
+}
 
 @media (max-width:800px) {
     .nav-desktop {
