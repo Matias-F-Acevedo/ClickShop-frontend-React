@@ -2,7 +2,7 @@ import "./team.css";
 import Team from "../../assets/team.png";
 import Fran from "../../assets/francisco.svg";
 import Mati from "../../assets/mati.svg";
-import Matu from "../../assets/matu.svg";
+import Matu from "../../assets/mati2.png";
 import Sofia from "../../assets/sofia.svg";
 import Github from "../../assets/mdi_github.png";
 import { Link } from "react-router-dom";

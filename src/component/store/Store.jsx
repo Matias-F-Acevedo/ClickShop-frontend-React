@@ -3,6 +3,7 @@ import ProductCard from "./Card";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { getAll } from "../../service/functionsHTTP";
+import { LiaShippingFastSolid } from "react-icons/lia";
 
 const URL = "http://localhost:3000/api/products";
 const URlCategories = "http://localhost:3000/api/categories";
@@ -127,15 +128,27 @@ const Store = () => {
     <div className="shop">
       <div className="contentContainer">
         <div className="shopTitle">
-          <input
-            className="searchButton"
-            type="text"
-            placeholder="Buscar producto"
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <div className="container-p-results">
-            {searchTerm && <p>{filteredProducts.length} resultados encontrados</p>}
+          <div className="eslogan">
+            <p className="eslogan-p-oferta">Ofertas</p>
+            <p className="eslogan-p">
+              ¡Encontrá precios increíbles cada día!
+            </p>
+
+          </div>
+          <div>
+            <input
+              className="searchButton"
+              type="text"
+              placeholder="Buscar producto"
+              value={searchTerm}
+              onChange={handleSearch}
+            /><div className="container-p-results">
+              {searchTerm && <p>{filteredProducts.length} resultados encontrados</p>}
+            </div>
+          </div>
+
+          <div className="eslogan2">
+            <p className="eslogan-p-envio">¡Envío gratis a todo el país!</p><LiaShippingFastSolid className="icono-envio"/>
           </div>
         </div>
         <div className="grl-container">

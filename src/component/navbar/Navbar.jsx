@@ -37,7 +37,9 @@ function Navbar() {
                 <div className="container-nav-desktop">
                     <div className="logo">
                         <IoIosMenu onClick={() => toggleMenu()} className="menu-icon" />
+                        <img src="src\assets\logo.png" alt="sdsd" onClick={() => navigate(`/`)}/>
                         <span className="logo-name" onClick={() => navigate(`/`)}>ClickShop</span>
+                        
                     </div>
                     <div className="nav-desktop">
                         <ul>

@@ -45,6 +45,7 @@
 .member-card-home img {
     width: 100%;
     max-width: 200px;
+    border-radius: 30px;
 }
 
 
