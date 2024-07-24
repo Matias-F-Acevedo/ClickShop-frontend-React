@@ -17,12 +17,12 @@ const Store = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(false);
-  const [isConditionOpen, setIsConditionOpen] = useState(false);
+  const [isPriceRangeOpen, setIsPriceRangeOpen] = useState(true);
+  const [isConditionOpen, setIsConditionOpen] = useState(true);
   const [conditionFilter, setConditionFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(true);
 
   const navigate = useNavigate();
 
@@ -228,7 +228,7 @@ const Store = () => {
                   <ProductCard key={product.productId} handleLinkClickProduct={() => handleLinkClick(product.productId)} data={product} />
                 ))
                 :
-                <p>No hay productos disponibles...</p>
+                <p>Cargando los productos...</p>
               }
             </div>
             {pageCount > 1 && (

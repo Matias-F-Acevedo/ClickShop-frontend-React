@@ -1,7 +1,8 @@
+import "./buyProduct.css";
 import React, { useContext } from 'react';
 import AddressForm from './AddressForm';
 import { UserContext } from '../../context/UserContext';
-import "./buyProduct.css"
+
 const BuyProduct = ({ cartItems }) => {
     const { user } = useContext(UserContext);
     const userId = user.sub;
@@ -28,9 +29,18 @@ const BuyProduct = ({ cartItems }) => {
 
     return (
         <div className="buy-product-container">
-            <h2>Detalles del Producto:</h2>
-            {renderCartItems()}
-            <AddressForm userId={userId} cartItems={cartItems} />
+            <div className='details-product-checkout'>
+                    <h2>Detalles del Pedido</h2>
+                    <div className='container-product-items'>
+                         {renderCartItems()}
+                    </div>
+           
+            </div>
+        
+            <div>
+               <AddressForm userId={userId} cartItems={cartItems} />  
+            </div>
+           
         </div>
     );
 };

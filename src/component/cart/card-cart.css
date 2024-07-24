@@ -1,29 +1,36 @@
 /* CSS for CardCart component */
 
-.container-cart-items{
+.container-cart-items {
     display: flex;
 }
 
-.container-resumen{
+.container-resumen {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     width: 40%;
-    padding: 40px 0px;
+    padding: 40px;
+    gap: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+    margin-right: 17px;
 }
 
 
 .CardCart {
     display: flex;
-    /* flex-wrap: wrap; */
-    justify-content: center;
     flex-direction: column;
     margin: 0px 40px;
-    width: 100%;
-    border:transparent;
-    max-height: 700px; 
-    overflow-y: scroll;
+    border: transparent;
     padding: 10px;
     margin-top: 30px;
+    width: 100%;
+    max-height: 500px;
+    height: 500px;
+    overflow: auto;
 }
 
 
@@ -35,7 +42,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 10px;
     background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .cardcart-image-container {
@@ -74,7 +81,8 @@
     color: #333;
 }
 
-.cardcart-price, .cardcart-stock {
+.cardcart-price,
+.cardcart-stock {
     font-size: 16px;
     margin: 5px 0;
     color: #666;
@@ -114,18 +122,23 @@
 
 .cardcart-btn-delete {
     border: transparent;
-    background-color: #ff0000; /* Fondo rojo */
-    color: white; /* Texto blanco */
+    background-color: #ff0000;
+    /* Fondo rojo */
+    color: white;
+    /* Texto blanco */
     border: none;
     border-radius: 7px;
-    padding: 8px; /* Ajusta el padding según el tamaño deseado */
+    padding: 8px;
+    /* Ajusta el padding según el tamaño deseado */
     cursor: pointer;
     margin-top: 5px;
-    font-size: 12px; /* Tamaño de fuente general del botón */
+    font-size: 12px;
+    /* Tamaño de fuente general del botón */
 }
 
 .cardcart-btn-delete:hover {
-    background-color: #cc0000; /* Rojo más oscuro al hacer hover */
+    background-color: #cc0000;
+    /* Rojo más oscuro al hacer hover */
 }
 
 
@@ -144,11 +157,26 @@
 .cardcart-btn-buy:hover {
     background-color: #2968c8;
 }
-
-.total{
+.cart-empty{
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    flex-wrap: wrap;
+}
+
+.cart-empty p{
+bottom: 170px;
+position: absolute;
+font-size: 20px;
+font-weight: 300;
+}
+.total {
+    display: flex;
+    font-size: 25px;
+    font-weight: 600;
+}
+.container-resumen .span-envio{
+    color: #78b3ff;
 }
 
 /* Responsive adjustments */
@@ -187,7 +215,8 @@
         width: 100%;
     }
 
-    .cardcart-btn-delete, .cardcart-btn-buy {
+    .cardcart-btn-delete,
+    .cardcart-btn-buy {
         width: 80%;
         text-align: center;
     }

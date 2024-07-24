@@ -12,10 +12,12 @@ import { getAll, getById, post, updatePut } from '../../../service/functionsHTTP
 import Swal from 'sweetalert2';
 import BuyProduct from '../../adressForm/BuyProduct';
 import { useNavigate } from "react-router-dom";
+import { CartContext } from '../../../context/CartContext';
 function ProductPage() {
 
 
     const { user} = useContext(UserContext);
+    const { addToCart } = useContext(CartContext);
     const divSelect1 = useRef();
     const divSelect2 = useRef();
     const divSelect3 = useRef();
@@ -83,6 +85,7 @@ function ProductPage() {
         if(!user){
             navigate(`/login`);
           }
+          addToCart()
         const URLCartUser = `http://localhost:3000/api/cart/${user.sub}`
         const URLCartItems = `http://localhost:3000/api/cart/${user.sub}/items`
         try {

@@ -15,7 +15,7 @@ const AddressForm = ({ userId, cartItems }) => {
     });
     const [preferenceId, setPreferenceId] = useState(null);
     const [message, setMessage] = useState('');
-
+    const [conditional, setConditional] = useState(false);
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -26,6 +26,7 @@ const AddressForm = ({ userId, cartItems }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            setConditional(true)
             removeFromCartByAmount(9999999999999999999999)
             if (Array.isArray(cartItems)) {
                 const response = await fetch(`http://localhost:3000/api/cart/${userId}/checkout`, {
@@ -41,8 +42,6 @@ const AddressForm = ({ userId, cartItems }) => {
                 }
 
                 const data = await response.json();
-                setMessage(data.message);
-
             } else {
                 const order = {
                     user_id: user.sub,
@@ -125,16 +124,19 @@ const AddressForm = ({ userId, cartItems }) => {
             }
         } catch (error) {
             console.error('Error during checkout:', error);
-            setMessage('Error placing order');
+            setMessage('Error al realizar el pedido');
         }
     };
 
     return (
         <div className="address-form-container">
+            {conditional? <h2>Proceda a realizar el pago</h2>:
             <h2>Ingrese su domicilio</h2>
+            }
+            {conditional?<></>:
             <form onSubmit={handleSubmit} className="address-form">
                 <div className="form-group">
-                    <label>Calle:</label>
+                    <label>Dirección</label>
                     <input
                         type="text"
                         name="shippingAddress"
@@ -146,7 +148,7 @@ const AddressForm = ({ userId, cartItems }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Ciudad:</label>
+                    <label>Ciudad</label>
                     <input
                         type="text"
                         name="city"
@@ -158,7 +160,7 @@ const AddressForm = ({ userId, cartItems }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Provincia:</label>
+                    <label>Provincia</label>
                     <input
                         type="text"
                         name="province"
@@ -170,7 +172,7 @@ const AddressForm = ({ userId, cartItems }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Codigo Postal:</label>
+                    <label>Código Postal</label>
                     <input
                         type="text"
                         name="postalCode"
@@ -182,7 +184,7 @@ const AddressForm = ({ userId, cartItems }) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label>Pais:</label>
+                    <label>País</label>
                     <input
                         type="text"
                         name="country"
@@ -194,7 +196,7 @@ const AddressForm = ({ userId, cartItems }) => {
                     />
                 </div>
                 <button type="submit" className="submit-button">Comprar Producto</button>
-            </form>
+            </form> }
             {message && <p className="message">{message}</p>}
             <div id="wallet_container"></div>
         </div>

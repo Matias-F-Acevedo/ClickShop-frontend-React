@@ -1,8 +1,8 @@
+import "./card-cart.css";
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../context/UserContext';
 import CardCart from './Card-Cart';
-import "./card-cart.css";
 import BuyProduct from '../adressForm/BuyProduct';
 import { getAll, getById, remove, updatePut } from '../../service/functionsHTTP';
 
@@ -14,6 +14,10 @@ function Cart() {
     const navigateTo = useNavigate();
 
     const handleBuyProduct = () => {
+        if(cartItems.length === 0){
+            setIsBuying(false);
+            return;
+        }
         setIsBuying(true); // Actualiza el estado para indicar que se está comprando
     };
 
@@ -131,13 +135,17 @@ function Cart() {
                                 />
                             ))
                         ) : (
-                            <p>No hay productos en el carrito...</p>)}
+                            <div className="cart-empty">
+                            <img src="src\assets\Empty_Cart-removebg-preview.png" alt="Carrito vacio" />
+                            <p>No hay productos en el carrito...</p>
+                            </div>
+                            )}
                     </div>
 
                     <div className='container-resumen'>
                         <h2>RESUMEN DEL PEDIDO</h2>
-                        <p> Cantidad: {cart.quantityTotal}</p>
-                        <p> Envio: Gratis</p>
+                        <p> Cantidad de productos: {cart.quantityTotal}</p>
+                        <p > Envio: <span className="span-envio">Gratis a todo el país</span></p>
                         <div className='total'>
                             Total: ${cart.total}
                         </div>

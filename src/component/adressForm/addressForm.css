@@ -1,12 +1,16 @@
-.address-form-container {
-    max-width: 400px;
+.address-form-container { 
     margin: 0 auto;
     padding: 20px;
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
+    background-color: #f2f2f200;
+    border: 1px solid #dddddd56;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.082);
+    width: 500px;
 }
+
+.address-form-container h2{
+    padding: 15px 20px 25px 10px;
+ }
 
 .address-form {
     display: flex;
@@ -28,6 +32,7 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
+    margin-top: 5px;
 }
 
 .submit-button {
