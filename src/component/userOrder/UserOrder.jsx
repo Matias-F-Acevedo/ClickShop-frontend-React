@@ -21,6 +21,24 @@ function UserOrder() {
                 throw new Error('Failed to fetch orders');
             }
             const parsed = await res.json();
+            const promises = parsed.map(async (order) => {
+                const detailPromises = order.orderDetail.map(async (detail) => {
+                    if (detail.product && detail.product.product_image) {
+                        const url = `http://localhost:3000/api/products/${detail.product_id}/images`;
+                        const res = await getAll(url, user.jwt);
+                        if (!res.ok) throw new Error('Error fetching image');
+                        const responseData = await res.json();
+                        if (Array.isArray(responseData.urlImage)) {
+                            detail.product.product_image = responseData.urlImage[0];
+                        } else {
+                            detail.product.product_image = responseData.urlImage;
+                        }
+                    }
+                });
+                return Promise.all(detailPromises);
+            });
+
+            await Promise.all(promises);
             setOrders(parsed);
         } catch (error) {
             console.error(error);
@@ -36,6 +54,27 @@ function UserOrder() {
         {
             header: "Dirección de entrega",
             accessorKey: "shippingAddress",
+        },
+        {
+            header: "Detalles del Pedido",
+            accessorKey: "orderDetail",
+            cell: info => (
+                <div className='scrollable-container'>
+                    {info.getValue().map((detail, index) => (
+                        <div key={index} className='details-order' onClick={()=>handleLinkClick(detail.product_id)}>
+                            <div className='container-img-details-order'>
+                                <img src={detail.product.product_image} alt="Producto" />
+                            </div>
+
+                            <div>
+                                <p>Producto: {detail.product.product_name}</p>
+                                <p>Cantidad: {detail.quantity} uds.</p>
+                            </div>
+
+                        </div>
+                    ))}
+                </div>
+            )
         },
         {
             header: "Total",

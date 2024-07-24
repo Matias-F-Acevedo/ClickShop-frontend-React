@@ -60,7 +60,7 @@ function Sales() {
                     order.orderDetail.every(detail => detail.product.isActive === true)
                 );
                 
-                setOrders(data);
+                setOrders(activeOrders);
                 setStatusMap(initialStatusMap);
             
             } catch (error) {
@@ -199,7 +199,7 @@ function Sales() {
         },
 
         {
-            header: "Detalle del Pedido",
+            header: "Detalles del Pedido",
             accessorKey: "orderDetail",
             cell: info => (
                 <div className='scrollable-container'>

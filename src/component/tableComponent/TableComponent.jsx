@@ -29,7 +29,7 @@ function TableComponent({ data, columns }) {
 
     const emptyRow = () => (
         <tr>
-            <td colSpan={columns.length}>No hay datos disponibles.</td>
+            <td colSpan={columns.length}>Cargando los datos.</td>
         </tr>
     );
 

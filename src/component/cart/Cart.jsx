@@ -150,7 +150,7 @@ function Cart() {
                             Total: ${cart.total}
                         </div>
                         <button className='cardcart-btn-buy' onClick={handleBuyProduct}>
-                            Comprar Producto
+                            Comprar Carrito
                         </button>
                     </div>
                 </>
