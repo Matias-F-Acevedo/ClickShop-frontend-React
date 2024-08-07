@@ -59,7 +59,7 @@ function Sales() {
                 const activeOrders = data.filter(order => 
                     order.orderDetail.every(detail => detail.product.isActive === true)
                 );
-                
+                activeOrders.sort((a, b) => new Date(b.date) - new Date(a.date));
                 setOrders(activeOrders);
                 setStatusMap(initialStatusMap);
             

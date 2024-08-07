@@ -110,7 +110,7 @@ const AddressForm = ({ userId, cartItems }) => {
             const preferenceData = await preferenceResponse.json();
             if (preferenceData && preferenceData.preference && preferenceData.preference.id) {
                 setPreferenceId(preferenceData.preference.id);
-                const mp = new window.MercadoPago('APP_USR-1c73e37b-3196-4cd2-a5ad-cbf5cc52feec', {
+                const mp = new window.MercadoPago('APP_USR-64a7fe5e-66e4-42c8-b97b-412222df07f6', {
                     locale: 'es-AR'
                 });
 

@@ -39,7 +39,8 @@ function UserOrder() {
             });
 
             await Promise.all(promises);
-            setOrders(parsed);
+             const sortedOrders = parsed.sort((a, b) => new Date(b.date) - new Date(a.date));
+             setOrders(sortedOrders);;
         } catch (error) {
             console.error(error);
         }
